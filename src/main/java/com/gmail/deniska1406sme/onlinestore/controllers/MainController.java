@@ -113,11 +113,15 @@ public class MainController {
             setRedirectAfterLogin(session, "/order/create");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        String email = auth.getName();//TODO: add address validation
+        String email = auth.getName();
         ClientDTO clientDTO = clientService.getClientByEmail(email);
 
         String deliveryAddress = clientDTO.getAddress();
-        String notes = "";//TODO: add logic for add address and notes
+        if (deliveryAddress == null || deliveryAddress.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).build();
+        }
+
+        String notes = "";//TODO: think about the logic of adding notes.
 
         OrderDTO order = orderService.addOrder(deliveryAddress, notes, clientDTO);
 

@@ -3,9 +3,12 @@ package com.gmail.deniska1406sme.onlinestore.controllers;
 import com.gmail.deniska1406sme.onlinestore.config.JwtTokenProvider;
 import com.gmail.deniska1406sme.onlinestore.dto.ChangePasswordRequest;
 import com.gmail.deniska1406sme.onlinestore.dto.ClientDTO;
+import com.gmail.deniska1406sme.onlinestore.dto.EmployeeDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.OrderDTO;
 import com.gmail.deniska1406sme.onlinestore.model.OrderStatus;
+import com.gmail.deniska1406sme.onlinestore.model.UserRole;
 import com.gmail.deniska1406sme.onlinestore.services.ClientService;
+import com.gmail.deniska1406sme.onlinestore.services.EmployeeService;
 import com.gmail.deniska1406sme.onlinestore.services.OrderService;
 import com.gmail.deniska1406sme.onlinestore.services.PasswordAuthenticationService;
 import com.gmail.deniska1406sme.onlinestore.validation.OnUpdate;
@@ -25,24 +28,32 @@ import java.util.List;
 public class ClientController {
 
     private final ClientService clientService;
+    private final EmployeeService employeeService;
     private final OrderService orderService;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordAuthenticationService passwordAuthenticationService;
 
     @Autowired
-    public ClientController(ClientService clientService, OrderService orderService, JwtTokenProvider jwtTokenProvider,
-                            PasswordAuthenticationService passwordAuthenticationService) {
+    public ClientController(ClientService clientService, EmployeeService employeeService, OrderService orderService,
+                            JwtTokenProvider jwtTokenProvider, PasswordAuthenticationService passwordAuthenticationService) {
         this.clientService = clientService;
+        this.employeeService = employeeService;
         this.orderService = orderService;
         this.jwtTokenProvider = jwtTokenProvider;
         this.passwordAuthenticationService = passwordAuthenticationService;
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<ClientDTO> getProfile(@RequestHeader(value = "Authorization") String token) {
+    public ResponseEntity<?> getProfile(@RequestHeader(value = "Authorization") String token) {
         String email = jwtTokenProvider.getLogin(token);
-        ClientDTO clientDTO = clientService.getClientByEmail(email);
-        return ResponseEntity.ok(clientDTO);
+        if (jwtTokenProvider.getRole(token) == UserRole.CLIENT){
+            ClientDTO clientDTO = clientService.getClientByEmail(email);
+            return ResponseEntity.ok(clientDTO);
+        } else if (jwtTokenProvider.getRole(token) == UserRole.EMPLOYEE){
+            EmployeeDTO employeeDTO = employeeService.getEmployeeByEmail(email);
+            return ResponseEntity.ok(employeeDTO);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @PatchMapping("/profile/change-password")

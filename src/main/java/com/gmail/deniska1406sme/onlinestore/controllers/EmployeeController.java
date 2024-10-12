@@ -1,14 +1,9 @@
 package com.gmail.deniska1406sme.onlinestore.controllers;
 
-import com.gmail.deniska1406sme.onlinestore.config.JwtTokenProvider;
-import com.gmail.deniska1406sme.onlinestore.dto.ChangePasswordRequest;
-import com.gmail.deniska1406sme.onlinestore.dto.EmployeeDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.OrderDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.ProductDTO;
 import com.gmail.deniska1406sme.onlinestore.model.OrderStatus;
-import com.gmail.deniska1406sme.onlinestore.services.EmployeeService;
 import com.gmail.deniska1406sme.onlinestore.services.OrderService;
-import com.gmail.deniska1406sme.onlinestore.services.PasswordAuthenticationService;
 import com.gmail.deniska1406sme.onlinestore.services.ProductService;
 import com.gmail.deniska1406sme.onlinestore.validation.OnCreate;
 import com.gmail.deniska1406sme.onlinestore.validation.OnUpdate;
@@ -26,37 +21,12 @@ public class EmployeeController {
 
     private final OrderService orderService;
     private final ProductService productService;
-    private final EmployeeService employeeService;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final PasswordAuthenticationService passwordAuthenticationService;
 
 
     @Autowired
-    public EmployeeController(OrderService orderService, ProductService productService, EmployeeService employeeService,
-                              JwtTokenProvider jwtTokenProvider, PasswordAuthenticationService passwordAuthenticationService) {
+    public EmployeeController(OrderService orderService, ProductService productService) {
         this.orderService = orderService;
         this.productService = productService;
-        this.employeeService = employeeService;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.passwordAuthenticationService = passwordAuthenticationService;
-    }
-
-    @GetMapping("/profile")//Delete
-    public ResponseEntity<EmployeeDTO> getProfile(@RequestHeader(value = "Authorization") String token) {
-        String email = jwtTokenProvider.getLogin(token);
-        EmployeeDTO employeeDTO = employeeService.getEmployeeByEmail(email);
-        return ResponseEntity.ok(employeeDTO);
-    }
-
-    @PatchMapping("/profile/change-password")//Delete
-    public ResponseEntity<Void> changePassword(@RequestHeader(value = "Authorization") String token,
-                                               @RequestBody @Validated ChangePasswordRequest request,
-                                               BindingResult bindingResult) {
-        String oldPassword = request.getOldPassword();
-        String newPassword = request.getNewPassword();
-        String email = jwtTokenProvider.getLogin(token);
-        passwordAuthenticationService.changePassword(email, oldPassword, newPassword);
-        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/orders")

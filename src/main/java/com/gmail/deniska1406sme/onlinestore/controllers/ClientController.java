@@ -1,16 +1,14 @@
 package com.gmail.deniska1406sme.onlinestore.controllers;
 
 import com.gmail.deniska1406sme.onlinestore.config.JwtTokenProvider;
-import com.gmail.deniska1406sme.onlinestore.dto.ChangePasswordRequest;
-import com.gmail.deniska1406sme.onlinestore.dto.ClientDTO;
-import com.gmail.deniska1406sme.onlinestore.dto.EmployeeDTO;
-import com.gmail.deniska1406sme.onlinestore.dto.OrderDTO;
+import com.gmail.deniska1406sme.onlinestore.dto.*;
 import com.gmail.deniska1406sme.onlinestore.model.OrderStatus;
 import com.gmail.deniska1406sme.onlinestore.model.UserRole;
 import com.gmail.deniska1406sme.onlinestore.services.ClientService;
 import com.gmail.deniska1406sme.onlinestore.services.EmployeeService;
 import com.gmail.deniska1406sme.onlinestore.services.OrderService;
 import com.gmail.deniska1406sme.onlinestore.services.PasswordAuthenticationService;
+import com.gmail.deniska1406sme.onlinestore.validation.OnCreate;
 import com.gmail.deniska1406sme.onlinestore.validation.OnUpdate;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +97,14 @@ public class ClientController {
         orderDTO.setId(id);
         orderDTO.setOrderStatus(OrderStatus.CANCELED);
         orderService.updateOrder(orderDTO,id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/registration")
+    public ResponseEntity<Void> registerNewClient(@RequestBody @Validated(OnCreate.class) AddClientRequest request,
+                                                  BindingResult bindingResult){
+        clientService.addNewClient(request.getClientDTO(), request.getUserDTO());
+        passwordAuthenticationService.savePassword(request.getUserDTO().getEmail(), request.getPassword());
         return ResponseEntity.ok().build();
     }
 

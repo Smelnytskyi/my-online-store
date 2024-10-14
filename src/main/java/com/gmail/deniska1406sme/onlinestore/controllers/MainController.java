@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -109,12 +108,12 @@ public class MainController {
     }
 
     @PostMapping("/order/create")
-    public ResponseEntity<OrderDTO> createOrder(Authentication auth, HttpSession session) {
-        if (auth == null || !auth.isAuthenticated()) {
+    public ResponseEntity<OrderDTO> createOrder(@RequestHeader("Authorization") String token, HttpSession session) {
+        if (token == null || !jwtTokenProvider.validateToken(token)) {
             setRedirectAfterLogin(session, "/order/create");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        String email = auth.getName();
+        String email = jwtTokenProvider.getLogin(token);
         ClientDTO clientDTO = clientService.getClientByEmail(email);
 
         String deliveryAddress = clientDTO.getAddress();
@@ -124,9 +123,13 @@ public class MainController {
 
         String notes = "";//TODO: think about the logic of adding notes.
 
+        for (CartItemDTO cartItemDTO: clientDTO.getCartDTO().getItems()){
+            productService.updateProductQuantity(cartItemDTO.getProductId(), cartItemDTO.getQuantity());
+        }
         OrderDTO order = orderService.addOrder(deliveryAddress, notes, clientDTO);
-
         sendOrderConfirmationEmail(clientDTO, email);
+        cartService.removeAllProductsFromCart(clientDTO);
+
         return ResponseEntity.ok(order);
     }
 

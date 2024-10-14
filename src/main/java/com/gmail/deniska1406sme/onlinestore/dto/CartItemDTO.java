@@ -2,15 +2,15 @@ package com.gmail.deniska1406sme.onlinestore.dto;
 
 import com.gmail.deniska1406sme.onlinestore.validation.OnUpdate;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class CartItemDTO {
 
-    @NotBlank(message = "Id must not be blank", groups = OnUpdate.class)
+    @NotNull(message = "Id must not be null", groups = OnUpdate.class)
     private Long productId;
 
-    @NotBlank(message = "Quantity must not be blank", groups = OnUpdate.class)
-    @Min(value = 0, message = "Quantity must not be negative", groups = OnUpdate.class)
+    @NotNull(message = "Quantity must not be null", groups = OnUpdate.class)
+    @Min(value = 1, message = "Quantity must not be negative", groups = OnUpdate.class)
     private int quantity;
 
     public CartItemDTO() {

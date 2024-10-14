@@ -7,6 +7,7 @@ import com.gmail.deniska1406sme.onlinestore.repositories.EmployeeRepository;
 import com.gmail.deniska1406sme.onlinestore.repositories.OrderRepository;
 import com.gmail.deniska1406sme.onlinestore.repositories.ProductRepository;
 import com.gmail.deniska1406sme.onlinestore.services.ImageService;
+import com.gmail.deniska1406sme.onlinestore.services.PasswordAuthenticationService;
 import com.gmail.deniska1406sme.onlinestore.utils.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,7 +18,9 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @EnableCaching
 @SpringBootApplication
@@ -29,6 +32,8 @@ public class OnlineStoreApplication {
     private EmployeeRepository employeeRepository;
     @Autowired
     private ImageService imageService;
+    @Autowired
+    private PasswordAuthenticationService passwordAuthenticationService;
 
     public static void main(String[] args) {
         SpringApplication.run(OnlineStoreApplication.class, args);
@@ -38,6 +43,7 @@ public class OnlineStoreApplication {
     public CommandLineRunner initData(ClientRepository clientRepository, OrderRepository orderRepository){
         return args -> {
             ImageUtil imageUtil = new ImageUtil();
+
 
             Map<String, String> atributes= new HashMap<>();
             atributes.put("Company","Intel");
@@ -59,6 +65,9 @@ public class OnlineStoreApplication {
             String photo1 = imageUtil.convertImageToBase64("C:\\Users\\smede\\Desktop\\proga hw\\OnlineStore" +
                     "\\src\\main\\resources\\static\\productPhotos\\photo 1.jpg");
             imageService.uploadImage(photo1, productDTO);
+            product1.setImageUrl(productDTO.getImageUrl());
+            product1.setDeleteImageUrl(productDTO.getDeleteImageUrl());
+            productRepository.save(product1);
 
             Product product2 = new Product();
             product2.setName("Товар 2");
@@ -79,6 +88,24 @@ public class OnlineStoreApplication {
             clientRepository.save(client1);
             Order order1 = new Order(client1, LocalDateTime.now(),OrderStatus.SHIPPED, "my street 25", "i dont need instruction");
             orderRepository.save(order1);
+
+            Client testMail = new Client("denys.smelnytskyi@nure.ua", null, null,
+                    "Denys", "Smel", "Main st.15", "32432525");
+            clientRepository.save(testMail);
+
+            Cart newCart = new Cart();
+            newCart.setItems(new HashSet<>());
+            newCart.setTotalPrice(0.0);
+            Set<Order> orders = new HashSet<>();
+            testMail.setCart(newCart);
+            testMail.setOrders(orders);
+            newCart.setClient(testMail);
+            for (Order order : orders) {
+                order.setClient(testMail);
+            }
+            clientRepository.save(testMail);
+
+            passwordAuthenticationService.savePassword("denys.smelnytskyi@nure.ua", "password");
         };
     }
 

@@ -139,4 +139,13 @@ public class ProductServiceImpl implements ProductService {
 
         return product.toProductDTO();
     }
+
+    @Transactional
+    @Override
+    public void updateProductQuantity(Long id, Integer quantity) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Product does not exist"));
+        product.setQuantity(product.getQuantity() - quantity);
+        productRepository.save(product);
+    }
 }

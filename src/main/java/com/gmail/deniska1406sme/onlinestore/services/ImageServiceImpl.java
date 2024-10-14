@@ -37,7 +37,7 @@ public class ImageServiceImpl implements ImageService {
         if (response.getStatusCode() == HttpStatus.OK) {
             Map<String, Object> data = (Map<String, Object>) response.getBody().get("data");
             String imageUrl = (String) data.get("url");
-            String deleteUrl = (String) data.get("deleteUrl");
+            String deleteUrl = (String) data.get("delete_url");
 
             productDTO.setImageUrl(imageUrl);
             productDTO.setDeleteImageUrl(deleteUrl);

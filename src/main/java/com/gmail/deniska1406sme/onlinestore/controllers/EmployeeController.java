@@ -56,15 +56,14 @@ public class EmployeeController {
     @GetMapping("/order/get-single/{id}")
     public ResponseEntity<OrderDTO> getSingleOrder(@PathVariable Long id) {
         OrderDTO orderDTO = orderService.getOrder(id);
-        return ResponseEntity.ok(orderDTO)
-;
+        return ResponseEntity.ok(orderDTO);
     }
+
     @PostMapping("/product/add")
     public ResponseEntity<Void> addProduct(@RequestBody @Validated(OnCreate.class) ProductDTO productDTO,
                                            BindingResult bindingResult) {
         productService.addProduct(productDTO);
         return ResponseEntity.ok().build();
-        //TODO:add pictureURL
     }
 
     @PatchMapping("/product/update/{id}")
@@ -79,5 +78,11 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.removeProduct(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/products-by-quantity")
+    public ResponseEntity<Page<ProductDTO>> getProductsByQuantity(@RequestParam int quantity, Pageable pageable) {
+        Page<ProductDTO> products = productService.findByQuantityLessThan(pageable, quantity);
+        return ResponseEntity.ok(products);
     }
 }

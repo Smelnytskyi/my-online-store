@@ -5,6 +5,7 @@ import com.gmail.deniska1406sme.onlinestore.dto.*;
 import com.gmail.deniska1406sme.onlinestore.services.*;
 import com.gmail.deniska1406sme.onlinestore.validation.OnUpdate;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -137,6 +138,16 @@ public class MainController {
             return ResponseEntity.notFound().build();
         }
 
+        return ResponseEntity.ok(productDTOS);
+    }
+
+    @GetMapping("/search-by-filter")
+    public ResponseEntity<Page<ProductDTO>> searchByFilter(Pageable pageable, @RequestBody @Valid ProductFilterDTO filterDTO,
+                                                           BindingResult bindingResult){
+        Page<ProductDTO> productDTOS = productService.findFilteredProducts(pageable,filterDTO);
+        if(productDTOS.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(productDTOS);
     }
 

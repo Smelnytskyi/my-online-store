@@ -48,7 +48,6 @@ public class ClientServiceImpl implements ClientService{
         if (clientDTO.getAddress() != null){//TODO: change duplicate
             client.setAddress(clientDTO.getAddress());
         }
-        clientRepository.save(client);
     }
 
     @Transactional

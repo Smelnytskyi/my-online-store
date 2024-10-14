@@ -4,12 +4,12 @@ package com.gmail.deniska1406sme.onlinestore.dto;
 import com.gmail.deniska1406sme.onlinestore.validation.OnCreate;
 import com.gmail.deniska1406sme.onlinestore.validation.OnUpdate;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public class UserDTO {
     private Long id;
 
-    @NotNull(message = "Email cannot be empty", groups = OnCreate.class)
+    @NotBlank(message = "Email cannot be empty", groups = OnCreate.class)
     @Email(message = "Please enter a valid email", groups = {OnCreate.class, OnUpdate.class})
     private String email;
     private String googleId;

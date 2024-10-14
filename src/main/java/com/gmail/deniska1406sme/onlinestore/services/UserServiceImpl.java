@@ -1,6 +1,7 @@
 package com.gmail.deniska1406sme.onlinestore.services;
 
 import com.gmail.deniska1406sme.onlinestore.dto.UserDTO;
+import com.gmail.deniska1406sme.onlinestore.exceptions.UserNotFoundException;
 import com.gmail.deniska1406sme.onlinestore.model.User;
 import com.gmail.deniska1406sme.onlinestore.repositories.UserRepository;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService {
         if(userRepository.existsById(id)) {
             userRepository.deleteById(id);
         }else {
-            throw new IllegalArgumentException("User not found");
+            throw new UserNotFoundException("User not found");
         }
     }
 
@@ -45,7 +46,7 @@ public class UserServiceImpl implements UserService {
             userDTO.setEmail(user.getEmail());
             return userDTO;
         }else {
-            throw new IllegalArgumentException("User not found");
+            throw new UserNotFoundException("User not found");
         }
     }
 
@@ -59,7 +60,7 @@ public class UserServiceImpl implements UserService {
             userDTO.setEmail(user.getEmail());
             return userDTO;
         }else {
-            throw new IllegalArgumentException("User not found");
+            throw new UserNotFoundException("User not found");
         }
     }
 
@@ -75,7 +76,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(UserDTO userDTO) {
         User existingUser = userRepository.findById(userDTO.getId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         if (userDTO.getEmail()!= null){
             existingUser.setEmail(userDTO.getEmail());
         }

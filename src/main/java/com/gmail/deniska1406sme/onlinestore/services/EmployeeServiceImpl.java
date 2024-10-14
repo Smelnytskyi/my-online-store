@@ -2,6 +2,7 @@ package com.gmail.deniska1406sme.onlinestore.services;
 
 import com.gmail.deniska1406sme.onlinestore.dto.EmployeeDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.UserDTO;
+import com.gmail.deniska1406sme.onlinestore.exceptions.UserNotFoundException;
 import com.gmail.deniska1406sme.onlinestore.model.Employee;
 import com.gmail.deniska1406sme.onlinestore.repositories.EmployeeRepository;
 import com.gmail.deniska1406sme.onlinestore.repositories.UserRepository;
@@ -43,7 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void updateEmployee(EmployeeDTO employeeDTO, Long id) {
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Employee not found"));
+                .orElseThrow(() -> new UserNotFoundException("Employee not found"));
         if (employeeDTO.getFirstName() != null) {
             employee.setFirstName(employeeDTO.getFirstName());
         }
@@ -53,14 +54,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employeeDTO.getPhone() != null) {
             employee.setPhone(employeeDTO.getPhone());
         }
-        employeeRepository.save(employee);
     }
 
     @Transactional
     @Override
     public void removeEmployee(EmployeeDTO employeeDTO) {
         Employee employee = employeeRepository.findById(employeeDTO.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Employee not found"));
+                .orElseThrow(() -> new UserNotFoundException("Employee not found"));
         employeeRepository.delete(employee);
     }
 }

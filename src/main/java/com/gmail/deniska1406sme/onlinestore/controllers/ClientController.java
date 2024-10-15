@@ -77,15 +77,17 @@ public class ClientController {
     public ResponseEntity<List<String>> updateClient(@RequestHeader(value = "Authorization") String token,
                                              @RequestBody @Validated(OnUpdate.class) ClientDTO clientDTO,
                                              BindingResult bindingResult) {
-        Long id = Long.valueOf(jwtTokenProvider.getUserId(token));
+        String email = jwtTokenProvider.getLogin(token);
+        Long id = clientService.getClientByEmail(email).getId();
         clientService.updateClient(clientDTO, id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/orders")
     public ResponseEntity<Page<OrderDTO>> getOrders(@RequestHeader(value = "Authorization") String token,
-                                                    @RequestParam Pageable pageable) {
-        Long id = Long.valueOf(jwtTokenProvider.getUserId(token));
+                                                    Pageable pageable) {
+        String email = jwtTokenProvider.getLogin(token);
+        Long id = clientService.getClientByEmail(email).getId();
         Page<OrderDTO> orders = orderService.getOrdersByClient(id, pageable);
         return ResponseEntity.ok(orders);
     }

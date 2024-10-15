@@ -1,6 +1,7 @@
 package com.gmail.deniska1406sme.onlinestore.dto;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 
 public class AddClientRequest {
 
@@ -10,6 +11,7 @@ public class AddClientRequest {
     @Valid
     private UserDTO userDTO;
 
+    @NotBlank
     private String password;
 
     public ClientDTO getClientDTO() {

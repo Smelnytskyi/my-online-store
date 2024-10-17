@@ -33,7 +33,7 @@ public class Cart {
         this.totalPrice = totalPrice;
     }
 
-    public CartDTO toCartDTO(){
+    public CartDTO toCartDTO() {
         Set<CartItemDTO> cartItemDTOs = items.stream()
                 .map(CartItem::toCartItemDTO)
                 .collect(Collectors.toSet());

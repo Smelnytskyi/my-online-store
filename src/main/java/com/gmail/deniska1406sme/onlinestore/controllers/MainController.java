@@ -123,7 +123,7 @@ public class MainController {
 
         String notes = "";//TODO: think about the logic of adding notes.
 
-        for (CartItemDTO cartItemDTO: clientDTO.getCartDTO().getItems()){
+        for (CartItemDTO cartItemDTO : clientDTO.getCartDTO().getItems()) {
             productService.updateProductQuantity(cartItemDTO.getProductId(), cartItemDTO.getQuantity());
         }
         OrderDTO order = orderService.addOrder(deliveryAddress, notes, clientDTO);
@@ -134,10 +134,10 @@ public class MainController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Page<ProductDTO>> searchByName(@RequestParam String name, Pageable pageable){
+    public ResponseEntity<Page<ProductDTO>> searchByName(@RequestParam String name, Pageable pageable) {
         Page<ProductDTO> productDTOS = productService.findProductByName(name, pageable);
 
-        if(productDTOS.isEmpty()){
+        if (productDTOS.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
@@ -146,22 +146,22 @@ public class MainController {
 
     @GetMapping("/search-by-filter")
     public ResponseEntity<Page<ProductDTO>> searchByFilter(Pageable pageable, @RequestBody @Valid ProductFilterDTO filterDTO,
-                                                           BindingResult bindingResult){
-        Page<ProductDTO> productDTOS = productService.findFilteredProducts(pageable,filterDTO);
-        if(productDTOS.isEmpty()){
+                                                           BindingResult bindingResult) {
+        Page<ProductDTO> productDTOS = productService.findFilteredProducts(pageable, filterDTO);
+        if (productDTOS.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(productDTOS);
     }
 
 
-    private ClientDTO getClientDTO(String token, HttpSession session){
+    private ClientDTO getClientDTO(String token, HttpSession session) {
         ClientDTO clientDTO;
 
         if (token != null && jwtTokenProvider.validateToken(token)) {
             String email = jwtTokenProvider.getLogin(token.replace("Bearer ", ""));
             clientDTO = clientService.getClientByEmail(email);
-        }else {
+        } else {
             Long tempClientId = (Long) session.getAttribute("tempClientId");
             clientDTO = clientService.getClientById(tempClientId);
         }
@@ -176,29 +176,28 @@ public class MainController {
     }
 
     private String generateOrderConfirmationText(ClientDTO clientDTO) {
-        StringBuilder text = new StringBuilder("Ваш заказ успешно оформлен:\n");
-
+        StringBuilder text = new StringBuilder("Ваш заказ успешно оформлен!\n\n");
         CartDTO cartDTO = clientDTO.getCartDTO();
         double totalPrice = 0.0;
 
+        text.append("Состав заказа:\n");
         for (CartItemDTO item : cartDTO.getItems()) {
             ProductDTO productDTO = productService.getProductById(item.getProductId());
-
             double itemPrice = productDTO.getPrice() * item.getQuantity();
             totalPrice += itemPrice;
 
-            text.append("Товар: ").append(productDTO.getName())
-                    .append(", Количество: ").append(item.getQuantity())
-                    .append(", Цена за единицу: ").append(productDTO.getPrice()).append(" грн")
-                    .append(", Общая стоимость за товар: ").append(itemPrice).append(" грн\n");
+            text.append("— Товар: ").append(productDTO.getName())
+                    .append("\n   Количество: ").append(item.getQuantity())
+                    .append("\n   Цена за единицу: ").append(productDTO.getPrice()).append(" грн")
+                    .append("\n   Общая стоимость: ").append(itemPrice).append(" грн\n\n");
         }
         cartDTO.setTotalPrice(totalPrice);
 
-        text.append("\nОбщая стоимость заказа: ").append(cartDTO.getTotalPrice()).append(" грн");
+        text.append("Итоговая стоимость заказа: ").append(cartDTO.getTotalPrice()).append(" грн");
         return text.toString();
     }
 
-    private void setRedirectAfterLogin(HttpSession session, String redirectUrl){
+    private void setRedirectAfterLogin(HttpSession session, String redirectUrl) {
         session.setAttribute("redirectAfterLogin", redirectUrl);
     }
 

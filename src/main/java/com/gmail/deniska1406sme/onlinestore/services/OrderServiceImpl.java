@@ -2,6 +2,8 @@ package com.gmail.deniska1406sme.onlinestore.services;
 
 import com.gmail.deniska1406sme.onlinestore.dto.ClientDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.OrderDTO;
+import com.gmail.deniska1406sme.onlinestore.exceptions.OrderNotFoundException;
+import com.gmail.deniska1406sme.onlinestore.exceptions.UserNotFoundException;
 import com.gmail.deniska1406sme.onlinestore.model.Client;
 import com.gmail.deniska1406sme.onlinestore.model.Order;
 import com.gmail.deniska1406sme.onlinestore.model.OrderStatus;
@@ -13,8 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO addOrder(String deliveryAddress, String notes, ClientDTO clientDTO) {
         Order order = new Order();
         Client client = clientRepository.findById(clientDTO.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Client not found"));
+                .orElseThrow(() -> new UserNotFoundException("Client not found"));
         client.getOrders().add(order);
         order.setClient(client);
         order.setOrderDate(LocalDateTime.now());
@@ -48,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO updateOrder(OrderDTO orderDTO, Long id) {
         Order order = orderRepository.findOrderById(id);
         if (order != null) {
-            if (orderDTO.getOrderStatus() != null){
+            if (orderDTO.getOrderStatus() != null) {
                 order.setOrderStatus(orderDTO.getOrderStatus());
             }
             if (orderDTO.getDeliveryAddress() != null) {
@@ -59,8 +59,8 @@ public class OrderServiceImpl implements OrderService {
             }
             Order savedOrder = orderRepository.save(order);
             return savedOrder.toOrderDTO();
-        }else {
-            throw new IllegalArgumentException("Order not found");
+        } else {
+            throw new OrderNotFoundException("Order not found");
         }
     }
 
@@ -70,8 +70,8 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findOrderById(id);
         if (order != null) {
             orderRepository.delete(order);
-        }else {
-            throw new IllegalArgumentException("Order not found");
+        } else {
+            throw new OrderNotFoundException("Order not found");
         }
     }
 
@@ -81,8 +81,8 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findOrderById(id);
         if (order != null) {
             return order.toOrderDTO();
-        }else {
-            throw new IllegalArgumentException("Order not found");
+        } else {
+            throw new OrderNotFoundException("Order not found");
         }
     }
 

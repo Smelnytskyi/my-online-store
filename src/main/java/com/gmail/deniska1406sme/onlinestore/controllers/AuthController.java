@@ -1,6 +1,5 @@
 package com.gmail.deniska1406sme.onlinestore.controllers;
 
-
 import com.gmail.deniska1406sme.onlinestore.dto.LoginRequest;
 import com.gmail.deniska1406sme.onlinestore.exceptions.UserNotFoundException;
 import com.gmail.deniska1406sme.onlinestore.services.PasswordAuthenticationService;
@@ -33,7 +32,7 @@ public class AuthController {
         try {
             String token = passwordAuthenticationService.authenticate(email, password);
             return ResponseEntity.ok(Collections.singletonMap("token", token));
-        }catch (UserNotFoundException | AuthenticationException e) {
+        } catch (UserNotFoundException | AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }

@@ -29,7 +29,7 @@ public class CartItem {
     }
 
     public CartItemDTO toCartItemDTO() {
-        return new CartItemDTO(product.getId(),quantity);
+        return new CartItemDTO(product.getId(), quantity);
     }
 
     public Long getId() {

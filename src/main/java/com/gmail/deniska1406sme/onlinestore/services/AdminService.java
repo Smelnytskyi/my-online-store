@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 public interface AdminService {
 
     Page<EmployeeDTO> getEmployees(Pageable pageable);
+
     EmployeeDTO getEmployeeById(Long id);
 
 }

@@ -23,9 +23,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void deleteUser(Long id) {
-        if(userRepository.existsById(id)) {
+        if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
-        }else {
+        } else {
             throw new UserNotFoundException("User not found");
         }
     }
@@ -39,13 +39,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public UserDTO findUserByEmail(String email) {
-        if(userRepository.existsByEmail(email)) {
+        if (userRepository.existsByEmail(email)) {
             User user = userRepository.findByEmail(email);
             UserDTO userDTO = new UserDTO();
             userDTO.setId(user.getId());
             userDTO.setEmail(user.getEmail());
             return userDTO;
-        }else {
+        } else {
             throw new UserNotFoundException("User not found");
         }
     }
@@ -53,13 +53,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public UserDTO findUserByGoogleId(String googleId) {
-        if(userRepository.findByGoogleId(googleId) != null){
+        if (userRepository.findByGoogleId(googleId) != null) {
             User user = userRepository.findByGoogleId(googleId);
             UserDTO userDTO = new UserDTO();
             userDTO.setId(user.getId());
             userDTO.setEmail(user.getEmail());
             return userDTO;
-        }else {
+        } else {
             throw new UserNotFoundException("User not found");
         }
     }
@@ -77,10 +77,10 @@ public class UserServiceImpl implements UserService {
     public void updateUser(UserDTO userDTO) {
         User existingUser = userRepository.findById(userDTO.getId())
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
-        if (userDTO.getEmail()!= null){
+        if (userDTO.getEmail() != null) {
             existingUser.setEmail(userDTO.getEmail());
         }
-        if (userDTO.getGoogleId() != null){
+        if (userDTO.getGoogleId() != null) {
             existingUser.setGoogleId(userDTO.getGoogleId());
         }
         userRepository.save(existingUser);

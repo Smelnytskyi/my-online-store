@@ -29,14 +29,14 @@ public class PasswordAuthenticationServiceImpl implements PasswordAuthentication
     public String authenticate(String login, String rawPassword) {
         User user = userRepository.findByEmail(login);
 
-        if (user == null){
+        if (user == null) {
             throw new UserNotFoundException("User not found");
         }
 
         String hashedPassword = user.getPassword();
         boolean isPasswordMatch = encoder.matches(rawPassword, hashedPassword);
 
-        if (!isPasswordMatch){
+        if (!isPasswordMatch) {
             throw new AuthenticationException("Wrong password");
         }
 
@@ -52,7 +52,7 @@ public class PasswordAuthenticationServiceImpl implements PasswordAuthentication
         if (user != null) {
             user.setPassword(hashedPassword);
             userRepository.save(user);
-        }else {
+        } else {
             throw new UserNotFoundException("User not found");
         }
     }
@@ -66,10 +66,10 @@ public class PasswordAuthenticationServiceImpl implements PasswordAuthentication
             if (encoder.matches(oldRawPassword, user.getPassword())) {
                 user.setPassword(encoder.encode(newRawPassword));
                 userRepository.save(user);
-            }else {
+            } else {
                 throw new AuthenticationException("Wrong password");
             }
-        }else {
+        } else {
             throw new UserNotFoundException("User not found");
         }
     }

@@ -40,15 +40,15 @@ public class OnlineStoreApplication {
     }
 
     @Bean
-    public CommandLineRunner initData(ClientRepository clientRepository, OrderRepository orderRepository){
+    public CommandLineRunner initData(ClientRepository clientRepository, OrderRepository orderRepository) {
         return args -> {
             ImageUtil imageUtil = new ImageUtil();
 
 
-            Map<String, String> atributes= new HashMap<>();
-            atributes.put("Company","Intel");
-            atributes.put("Connector type","Socket 1700");
-            atributes.put("Base clock frequency","2500");
+            Map<String, String> atributes = new HashMap<>();
+            atributes.put("Company", "Intel");
+            atributes.put("Connector type", "Socket 1700");
+            atributes.put("Base clock frequency", "2500");
 
             Product product1 = new Product();
             product1.setName("Товар 1");
@@ -86,7 +86,7 @@ public class OnlineStoreApplication {
 
             Client client1 = new Client("client1@gmail.com", UserRole.CLIENT, "Denys", "Smel", "12548");
             clientRepository.save(client1);
-            Order order1 = new Order(client1, LocalDateTime.now(),OrderStatus.SHIPPED, "my street 25", "i dont need instruction");
+            Order order1 = new Order(client1, LocalDateTime.now(), OrderStatus.SHIPPED, "my street 25", "i dont need instruction");
             orderRepository.save(order1);
 
             Client testMail = new Client("denys.smelnytskyi@nure.ua", null, null,

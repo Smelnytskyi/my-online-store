@@ -44,10 +44,10 @@ public class ClientController {
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile(@RequestHeader(value = "Authorization") String token) {
         String email = jwtTokenProvider.getLogin(token);
-        if (jwtTokenProvider.getRole(token) == UserRole.CLIENT){
+        if (jwtTokenProvider.getRole(token) == UserRole.CLIENT) {
             ClientDTO clientDTO = clientService.getClientByEmail(email);
             return ResponseEntity.ok(clientDTO);
-        } else if (jwtTokenProvider.getRole(token) == UserRole.EMPLOYEE){
+        } else if (jwtTokenProvider.getRole(token) == UserRole.EMPLOYEE) {
             EmployeeDTO employeeDTO = employeeService.getEmployeeByEmail(email);
             return ResponseEntity.ok(employeeDTO);
         }
@@ -75,8 +75,8 @@ public class ClientController {
 
     @PatchMapping("/profile/update")
     public ResponseEntity<List<String>> updateClient(@RequestHeader(value = "Authorization") String token,
-                                             @RequestBody @Validated(OnUpdate.class) ClientDTO clientDTO,
-                                             BindingResult bindingResult) {
+                                                     @RequestBody @Validated(OnUpdate.class) ClientDTO clientDTO,
+                                                     BindingResult bindingResult) {
         String email = jwtTokenProvider.getLogin(token);
         Long id = clientService.getClientByEmail(email).getId();
         clientService.updateClient(clientDTO, id);
@@ -98,13 +98,13 @@ public class ClientController {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setId(id);
         orderDTO.setOrderStatus(OrderStatus.CANCELED);
-        orderService.updateOrder(orderDTO,id);
+        orderService.updateOrder(orderDTO, id);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/registration")
     public ResponseEntity<Void> registerNewClient(@RequestBody @Validated(OnCreate.class) AddClientRequest request,
-                                                  BindingResult bindingResult){
+                                                  BindingResult bindingResult) {
         clientService.addNewClient(request.getClientDTO(), request.getUserDTO());
         passwordAuthenticationService.savePassword(request.getUserDTO().getEmail(), request.getPassword());
         return ResponseEntity.ok().build();

@@ -20,11 +20,11 @@ public class JwtTokenProvider {
     private String secretKey;
     private final long tokenValidityInMilliseconds = 3600000;
 
-    private SecretKey getSigningKey(){
+    private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    public String createToken(String login, String role, Long userId){
+    public String createToken(String login, String role, Long userId) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("login", login);
         claims.put("role", role);
@@ -46,7 +46,7 @@ public class JwtTokenProvider {
         try {
             Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }

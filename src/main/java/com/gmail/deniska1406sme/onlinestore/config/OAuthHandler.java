@@ -51,9 +51,9 @@ public class OAuthHandler implements AuthenticationSuccessHandler {
         request.getSession().removeAttribute("tempClientId");
         ClientDTO tempClientDTO = (tempClientId != null) ? clientService.getClientById(tempClientId) : null;
 
-        if(existingClient == null){
+        if (existingClient == null) {
             UserDTO userDTO = UserDTO.of(null, email, googleId);
-            ClientDTO clientDTO  = ClientDTO.of(
+            ClientDTO clientDTO = ClientDTO.of(
                     (String) attributes.get("given_name"),
                     (String) attributes.get("family_name"),
                     null,
@@ -61,9 +61,9 @@ public class OAuthHandler implements AuthenticationSuccessHandler {
                     tempClientDTO != null ? tempClientDTO.getCartDTO() : null
             );
 
-            clientService.addNewClient(clientDTO,userDTO);
+            clientService.addNewClient(clientDTO, userDTO);
             tokenJwt = jwtTokenProvider.createToken(email, UserRole.CLIENT.name(), clientService.getClientByEmail(email).getId());
-        }else {
+        } else {
             transferTempCartToClient(existingClient, tempClientId);
             tokenJwt = jwtTokenProvider.createToken(email, UserRole.CLIENT.name(), existingClient.getId());
         }
@@ -75,7 +75,7 @@ public class OAuthHandler implements AuthenticationSuccessHandler {
 
         if (redirectUrl != null) {
             response.sendRedirect(redirectUrl);
-        }else {
+        } else {
             response.sendRedirect("/main");
         }
     }

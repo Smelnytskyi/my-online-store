@@ -34,7 +34,7 @@ public class ProductDTO {
     @NotBlank(message = "Quantity must not be blank", groups = OnCreate.class)
     @Min(value = 0, message = "Quantity must not be negative", groups = {OnCreate.class, OnUpdate.class})
     private int quantity;
-    private Map<String,String> attributes = new HashMap<>();
+    private Map<String, String> attributes = new HashMap<>();
 
     public ProductDTO() {
     }
@@ -54,7 +54,7 @@ public class ProductDTO {
 
     public static ProductDTO of(Long id, String name, ProductCategory category, String description, Double price, int quantity,
                                 String imageUrl, String deleteImageUrl, Map<String, String> attributes) {
-        return new ProductDTO(id, name, category,description,price,quantity, imageUrl, deleteImageUrl,  attributes);
+        return new ProductDTO(id, name, category, description, price, quantity, imageUrl, deleteImageUrl, attributes);
     }
 
     public Long getId() {

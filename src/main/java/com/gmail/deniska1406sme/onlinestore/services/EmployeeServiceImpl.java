@@ -33,7 +33,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     @Override
     public void addNewEmployee(EmployeeDTO employeeDTO, UserDTO userDTO) {
-        if(userRepository.existsByEmail(userDTO.getEmail())){
+        if (userRepository.existsByEmail(userDTO.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
         Employee employee = Employee.fromDTO(userDTO, employeeDTO);

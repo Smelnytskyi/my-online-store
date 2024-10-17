@@ -1,6 +1,5 @@
 package com.gmail.deniska1406sme.onlinestore.model;
 
-
 import com.gmail.deniska1406sme.onlinestore.dto.OrderDTO;
 import jakarta.persistence.*;
 
@@ -28,7 +27,8 @@ public class Order {
 
     private String notes;
 
-    public Order() {}
+    public Order() {
+    }
 
     public Order(Client client, LocalDateTime orderDate, OrderStatus orderStatus, String deliveryAddress, String notes) {
         this.client = client;
@@ -38,7 +38,7 @@ public class Order {
         this.notes = notes;
     }
 
-    public OrderDTO toOrderDTO(){
+    public OrderDTO toOrderDTO() {
         return new OrderDTO(id, orderDate, orderStatus, deliveryAddress, notes);
     }
 

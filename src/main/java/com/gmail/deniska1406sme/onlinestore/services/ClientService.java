@@ -9,10 +9,15 @@ import java.util.List;
 public interface ClientService {
 
     void addNewClient(ClientDTO clientDTO, UserDTO userDTO);
+
     void updateClient(ClientDTO clientDTO, Long id);
+
     void removeClient(ClientDTO clientDTO);
+
     List<ClientDTO> getClients(Pageable pageable);
+
     ClientDTO getClientById(Long id);
+
     ClientDTO getClientByEmail(String email);
 
     ClientDTO createTemporaryClient(Long temp);

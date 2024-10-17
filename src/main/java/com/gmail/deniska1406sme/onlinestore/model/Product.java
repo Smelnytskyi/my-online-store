@@ -1,6 +1,5 @@
 package com.gmail.deniska1406sme.onlinestore.model;
 
-
 import com.gmail.deniska1406sme.onlinestore.dto.ProductDTO;
 import jakarta.persistence.*;
 
@@ -10,8 +9,8 @@ import java.util.Map;
 @Entity
 @Table(name = "Products", indexes = { //TODO: add indexed find-request in DB for performance
         @Index(name = "idx_name", columnList = "name"),
-        @Index(name = "idx_price",columnList = "price"),
-        @Index(name = "idx_category",columnList = "category")
+        @Index(name = "idx_price", columnList = "price"),
+        @Index(name = "idx_category", columnList = "category")
 })
 public class Product {
     @Id
@@ -42,10 +41,10 @@ public class Product {
 
     @ElementCollection
     @CollectionTable(name = "Product_attributes",
-                     joinColumns = @JoinColumn(name = "product_id"))
+            joinColumns = @JoinColumn(name = "product_id"))
     @MapKeyColumn(name = "attribute_name")
     @Column(name = "attribute_value")
-    private Map<String,String> attributes = new HashMap<>();
+    private Map<String, String> attributes = new HashMap<>();
 
     public Product() {
     }
@@ -63,17 +62,17 @@ public class Product {
     }
 
     public static Product of(String name, ProductCategory category, String description, Double price, int quantity,
-                             String imageUrl, String deleteImageUrl, Map<String, String> attributes){
+                             String imageUrl, String deleteImageUrl, Map<String, String> attributes) {
         return new Product(name, category, description, price, quantity, imageUrl, deleteImageUrl, attributes);
     }
 
-    public ProductDTO toProductDTO(){
+    public ProductDTO toProductDTO() {
         return new ProductDTO(id, name, category, description, price, quantity, imageUrl, deleteImageUrl, attributes);
     }
 
-    public static Product fromProductDTO(ProductDTO productDTO){
-        return Product.of(productDTO.getName(),productDTO.getCategory(),productDTO.getDescription(),productDTO.getPrice(),
-                productDTO.getQuantity(),productDTO.getImageUrl(), productDTO.getDeleteImageUrl(), productDTO.getAttributes());
+    public static Product fromProductDTO(ProductDTO productDTO) {
+        return Product.of(productDTO.getName(), productDTO.getCategory(), productDTO.getDescription(), productDTO.getPrice(),
+                productDTO.getQuantity(), productDTO.getImageUrl(), productDTO.getDeleteImageUrl(), productDTO.getAttributes());
     }
 
     public Long getId() {

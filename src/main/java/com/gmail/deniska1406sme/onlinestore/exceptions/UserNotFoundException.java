@@ -1,12 +1,12 @@
 package com.gmail.deniska1406sme.onlinestore.exceptions;
 
-public class UserNotFoundException extends RuntimeException{
+public class UserNotFoundException extends RuntimeException {
 
-    public UserNotFoundException(String message){
+    public UserNotFoundException(String message) {
         super(message);
     }
 
-    public UserNotFoundException(String message, Throwable cause){
+    public UserNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 }

@@ -6,7 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 @Entity
-public class Employee extends User{
+public class Employee extends User {
     @Column(nullable = false, length = 30)
     private String firstName;
 
@@ -19,7 +19,7 @@ public class Employee extends User{
     public Employee() {
     }
 
-    public Employee(String email,String password, String googleId, String firstName, String lastName, String phone) {
+    public Employee(String email, String password, String googleId, String firstName, String lastName, String phone) {
         super(email, password, googleId, UserRole.EMPLOYEE);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -31,13 +31,13 @@ public class Employee extends User{
         return new Employee(email, password, googleId, firstName, lastName, phone);
     }
 
-    public EmployeeDTO toEmployeeDTO(){
+    public EmployeeDTO toEmployeeDTO() {
         UserDTO userDTO = super.toUserDTO();
         return EmployeeDTO.of(userDTO.getId(), firstName, lastName, phone);
     }
 
-    public static Employee fromDTO(UserDTO userDTO, EmployeeDTO employeeDTO){
-        return Employee.of(userDTO.getEmail(),null, userDTO.getGoogleId(), employeeDTO.getFirstName(),
+    public static Employee fromDTO(UserDTO userDTO, EmployeeDTO employeeDTO) {
+        return Employee.of(userDTO.getEmail(), null, userDTO.getGoogleId(), employeeDTO.getFirstName(),
                 employeeDTO.getLastName(), employeeDTO.getPhone());
     }
 

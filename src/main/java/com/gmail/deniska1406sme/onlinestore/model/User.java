@@ -3,7 +3,6 @@ package com.gmail.deniska1406sme.onlinestore.model;
 import com.gmail.deniska1406sme.onlinestore.dto.UserDTO;
 import jakarta.persistence.*;
 
-
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class User {
@@ -37,8 +36,8 @@ public abstract class User {
         this.role = role;
     }
 
-    public UserDTO toUserDTO(){
-        return new UserDTO(id,email,googleId);
+    public UserDTO toUserDTO() {
+        return new UserDTO(id, email, googleId);
     }
 
     public Long getId() {

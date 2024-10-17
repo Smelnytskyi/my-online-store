@@ -42,7 +42,7 @@ public class PasswordAuthenticationHandler implements AuthenticationSuccessHandl
         String email = authentication.getName();
         ClientDTO clientDTO = clientService.getClientByEmail(email);
 
-        if( tempClientDTO != null){
+        if (tempClientDTO != null) {
             transferTempCartToClient(clientDTO, tempClientId);
         }
 
@@ -59,7 +59,7 @@ public class PasswordAuthenticationHandler implements AuthenticationSuccessHandl
         } else if (role == UserRole.CLIENT) {
             if (clientRedirectUrl != null) {
                 redirectUrl = clientRedirectUrl;
-            }else {
+            } else {
                 redirectUrl = "/main";
             }
         }

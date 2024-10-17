@@ -8,12 +8,12 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Client extends User{
+public class Client extends User {
 
-    @Column(nullable = false,length = 30)
+    @Column(nullable = false, length = 30)
     private String firstName;
 
-    @Column(nullable = false,length = 30)
+    @Column(nullable = false, length = 30)
     private String lastName;
 
     @Column(unique = true, nullable = false, length = 15)
@@ -31,7 +31,7 @@ public class Client extends User{
         super();
     }
 
-    public Client( String email, UserRole role, String firstName, String lastName, String phone) {
+    public Client(String email, UserRole role, String firstName, String lastName, String phone) {
         super(email, role);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -48,18 +48,18 @@ public class Client extends User{
     }
 
     public static Client of(String email, String password, String googleId, String firstName, String lastName,
-                              String address, String phone) {
+                            String address, String phone) {
         return new Client(email, password, googleId, firstName, lastName, address, phone);
     }
 
-    public ClientDTO toClientDTO(){
+    public ClientDTO toClientDTO() {
         UserDTO userDTO = super.toUserDTO();
         CartDTO cartDTO = (cart != null) ? cart.toCartDTO() : null;
         return ClientDTO.of(userDTO.getId(), firstName, lastName, phone, address, cartDTO);
     }
 
-    public static Client fromDTO(UserDTO userDTO, ClientDTO clientDTO){
-        return Client.of(userDTO.getEmail(),null, userDTO.getGoogleId(), clientDTO.getFirstName(),
+    public static Client fromDTO(UserDTO userDTO, ClientDTO clientDTO) {
+        return Client.of(userDTO.getEmail(), null, userDTO.getGoogleId(), clientDTO.getFirstName(),
                 clientDTO.getLastName(), clientDTO.getAddress(), clientDTO.getPhone());
     }
 

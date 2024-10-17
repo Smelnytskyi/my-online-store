@@ -31,7 +31,7 @@ public class LoggingAspect {
         logger.info("Method call: {} with arguments: {}", joinPoint.getSignature().getName(), Arrays.toString(filteredArgs));
     }
 
-    @AfterReturning(pointcut = "execution(* com.gmail.deniska1406sme.onlinestore..*(..))",returning = "result")
+    @AfterReturning(pointcut = "execution(* com.gmail.deniska1406sme.onlinestore..*(..))", returning = "result")
     public void logAfter(JoinPoint joinPoint, Object result) {
         Object filteredResult = checkSensitiveData(result);
         logger.info("Method {} completed successfully, with result: {}", joinPoint.getSignature().getName(), filteredResult);
@@ -42,7 +42,7 @@ public class LoggingAspect {
         logger.error("Method {} threw an exception: {}", joinPoint.getSignature().getName(), exception.getMessage());//, exception) for extended stack trace
     }
 
-    private Object checkSensitiveData(Object arg){
+    private Object checkSensitiveData(Object arg) {
         if (arg instanceof String) {
             String strArg = (String) arg;
             if (strArg.toLowerCase().contains("password")) {
@@ -52,16 +52,16 @@ public class LoggingAspect {
                 return "*****";
             }
         }
-        if (arg instanceof ResponseEntity){
+        if (arg instanceof ResponseEntity) {
             ResponseEntity<?> responseEntity = (ResponseEntity<?>) arg;
             Object body = responseEntity.getBody();
-            if(body instanceof Map){
+            if (body instanceof Map) {
                 Map<?, ?> bodyMap = (Map<?, ?>) body;
                 Map<Object, Object> filteredBody = new HashMap<Object, Object>();
                 for (Map.Entry<?, ?> entry : bodyMap.entrySet()) {
-                    if(entry.getKey().toString().toLowerCase().contains("token")){
+                    if (entry.getKey().toString().toLowerCase().contains("token")) {
                         filteredBody.put(entry.getKey(), "********");
-                    }else{
+                    } else {
                         filteredBody.put(entry.getKey(), entry.getValue());
                     }
                 }

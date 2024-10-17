@@ -20,7 +20,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class ClientServiceImpl implements ClientService{
+public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
     private final UserRepository userRepository;
@@ -34,7 +34,7 @@ public class ClientServiceImpl implements ClientService{
     @Override
     public void updateClient(ClientDTO clientDTO, Long id) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Client not found"));
+                .orElseThrow(() -> new UserNotFoundException("Client not found"));
 
         if (clientDTO.getFirstName() != null) {
             client.setFirstName(clientDTO.getFirstName());
@@ -45,7 +45,7 @@ public class ClientServiceImpl implements ClientService{
         if (clientDTO.getPhone() != null) {
             client.setPhone(clientDTO.getPhone());
         }
-        if (clientDTO.getAddress() != null){//TODO: change duplicate
+        if (clientDTO.getAddress() != null) {//TODO: change duplicate
             client.setAddress(clientDTO.getAddress());
         }
     }
@@ -53,7 +53,7 @@ public class ClientServiceImpl implements ClientService{
     @Transactional
     @Override
     public void addNewClient(ClientDTO clientDTO, UserDTO userDTO) {
-        if(userRepository.existsByEmail(userDTO.getEmail())){
+        if (userRepository.existsByEmail(userDTO.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
         Cart newCart = new Cart();
@@ -77,13 +77,13 @@ public class ClientServiceImpl implements ClientService{
     @Override
     public void removeClient(ClientDTO clientDTO) {
         Client client = clientRepository.findById(clientDTO.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Client not found"));
+                .orElseThrow(() -> new UserNotFoundException("Client not found"));
         clientRepository.delete(client);
     }
 
     @Transactional
     @Override
-    public ClientDTO getClientById(Long id){
+    public ClientDTO getClientById(Long id) {
         if (id == null) {
             return null;
         }
@@ -108,9 +108,9 @@ public class ClientServiceImpl implements ClientService{
 
     @Transactional
     @Override
-    public ClientDTO getClientByEmail(String email){
+    public ClientDTO getClientByEmail(String email) {
         Client client = clientRepository.findByEmail(email);
-        if(client == null){
+        if (client == null) {
             return null;
         }
         return client.toClientDTO();
@@ -123,7 +123,7 @@ public class ClientServiceImpl implements ClientService{
         newCart.setItems(new HashSet<>());
         newCart.setTotalPrice(0.0);
 
-        Client client = new Client("temp" + temp, UserRole.TEMPORARY, "temp" + temp, "temp" + temp, "temp"+ temp);
+        Client client = new Client("temp" + temp, UserRole.TEMPORARY, "temp" + temp, "temp" + temp, "temp" + temp);
         client.setCart(newCart);
         newCart.setClient(client);
 

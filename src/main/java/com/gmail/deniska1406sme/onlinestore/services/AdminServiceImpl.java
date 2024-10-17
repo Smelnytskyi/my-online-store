@@ -27,7 +27,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
-    public EmployeeDTO getEmployeeById(Long id){
+    public EmployeeDTO getEmployeeById(Long id) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Employee not found"));
         return employee.toEmployeeDTO();

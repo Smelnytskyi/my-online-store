@@ -54,7 +54,7 @@ public class ImageServiceImpl implements ImageService {
 
         ResponseEntity<Void> response = restTemplate.exchange(deleteUrl, HttpMethod.DELETE, null, Void.class);
 
-        if (response.getStatusCode().is2xxSuccessful()){
+        if (response.getStatusCode().is2xxSuccessful()) {
             System.out.println("Deleted image successfully");
         } else {
             throw new RuntimeException("Failed to delete image" + response.getBody());

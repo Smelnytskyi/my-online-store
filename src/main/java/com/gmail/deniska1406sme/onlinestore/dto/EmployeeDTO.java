@@ -16,7 +16,7 @@ public class EmployeeDTO {
     @Size(min = 2, max = 30, message = "Last name must be between 2 and 30 characters", groups = {OnCreate.class, OnUpdate.class})
     private String lastName;
 
-    @NotBlank(message = "Phone must not be blank",groups = OnCreate.class)
+    @NotBlank(message = "Phone must not be blank", groups = OnCreate.class)
     @Size(min = 10, max = 13, message = "Phone must be between 10 and 13 characters", groups = {OnCreate.class, OnUpdate.class})
     private String phone;
 

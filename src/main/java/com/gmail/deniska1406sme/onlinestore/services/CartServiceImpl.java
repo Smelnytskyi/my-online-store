@@ -2,7 +2,6 @@ package com.gmail.deniska1406sme.onlinestore.services;
 
 import com.gmail.deniska1406sme.onlinestore.dto.CartItemDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.ClientDTO;
-import com.gmail.deniska1406sme.onlinestore.dto.ProductDTO;
 import com.gmail.deniska1406sme.onlinestore.model.Cart;
 import com.gmail.deniska1406sme.onlinestore.model.CartItem;
 import com.gmail.deniska1406sme.onlinestore.model.Product;
@@ -18,7 +17,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class CartServiceImpl implements CartService{
+public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
@@ -41,7 +40,7 @@ public class CartServiceImpl implements CartService{
         if (existingItem.isPresent()) {
             CartItem cartItem = existingItem.get();
             cartItem.setQuantity(cartItem.getQuantity() + cartItemDTO.getQuantity());
-        }else {
+        } else {
             Product product = productRepository.findById(cartItemDTO.getProductId())
                     .orElseThrow(() -> new RuntimeException("Product not found"));
             CartItem cartItem = new CartItem(cartItemDTO.getQuantity(), product);
@@ -61,7 +60,7 @@ public class CartServiceImpl implements CartService{
                 .findFirst();
         if (existingItem.isPresent()) {
             cart.getItems().remove(existingItem.get());
-        }else {
+        } else {
             throw new IllegalArgumentException("Product not found in cart");
         }
         cartRepository.save(cart);
@@ -90,7 +89,7 @@ public class CartServiceImpl implements CartService{
         if (existingItem.isPresent()) {
             CartItem cartItem = existingItem.get();
             cartItem.setQuantity(cartItemDTO.getQuantity());
-        }else {
+        } else {
             throw new IllegalArgumentException("Product not found in cart");
         }
         cartRepository.save(cart);
@@ -135,7 +134,6 @@ public class CartServiceImpl implements CartService{
             addProductToCart(clientDTO, item);
         }
     }
-
 
 
 }

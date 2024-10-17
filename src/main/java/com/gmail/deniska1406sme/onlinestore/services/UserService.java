@@ -7,10 +7,15 @@ import java.util.List;
 
 public interface UserService {
     void updateUser(UserDTO userDTO);
+
     void deleteUser(Long id);
+
     boolean userExists(String email);
+
     UserDTO findUserByEmail(String email);
+
     UserDTO findUserByGoogleId(String googleId);
+
     List<UserDTO> findAllUsers(Pageable pageable);
 
 }

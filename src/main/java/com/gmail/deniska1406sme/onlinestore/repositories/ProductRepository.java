@@ -1,10 +1,13 @@
 package com.gmail.deniska1406sme.onlinestore.repositories;
 
 import com.gmail.deniska1406sme.onlinestore.model.Product;
+import com.gmail.deniska1406sme.onlinestore.model.ProductCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
     Page<Product> findByQuantityLessThan(Pageable pageable, int quantity);
@@ -13,5 +16,5 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     boolean existsByName(String name);
 
-    Product findByName(String name);
+    List<Product> findProductsByCategory(ProductCategory category);
 }

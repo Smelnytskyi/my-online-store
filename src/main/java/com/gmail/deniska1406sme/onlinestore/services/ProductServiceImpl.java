@@ -4,6 +4,7 @@ import com.gmail.deniska1406sme.onlinestore.dto.ProductDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.ProductFilterDTO;
 import com.gmail.deniska1406sme.onlinestore.exceptions.ProductNotFoundException;
 import com.gmail.deniska1406sme.onlinestore.model.Product;
+import com.gmail.deniska1406sme.onlinestore.model.ProductCategory;
 import com.gmail.deniska1406sme.onlinestore.repositories.ProductRepository;
 import com.gmail.deniska1406sme.onlinestore.specification.ProductSpecification;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -139,6 +142,13 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ProductNotFoundException("Product does not exist"));
 
         return product.toProductDTO();
+    }
+
+    @Transactional
+    @Override
+    public List<ProductDTO> getProductsByCategory(ProductCategory category) {
+        List<Product> products = productRepository.findProductsByCategory(category);
+        return products.stream().map(Product::toProductDTO).toList();
     }
 
     @Transactional

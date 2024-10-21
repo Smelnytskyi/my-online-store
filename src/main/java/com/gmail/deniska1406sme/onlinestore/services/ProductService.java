@@ -2,8 +2,11 @@ package com.gmail.deniska1406sme.onlinestore.services;
 
 import com.gmail.deniska1406sme.onlinestore.dto.ProductDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.ProductFilterDTO;
+import com.gmail.deniska1406sme.onlinestore.model.ProductCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface ProductService {
 
@@ -22,6 +25,8 @@ public interface ProductService {
     Page<ProductDTO> findByQuantityLessThan(Pageable pageable, int quantity);
 
     Page<ProductDTO> getAllProducts(Pageable pageable);
+
+    List<ProductDTO> getProductsByCategory(ProductCategory category);
 
     ProductDTO getProductById(Long id);
 }

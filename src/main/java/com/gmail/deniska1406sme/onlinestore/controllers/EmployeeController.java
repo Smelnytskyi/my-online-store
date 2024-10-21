@@ -8,6 +8,7 @@ import com.gmail.deniska1406sme.onlinestore.services.ProductService;
 import com.gmail.deniska1406sme.onlinestore.validation.OnCreate;
 import com.gmail.deniska1406sme.onlinestore.validation.OnUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -60,6 +61,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/product/add")
+    @CacheEvict(value = {"products", "attributes"}, allEntries = true)
     public ResponseEntity<Void> addProduct(@RequestBody @Validated(OnCreate.class) ProductDTO productDTO,
                                            BindingResult bindingResult) {
         productService.addProduct(productDTO);
@@ -67,6 +69,7 @@ public class EmployeeController {
     }
 
     @PatchMapping("/product/update/{id}")
+    @CacheEvict(value = {"products", "attributes"}, allEntries = true)
     public ResponseEntity<Void> updateProduct(@PathVariable Long id,
                                               @RequestBody @Validated(OnUpdate.class) ProductDTO productDTO,
                                               BindingResult bindingResult) {
@@ -75,6 +78,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/product/delete/{id}")
+    @CacheEvict(value = {"products", "attributes"}, allEntries = true)
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.removeProduct(id);
         return ResponseEntity.ok().build();

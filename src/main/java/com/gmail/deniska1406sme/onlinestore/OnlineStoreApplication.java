@@ -45,10 +45,10 @@ public class OnlineStoreApplication {
             ImageUtil imageUtil = new ImageUtil();
 
 
-            Map<String, String> atributes = new HashMap<>();
-            atributes.put("Company", "Intel");
-            atributes.put("Connector type", "Socket 1700");
-            atributes.put("Base clock frequency", "2500");
+            Map<String, String> attributes = new HashMap<>();
+            attributes.put("Company", "Intel");
+            attributes.put("Connector type", "Socket 1700");
+            attributes.put("Base clock frequency", "2500");
 
             Product product1 = new Product();
             product1.setName("Товар 1");
@@ -58,7 +58,7 @@ public class OnlineStoreApplication {
             product1.setQuantity(7);
             product1.setImageUrl("");
             product1.setDeleteImageUrl("");
-            product1.setAttributes(atributes);
+            product1.setAttributes(attributes);
             productRepository.save(product1);
 
             ProductDTO productDTO = product1.toProductDTO();
@@ -69,14 +69,20 @@ public class OnlineStoreApplication {
             product1.setDeleteImageUrl(productDTO.getDeleteImageUrl());
             productRepository.save(product1);
 
+            Map<String, String> attributes2 = new HashMap<>();
+            attributes2.put("Company", "AMD");
+            attributes2.put("Connector type", "Socket 1700");
+            attributes2.put("Base clock frequency", "3000");
+
             Product product2 = new Product();
             product2.setName("Товар 2");
             product2.setPrice(200.0);
-            product2.setCategory(ProductCategory.HDD);
+            product2.setCategory(ProductCategory.CPU);
             product2.setDescription("description");
             product2.setQuantity(5);
             product2.setImageUrl("");
             product2.setDeleteImageUrl("");
+            product2.setAttributes(attributes2);
             productRepository.save(product2);
 
             Employee employee1 = new Employee("emp1@gmail.com", "pass", "", "Denys", "Smel", "380094");

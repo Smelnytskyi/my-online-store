@@ -2,6 +2,7 @@ package com.gmail.deniska1406sme.onlinestore.controllers;
 
 import com.gmail.deniska1406sme.onlinestore.config.JwtTokenProvider;
 import com.gmail.deniska1406sme.onlinestore.dto.*;
+import com.gmail.deniska1406sme.onlinestore.model.ProductCategory;
 import com.gmail.deniska1406sme.onlinestore.services.*;
 import com.gmail.deniska1406sme.onlinestore.validation.OnUpdate;
 import jakarta.servlet.http.HttpSession;
@@ -16,7 +17,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/main")
@@ -155,6 +157,52 @@ public class MainController {
     }
 
 
+    @Cacheable("attributes")
+    @GetMapping("/get-product-attributes")
+    public ResponseEntity<Map<String, Set<String>>> getProductAttributes(@RequestParam String category) {
+        Map<String, Set<String>> attributes = new HashMap<>();
+        List<ProductDTO> productDTOS = productService.getProductsByCategory(ProductCategory.valueOf(category.toUpperCase()));
+
+        for (ProductDTO productDTO : productDTOS) {
+            Map<String, String> attribute = productDTO.getAttributes();
+
+            for (Map.Entry<String, String> entry : attribute.entrySet()) {
+                String attributeName = entry.getKey();
+                String attributeValue = entry.getValue();
+
+                attributes.computeIfAbsent(attributeName, k -> new HashSet<>()).add(attributeValue);
+            }
+        }
+        return ResponseEntity.ok(attributes);
+    }
+
+    @PostMapping("/search-by-attributes")
+    public ResponseEntity<List<ProductDTO>> searchByAttributes(@RequestBody Map<String, List<String>> filters){
+        List<ProductDTO> allProducts = productService.getAllProducts(Pageable.unpaged()).getContent();
+
+        List<ProductDTO> filteredProducts = allProducts.stream()
+                .filter(productDTO -> productMatchFilters(productDTO, filters))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(filteredProducts);
+    }
+
+    private boolean productMatchFilters(ProductDTO productDTO, Map<String, List<String>> filters) {
+        Map<String, String> productAttributes = productDTO.getAttributes();
+
+        for (Map.Entry<String, List<String>> entry : filters.entrySet()) {
+            String attributeName = entry.getKey();
+            List<String> allowedValues = entry.getValue();
+
+            String productAttribute = productAttributes.get(attributeName);
+
+            if (productAttribute == null || !allowedValues.contains(productAttribute)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private ClientDTO getClientDTO(String token, HttpSession session) {
         ClientDTO clientDTO;
 
@@ -201,5 +249,4 @@ public class MainController {
         session.setAttribute("redirectAfterLogin", redirectUrl);
     }
 
-    //TODO: add filter found
 }

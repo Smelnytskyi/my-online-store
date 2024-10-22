@@ -4,6 +4,7 @@ import com.gmail.deniska1406sme.onlinestore.dto.UserDTO;
 import com.gmail.deniska1406sme.onlinestore.exceptions.UserNotFoundException;
 import com.gmail.deniska1406sme.onlinestore.model.User;
 import com.gmail.deniska1406sme.onlinestore.repositories.UserRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,11 +54,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public UserDTO findUserByGoogleId(String googleId) {
-        if (userRepository.findByGoogleId(googleId) != null) {
-            User user = userRepository.findByGoogleId(googleId);
+        User user = userRepository.findByGoogleId(googleId);
+        if (user != null) {
             UserDTO userDTO = new UserDTO();
             userDTO.setId(user.getId());
             userDTO.setEmail(user.getEmail());
+            userDTO.setGoogleId(user.getGoogleId());
             return userDTO;
         } else {
             throw new UserNotFoundException("User not found");
@@ -66,10 +68,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public List<UserDTO> findAllUsers(Pageable pageable) {
-        return userRepository.findAll(pageable).stream()
-                .map(User::toUserDTO)
-                .collect(Collectors.toList());
+    public Page<UserDTO> findAllUsers(Pageable pageable) {
+        Page<User> userDTOS = userRepository.findAll(pageable);
+        return userDTOS.map(User::toUserDTO);
     }
 
     @Transactional

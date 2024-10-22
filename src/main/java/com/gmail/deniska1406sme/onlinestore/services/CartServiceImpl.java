@@ -2,6 +2,7 @@ package com.gmail.deniska1406sme.onlinestore.services;
 
 import com.gmail.deniska1406sme.onlinestore.dto.CartItemDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.ClientDTO;
+import com.gmail.deniska1406sme.onlinestore.exceptions.ProductNotFoundException;
 import com.gmail.deniska1406sme.onlinestore.model.Cart;
 import com.gmail.deniska1406sme.onlinestore.model.CartItem;
 import com.gmail.deniska1406sme.onlinestore.model.Product;
@@ -42,7 +43,7 @@ public class CartServiceImpl implements CartService {
             cartItem.setQuantity(cartItem.getQuantity() + cartItemDTO.getQuantity());
         } else {
             Product product = productRepository.findById(cartItemDTO.getProductId())
-                    .orElseThrow(() -> new RuntimeException("Product not found"));
+                    .orElseThrow(() -> new ProductNotFoundException("Product not found"));
             CartItem cartItem = new CartItem(cartItemDTO.getQuantity(), product);
             cartItemRepository.save(cartItem);
             cart.getItems().add(cartItem);
@@ -61,7 +62,7 @@ public class CartServiceImpl implements CartService {
         if (existingItem.isPresent()) {
             cart.getItems().remove(existingItem.get());
         } else {
-            throw new IllegalArgumentException("Product not found in cart");
+            throw new ProductNotFoundException("Product not found in cart");
         }
         cartRepository.save(cart);
     }
@@ -90,7 +91,7 @@ public class CartServiceImpl implements CartService {
             CartItem cartItem = existingItem.get();
             cartItem.setQuantity(cartItemDTO.getQuantity());
         } else {
-            throw new IllegalArgumentException("Product not found in cart");
+            throw new ProductNotFoundException("Product not found in cart");
         }
         cartRepository.save(cart);
     }
@@ -134,6 +135,5 @@ public class CartServiceImpl implements CartService {
             addProductToCart(clientDTO, item);
         }
     }
-
 
 }

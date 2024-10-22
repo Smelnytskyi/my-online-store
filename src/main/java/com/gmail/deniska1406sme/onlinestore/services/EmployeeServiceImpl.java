@@ -54,6 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employeeDTO.getPhone() != null) {
             employee.setPhone(employeeDTO.getPhone());
         }
+        employeeRepository.save(employee);
     }
 
     @Transactional

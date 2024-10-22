@@ -1,9 +1,8 @@
 package com.gmail.deniska1406sme.onlinestore.services;
 
 import com.gmail.deniska1406sme.onlinestore.dto.UserDTO;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 public interface UserService {
     void updateUser(UserDTO userDTO);
@@ -16,6 +15,6 @@ public interface UserService {
 
     UserDTO findUserByGoogleId(String googleId);
 
-    List<UserDTO> findAllUsers(Pageable pageable);
+    Page<UserDTO> findAllUsers(Pageable pageable);
 
 }

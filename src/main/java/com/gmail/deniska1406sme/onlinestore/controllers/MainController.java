@@ -10,7 +10,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -44,10 +46,15 @@ public class MainController {
         this.emailNotificationService = emailNotificationService;
     }
 
-    @Cacheable("products")
+    //@Cacheable("products")
     @GetMapping("/products")
-    public ResponseEntity<Page<ProductDTO>> getProducts(Pageable pageable) {
+    public ResponseEntity<Page<ProductDTO>> getProducts(Pageable pageable,
+                                                              @RequestParam(required = false, defaultValue = "name,asc") String sort) {
+        String[] sortParams = sort.split(",");
+        Sort sortObject = Sort.by(Sort.Direction.fromString(sortParams[1]), sortParams[0]);
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sortObject);
         Page<ProductDTO> productDTOS = productService.getAllProducts(pageable);
+
         return ResponseEntity.ok(productDTOS);
     }
 
@@ -155,7 +162,6 @@ public class MainController {
         }
         return ResponseEntity.ok(productDTOS);
     }
-
 
     @Cacheable("attributes")
     @GetMapping("/get-product-attributes")

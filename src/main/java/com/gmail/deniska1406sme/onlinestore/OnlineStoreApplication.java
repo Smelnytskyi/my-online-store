@@ -15,6 +15,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -23,6 +24,9 @@ import java.util.Map;
 import java.util.Set;
 
 @EnableCaching
+@EnableSpringDataWebSupport(
+        pageSerializationMode = EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO
+)
 @SpringBootApplication
 public class OnlineStoreApplication {
 
@@ -84,6 +88,11 @@ public class OnlineStoreApplication {
             product2.setDeleteImageUrl("");
             product2.setAttributes(attributes2);
             productRepository.save(product2);
+
+            for (int i = 3; i < 25; i++){
+                productRepository.save(new Product("Товар " + i, ProductCategory.CPU, "desc", 100.0 * i,
+                        10, "","", attributes2));
+            }
 
             Employee employee1 = new Employee("emp1@gmail.com", "pass", "", "Denys", "Smel", "380094");
             employeeRepository.save(employee1);

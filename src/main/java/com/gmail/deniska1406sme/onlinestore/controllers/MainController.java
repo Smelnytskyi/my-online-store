@@ -46,7 +46,7 @@ public class MainController {
         this.emailNotificationService = emailNotificationService;
     }
 
-    //@Cacheable("products")
+    @Cacheable("products")
     @GetMapping("/products")
     public ResponseEntity<Page<ProductDTO>> getProducts(Pageable pageable,
                                                               @RequestParam(required = false, defaultValue = "name,asc") String sort) {

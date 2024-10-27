@@ -14,11 +14,18 @@ async function fetchProducts(page = 1, size = 20, sort = currentSort) {
     }
 }
 
-
 function renderProducts(products) {
     const productsContainer = document.querySelector('.products-container .row');
+    const paginationContainer = document.querySelector('.pagination');
     productsContainer.innerHTML = '';
 
+    if (products.length === 0) {
+        productsContainer.innerHTML = '<p class="text-center mt-4">Товар не найден</p>';
+        paginationContainer.style.display = 'none';
+        return;
+    }
+
+    paginationContainer.style.display = 'flex';
     products.forEach(product => {
         const productCard = `
             <div class="col-md-4 col-lg-3 mb-4">
@@ -34,7 +41,7 @@ function renderProducts(products) {
                 </div>
             </div>
         `;
-        productsContainer.innerHTML += productCard;
+        productsContainer.insertAdjacentHTML('beforeend', productCard);
     });
     updateCartButtons();
 }
@@ -53,6 +60,13 @@ function updateCartButtons(){
 function setupPagination(totalPages, currentPage) {
     const paginationContainer = document.querySelector('.pagination');
     paginationContainer.innerHTML = '';
+
+    if (totalPages <= 1) {
+        paginationContainer.style.display = 'none';
+        return;
+    }
+
+    paginationContainer.style.display = 'flex';
 
     for (let i = 1; i <= totalPages; i++) {
         const pageItem = document.createElement('li');
@@ -98,3 +112,34 @@ scrollToTopBtn.addEventListener("click", () => {
     });
 });
 
+document.querySelector('form[role="search"]').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const searchInput = document.querySelector('.search-bar').value.trim();
+    if (searchInput){
+        searchProductByName(searchInput);
+    }
+});
+
+async function searchProductByName(name) {
+    try{
+        const response = await fetch(`/main/search?name=${encodeURIComponent(name)}&page=0&size=20`);
+        if (response.status === 404) {
+            showNoResultsMessage();
+            return;
+        }
+        if (!response.ok) throw new Error("Failed to fetch search results");
+
+        const data = await response.json();
+        renderProducts(data.content);
+        setupPagination(data.page.totalPages, 1);
+    }catch (error){
+        console.error("Error during search: ", error);
+    }
+}
+
+function showNoResultsMessage() {
+    const productsContainer = document.querySelector('.products-container .row');
+    const paginationContainer = document.querySelector('.pagination');
+    productsContainer.innerHTML = `<p class="text-center mt-4">Товар не найден</p>`;
+    paginationContainer.style.display = 'none';
+}

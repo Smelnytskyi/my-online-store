@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category - Online Store</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+    <div class="logo">Store Logo</div>
+    <div class="search-bar">
+        <input type="text" placeholder="Search">
+        <button>Найти</button>
+    </div>
+    <div class="icons">
+        <span class="user-icon">👤</span>
+        <span class="cart-icon">🛒 <span class="cart-count">5</span></span>
+    </div>
+</header>
+
+<!-- Category Section -->
+<section class="category-container">
+    <!-- Filter Sidebar -->
+    <aside class="filter-sidebar">
+        <h2>Процессоры</h2>
+        <button id="reset-filters">Сбросить</button>
+
+        <div class="filter-section">
+            <h3>Бренд</h3>
+            <label><input type="checkbox" value="AMD"> AMD</label>
+            <label><input type="checkbox" value="Intel"> Intel</label>
+        </div>
+
+        <div class="filter-section">
+            <h3>Серия</h3>
+            <label><input type="checkbox" value="Ryzen 5"> Ryzen 5</label>
+            <label><input type="checkbox" value="Ryzen 7"> Ryzen 7</label>
+        </div>
+
+        <div class="filter-section">
+            <h3>Цена</h3>
+            <input type="number" id="min-price" placeholder="Мин">
+            <input type="number" id="max-price" placeholder="Макс">
+            <button id="apply-price-filter">OK</button>
+        </div>
+    </aside>
+
+    <!-- Product Grid -->
+    <main class="product-grid-container">
+        <header class="category-header">
+            <h2>Процессоры</h2>
+            <div class="filter-tags">
+                <span class="filter-tag">AMD <button class="remove-tag">x</button></span>
+                <span class="filter-tag">Ryzen 5 <button class="remove-tag">x</button></span>
+            </div>
+            <select id="sort-options">
+                <option value="alphabetical">По алфавиту</option>
+                <option value="price-asc">Цена: по возрастанию</option>
+                <option value="price-desc">Цена: по убыванию</option>
+            </select>
+        </header>
+
+        <div class="product-grid">
+            <!-- Product Cards will be dynamically inserted here -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button class="page-btn">1</button>
+            <button class="page-btn">2</button>
+        </div>
+
+        <button id="back-to-top">🔝 Наверх</button>
+    </main>
+</section>
+
+<script src="scripts.js"></script>
+</body>
+</html>

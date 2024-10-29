@@ -1,5 +1,16 @@
 let currentSort = 'name,asc';
 
+async function loadTopPanel() {
+    try {
+        const response = await fetch('top-panel.html');
+        if (!response.ok) throw new Error("Failed to load top panel");
+        const html = await response.text();
+        document.getElementById('top-panel').innerHTML = html;
+    } catch (error) {
+        console.error("Error loading top panel:", error);
+    }
+}
+
 async function fetchProducts(page = 1, size = 20, sort = currentSort) {
     console.log(`Fetching products - Page: ${page}, Size: ${size}, Sort: ${sort}`);
     try {
@@ -36,25 +47,14 @@ function renderProducts(products) {
                         <p class="card-text">Цена: ${product.price} грн</p>
                         <p class="card-text">Количество: ${product.quantity}</p>
                         <a href="#" class="btn btn-primary">Подробнее</a>
-                        <a href="#" class="btn btn-outline-primary add-to-cart-btn">В корзину</a>
+                        <a href="#" class="btn btn-outline-primary add-to-cart-btn" data-product-id="${product.id}">В корзину</a>
                     </div>
                 </div>
             </div>
         `;
         productsContainer.insertAdjacentHTML('beforeend', productCard);
     });
-    updateCartButtons();
-}
-
-function updateCartButtons(){
-    let cartCount = 0;
-    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-        btn.addEventListener('click', () =>{
-            cartCount++;
-            document.getElementById('cartCount').textContent = cartCount;
-            document.getElementById('cartCount').style.color = "green";
-        });
-    });
+    loadCartCount();
 }
 
 function setupPagination(totalPages, currentPage) {
@@ -71,7 +71,7 @@ function setupPagination(totalPages, currentPage) {
     for (let i = 1; i <= totalPages; i++) {
         const pageItem = document.createElement('li');
         pageItem.classList.add('page-item');
-        if(i === currentPage){
+        if (i === currentPage) {
             pageItem.classList.add('active');
         }
 
@@ -92,11 +92,41 @@ document.getElementById('sortSelect').addEventListener('change', function() {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    loadTopPanel();
     fetchProducts();
 });
 
-const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+document.addEventListener('click', (event) => {
+    if (event.target.classList.contains('add-to-cart-btn')) {
+        event.preventDefault();
+        const productId = event.target.getAttribute('data-product-id');
+        addToCart(productId);
+    }
+});
 
+async function addToCart(productId) {
+    try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch('/main/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
+            body: JSON.stringify({ productId: productId, quantity: 1 })
+        });
+
+        if (!response.ok) throw new Error("Failed to add product to cart");
+        const data = await response.json().catch(() => ({}));
+        console.log(`Товар с ID ${productId} добавлен в корзину`, data);
+        loadCartCount();
+    } catch (error) {
+        console.error("Error adding product to cart:", error);
+    }
+}
+
+const scrollToTopBtn = document.getElementById("scrollToTopBtn");
 window.addEventListener("scroll", () => {
     if (window.scrollY > 300) {
         scrollToTopBtn.style.display = "block";
@@ -111,35 +141,3 @@ scrollToTopBtn.addEventListener("click", () => {
         behavior: 'smooth'
     });
 });
-
-document.querySelector('form[role="search"]').addEventListener('submit', (event) => {
-    event.preventDefault();
-    const searchInput = document.querySelector('.search-bar').value.trim();
-    if (searchInput){
-        searchProductByName(searchInput);
-    }
-});
-
-async function searchProductByName(name) {
-    try{
-        const response = await fetch(`/main/search?name=${encodeURIComponent(name)}&page=0&size=20`);
-        if (response.status === 404) {
-            showNoResultsMessage();
-            return;
-        }
-        if (!response.ok) throw new Error("Failed to fetch search results");
-
-        const data = await response.json();
-        renderProducts(data.content);
-        setupPagination(data.page.totalPages, 1);
-    }catch (error){
-        console.error("Error during search: ", error);
-    }
-}
-
-function showNoResultsMessage() {
-    const productsContainer = document.querySelector('.products-container .row');
-    const paginationContainer = document.querySelector('.pagination');
-    productsContainer.innerHTML = `<p class="text-center mt-4">Товар не найден</p>`;
-    paginationContainer.style.display = 'none';
-}

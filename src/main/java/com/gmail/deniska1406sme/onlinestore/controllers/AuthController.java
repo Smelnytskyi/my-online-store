@@ -32,8 +32,10 @@ public class AuthController {
         try {
             String token = passwordAuthenticationService.authenticate(email, password);
             return ResponseEntity.ok(Collections.singletonMap("token", token));
-        } catch (UserNotFoundException | AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Неправильный логин");
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Неправильный пароль");
         }
     }
 }

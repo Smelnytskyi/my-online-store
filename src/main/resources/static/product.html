@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="product.css">
+</head>
+<body>
+<header>
+    <div class="logo">Store Logo</div>
+    <input type="text" placeholder="Search">
+    <button>Найти</button>
+</header>
+
+<main>
+    <h1 id="product-title">Product Name</h1>
+    <p id="product-id">ID: </p>
+
+    <div class="product-details">
+        <!-- Left Section for Specifications -->
+        <div class="product-specs">
+            <ul id="specifications-list"></ul>
+        </div>
+
+        <!-- Right Section for Image, Price, etc. -->
+        <div class="product-overview">
+            <img id="product-image" src="" alt="Product Image">
+            <p id="product-price">Price: </p>
+            <p id="stock-status">Available in stock</p>
+            <button id="buy-button">Купить</button>
+        </div>
+    </div>
+</main>
+
+<script src="product.js"></script>
+</body>
+</html>

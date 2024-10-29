@@ -96,6 +96,20 @@ public class MainController {
         return ResponseEntity.ok(cartItemDTOS);
     }
 
+    @GetMapping("/cart/count")
+    public ResponseEntity<Map<String,Integer>> getCartCount(@RequestHeader(value = "Authorization", required = false) String token,
+                                                            HttpSession session){
+        ClientDTO clientDTO = getClientDTO(token, session);
+        Set<CartItemDTO> cartItemDTOS = cartService.getCartItems(clientDTO);
+        int count = 0;
+        for(CartItemDTO cartItemDTO : cartItemDTOS){
+            count += cartItemDTO.getQuantity();
+        }
+        Map<String,Integer> map = new HashMap<>();
+        map.put("count", count);
+        return ResponseEntity.ok(map);
+    }
+
     @PutMapping("/cart/update")
     public ResponseEntity<Void> updateProductQuantity(@RequestHeader(value = "Authorization", required = false) String token,
                                                       HttpSession session,

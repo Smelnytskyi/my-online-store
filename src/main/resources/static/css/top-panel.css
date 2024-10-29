@@ -1,0 +1,82 @@
+.navbar-icons a {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.navbar-brand {
+    color: white;
+}
+
+.navbar {
+    background-color: #333;
+}
+
+.cart-icon{
+    font-size: 32px;
+}
+
+.person-icon{
+    font-size: 32px;
+}
+
+.search-bar {
+    width: 400px;
+}
+
+.cart-count{
+    color: green;
+}
+
+.modal {
+    display: none; /* Скрываем модальное окно по умолчанию */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Увеличиваем z-index для отображения над другими элементами */
+}
+
+.modal-dialog {
+    width: 800px;
+    max-width: 90%;
+    overflow-x: auto;
+}
+
+#cartModal .modal-body {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+#authModal .modal-dialog{
+    width: 500px;
+    max-width: 90%;
+}
+
+#registerBtn, #googleAuthBtn {
+    color: white;
+    background-color: #4a90e2;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+#registerBtn:hover, #googleAuthBtn:hover {
+    background-color: #357ABD; /* Немного темнее при наведении */
+}
+
+#googleAuthBtn {
+    background-color: #db4437;
+}
+
+#googleAuthBtn:hover {
+    background-color: #c33b2e; /* Цвет при наведении */
+}
+

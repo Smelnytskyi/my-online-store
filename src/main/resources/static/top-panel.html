@@ -1,0 +1,61 @@
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Store Logo</a> <!-- Логотип -->
+        <form class="d-flex" role="search">
+            <input class="form-control search-bar" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Найти</button>
+        </form>
+        <div class="navbar-icons">
+            <a href="#" class="me-3" id="personBtn"><i class="bi bi-person-fill person-icon"></i></a>
+            <a href="#" class="me-3" id="cartBtn"><i class="bi bi-cart2 cart-icon"></i>
+                <span class="cart-count" id="cartCount">0</span></a>
+        </div>
+    </div>
+</nav>
+
+<div class="modal" id="cartModal" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Корзина</h5>
+                <button type="button" class="btn-close" id="closeCartBtn"></button>
+            </div>
+            <div class="modal-body" id="cartItemsContainer">
+                <!-- Здесь будет список товаров в корзине -->
+            </div>
+            <div class="modal-footer">
+                <span>Сумма: <span id="totalAmount">0 ₴</span></span>
+                <button class="btn btn-success" id="checkoutBtn">Оформить заказ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="authModal" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Авторизация</h5>
+                <button type="button" class="btn-close" id="closeAuthBtn"></button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Логин (ел.почта)</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Пароль</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="submitLoginForm()">Войти</button>
+                    <div id="errorContainer" style="display: none; color: red;"></div>
+                </form>
+                <div class="mt-3">
+                    <button id="registerBtn" class="btn btn-link">Регистрация</button>
+                    <button id="googleAuthBtn" class="btn btn-link">Войти через Google</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

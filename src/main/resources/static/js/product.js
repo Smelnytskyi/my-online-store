@@ -1,34 +1,68 @@
-// Sample JSON data (In real application, this would come from backend API)
-const productData = {
-    name: "MSI PCI-Ex GeForce RTX 4060",
-    id: "384220803",
-    price: "58 259 ₽",
-    stock: "In stock",
-    imageUrl: "path/to/image.png", // Replace with actual URL
-    specifications: {
-        "Графический чип": "GeForce RTX 4060",
-        "Частота памяти": "17000 MHz",
-        "Частота ядра": "2505 MHz",
-        "Объем памяти": "8 GB",
-        "Система охлаждения": "TORX FAN 4.0",
-        // Add more specifications as needed
+const urlParams = new URLSearchParams(window.location.search);
+const productId = urlParams.get('id');
+
+async function loadTopPanel() {
+    try {
+        const response = await fetch('top-panel.html');
+        if (!response.ok) throw new Error("Failed to load top panel");
+        const html = await response.text();
+        document.getElementById('top-panel').innerHTML = html;
+    } catch (error) {
+        console.error("Error loading top panel:", error);
     }
-};
+}
 
-// Populate HTML elements with data
-document.addEventListener("DOMContentLoaded", () => {
-    // Set title, ID, and image
-    document.getElementById("product-title").innerText = productData.name;
-    document.getElementById("product-id").innerText = `ID: ${productData.id}`;
-    document.getElementById("product-image").src = productData.imageUrl;
-    document.getElementById("product-price").innerText = `Цена: ${productData.price}`;
-    document.getElementById("stock-status").innerText = productData.stock;
 
-    // Populate specifications
-    const specsList = document.getElementById("specifications-list");
-    for (const [key, value] of Object.entries(productData.specifications)) {
-        const listItem = document.createElement("li");
-        listItem.innerHTML = `<strong>${key}</strong>: ${value}`;
-        specsList.appendChild(listItem);
+document.addEventListener("DOMContentLoaded", async () => {
+    loadTopPanel();
+
+    if (!productId) {
+        console.error("Product ID не найден в URL");
+        return;
+    }
+
+    try {
+        // Запрос данных продукта с сервера
+        const response = await fetch(`/main/product/${productId}`);
+        const product = await response.json();
+
+        // Отображение данных продукта на странице
+        document.getElementById('product-title').textContent = product.name;
+        document.getElementById('product-id').textContent = `ID: ${product.id}`;
+        document.getElementById('product-price').textContent = `Цена: ${product.price} грн`;
+        document.getElementById('stock-status').textContent = product.quantity > 0 ? "В наличии" : "Нет в наличии";
+        document.getElementById('product-image').src = product.imageUrl;
+
+        // Отображение характеристик
+        const specsList = document.getElementById('specifications-list');
+        for (const [key, value] of Object.entries(product.attributes)) {
+            const li = document.createElement('li');
+            li.innerHTML = `<span class="key">${key}:</span> <span class="value">${value}</span>`;
+            specsList.appendChild(li);
+        }
+    } catch (error) {
+        console.error("Ошибка загрузки данных продукта:", error);
+    }
+});
+
+document.getElementById('buy-button').addEventListener('click', async () => {
+    const cartItem = {
+        productId: parseInt(urlParams.get('id')),
+        quantity: 1
+    };
+    const token = localStorage.getItem('token');
+
+    try {
+        await fetch('/main/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
+            body: JSON.stringify(cartItem)
+        });
+        loadCartCount();
+    } catch (error) {
+        console.error("Ошибка при добавлении в корзину:", error);
     }
 });

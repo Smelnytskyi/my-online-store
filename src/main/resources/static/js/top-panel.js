@@ -154,8 +154,14 @@ async function removeFromCart(productId) {
     }
 }
 
-
 async function searchProductByName(name) {
+    // Проверяем, находится ли пользователь на главной странице
+    if (!window.location.pathname.endsWith('/index.html')) {
+        // Если нет, перенаправляем его на главную страницу с параметром поиска
+        window.location.href = `/index.html?search=${encodeURIComponent(name)}`;
+        return;
+    }
+
     try {
         const response = await fetch(`/main/search?name=${encodeURIComponent(name)}&page=0&size=20`);
         if (response.status === 404) {

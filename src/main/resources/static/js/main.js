@@ -46,7 +46,7 @@ function renderProducts(products) {
                         <h5 class="card-title">${product.name}</h5>
                         <p class="card-text">Цена: ${product.price} грн</p>
                         <p class="card-text">Количество: ${product.quantity}</p>
-                        <a href="#" class="btn btn-primary">Подробнее</a>
+                        <a href="product.html?id=${product.id}" class="btn btn-primary">Подробнее</a>
                         <a href="#" class="btn btn-outline-primary add-to-cart-btn" data-product-id="${product.id}">В корзину</a>
                     </div>
                 </div>
@@ -91,9 +91,19 @@ document.getElementById('sortSelect').addEventListener('change', function() {
     fetchProducts(1, 20, currentSort);
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadTopPanel();
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadTopPanel();
     fetchProducts();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('search');
+    if (searchQuery) {
+        const searchBar = document.querySelector('.search-bar');
+        if (searchBar) {
+            searchBar.value = searchQuery;
+            searchProductByName(searchQuery);
+        }
+    }
 });
 
 document.addEventListener('click', (event) => {

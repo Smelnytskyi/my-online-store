@@ -1,25 +1,37 @@
 package com.gmail.deniska1406sme.onlinestore.specification;
 
 import com.gmail.deniska1406sme.onlinestore.model.Product;
-import com.gmail.deniska1406sme.onlinestore.model.ProductCategory;
+import jakarta.persistence.criteria.MapJoin;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 
 public class ProductSpecification {
 
-    public static Specification<Product> hasName(String name) {
-        return (name == null) ? null : (root, query, cb) -> cb.like(root.get("name"), "%" + name + "%");
-    }
+    public static Specification<Product> filterByAttributes(Map<String, List<String>> filters, Double minPrice, Double maxPrice) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
 
-    public static Specification<Product> hasCategory(ProductCategory category) {
-        return (root, query, cb) -> cb.equal(root.get("category"), category);
-    }
+            for (Map.Entry<String, List<String>> entry : filters.entrySet()) {
+                String attributeName = entry.getKey();
+                List<String> attributeValues = entry.getValue();
 
-    public static Specification<Product> hasMinPrice(double price) {
-        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("price"), price);
-    }
+                if (!attributeValues.isEmpty()) {
+                    MapJoin<Product, String, String> attributesJoin = root.joinMap("attributes");
+                    predicates.add(criteriaBuilder.and(
+                            criteriaBuilder.equal(attributesJoin.key(), attributeName),
+                            attributesJoin.value().in(attributeValues)
+                    ));
+                }
+            }
 
-    public static Specification<Product> hasMaxPrice(double price) {
-        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("price"), price);
-    }
+            predicates.add(criteriaBuilder.between(root.get("price"), minPrice, maxPrice));
 
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+    }
 }

@@ -1,36 +1,4 @@
-/* General styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #333;
-    color: #fff;
-}
-
-.header .logo {
-    font-size: 24px;
-}
-
-.header .search-bar {
-    display: flex;
-}
-
-.header .search-bar input {
-    padding: 5px;
-}
-
-.header .icons {
-    display: flex;
-    align-items: center;
-}
-
+/* Общие стили */
 .category-container {
     display: flex;
     padding: 20px;
@@ -41,24 +9,29 @@ body {
     padding: 10px;
     background-color: #fff;
     border-right: 1px solid #ddd;
+    height: calc(100vh - 40px); /* Устанавливаем высоту */
+    overflow-y: auto; /* Прокрутка для фильтров */
 }
 
-.filter-sidebar h2 {
-    font-size: 20px;
-}
-
-.filter-sidebar h3 {
-    margin: 10px 0 5px;
-}
-
-.filter-sidebar label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.product-grid-container {
+.products-container {
     width: 80%;
     padding: 10px;
+    height: calc(100vh - 40px); /* Устанавливаем высоту */
+    overflow-y: auto; /* Прокрутка для товаров */
+}
+
+.price-filter {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.input-group input {
+    flex: 1;
 }
 
 .category-header {
@@ -70,6 +43,7 @@ body {
 .filter-tags {
     display: flex;
     gap: 5px;
+    flex-wrap: wrap; /* Чтобы теги не выходили за пределы */
 }
 
 .filter-tag {
@@ -78,38 +52,3 @@ body {
     border-radius: 5px;
 }
 
-.product-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.product-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 10px;
-    width: calc(33.33% - 10px);
-}
-
-.product-card img {
-    max-width: 100%;
-    height: auto;
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    margin: 20px 0;
-}
-
-#back-to-top {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}

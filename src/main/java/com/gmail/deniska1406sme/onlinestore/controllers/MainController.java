@@ -167,21 +167,12 @@ public class MainController {
         return ResponseEntity.ok(productDTOS);
     }
 
-    @GetMapping("/search-by-filter")
-    public ResponseEntity<Page<ProductDTO>> searchByFilter(Pageable pageable, @RequestBody @Valid ProductFilterDTO filterDTO,
-                                                           BindingResult bindingResult) {
-        Page<ProductDTO> productDTOS = productService.findFilteredProducts(pageable, filterDTO);
-        if (productDTOS.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(productDTOS);
-    }
-
     @Cacheable("attributes")
     @GetMapping("/get-product-attributes")
     public ResponseEntity<Map<String, Set<String>>> getProductAttributes(@RequestParam String category) {
+        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
         Map<String, Set<String>> attributes = new HashMap<>();
-        List<ProductDTO> productDTOS = productService.getProductsByCategory(ProductCategory.valueOf(category.toUpperCase()));
+        List<ProductDTO> productDTOS = productService.getProductsByCategory(ProductCategory.valueOf(category.toUpperCase()), pageable).getContent();
 
         for (ProductDTO productDTO : productDTOS) {
             Map<String, String> attribute = productDTO.getAttributes();
@@ -197,30 +188,24 @@ public class MainController {
     }
 
     @PostMapping("/search-by-attributes")
-    public ResponseEntity<List<ProductDTO>> searchByAttributes(@RequestBody Map<String, List<String>> filters){
-        List<ProductDTO> allProducts = productService.getAllProducts(Pageable.unpaged()).getContent();
+    public ResponseEntity<Page<ProductDTO>> searchByAttributes(
+            @RequestParam String category,
+            @RequestBody Map<String, List<String>> filters,
+            Pageable pageable) {
 
-        List<ProductDTO> filteredProducts = allProducts.stream()
-                .filter(productDTO -> productMatchFilters(productDTO, filters))
-                .collect(Collectors.toList());
-
+        Page<ProductDTO> filteredProducts = productService.searchProductByAttributes(category, filters, pageable);
         return ResponseEntity.ok(filteredProducts);
     }
 
-    private boolean productMatchFilters(ProductDTO productDTO, Map<String, List<String>> filters) {
-        Map<String, String> productAttributes = productDTO.getAttributes();
-
-        for (Map.Entry<String, List<String>> entry : filters.entrySet()) {
-            String attributeName = entry.getKey();
-            List<String> allowedValues = entry.getValue();
-
-            String productAttribute = productAttributes.get(attributeName);
-
-            if (productAttribute == null || !allowedValues.contains(productAttribute)) {
-                return false;
-            }
-        }
-        return true;
+    @GetMapping("/products-by-category")
+    public ResponseEntity<Page<ProductDTO>> getProductsByCategory(@RequestParam String category,
+                                                                  @RequestParam(required = false, defaultValue = "name,asc") String sort,
+                                                                  Pageable pageable) {
+        String[] sortParams = sort.split(",");
+        Sort sortObject = Sort.by(Sort.Direction.fromString(sortParams[1]), sortParams[0]);
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sortObject);
+        Page<ProductDTO> productDTOS = productService.getProductsByCategory(ProductCategory.valueOf(category.toUpperCase()), pageable);
+        return ResponseEntity.ok(productDTOS);
     }
 
     private ClientDTO getClientDTO(String token, HttpSession session) {

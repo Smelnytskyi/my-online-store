@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -107,29 +108,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public Page<ProductDTO> findFilteredProducts(Pageable pageable, ProductFilterDTO filterDTO) {
-        Specification<Product> specification = Specification.where(null);
-
-        if (filterDTO.getProductName() != null) {
-            specification = specification.and(ProductSpecification.hasName(filterDTO.getProductName()));
-        }
-        if (filterDTO.getCategory() != null) {
-            specification = specification.and(ProductSpecification.hasCategory(filterDTO.getCategory()));
-        }
-        if (filterDTO.getMinPrice() != null) {
-            specification = specification.and(ProductSpecification.hasMinPrice(filterDTO.getMinPrice()));
-        }
-        if (filterDTO.getMaxPrice() != null) {
-            specification = specification.and(ProductSpecification.hasMaxPrice(filterDTO.getMaxPrice()));
-        }
-
-        Page<Product> products = productRepository.findAll(specification, pageable);
-
-        return products.map(Product::toProductDTO);
-    }
-
-    @Transactional
-    @Override
     public Page<ProductDTO> getAllProducts(Pageable pageable) {
         Page<Product> products = productRepository.findAll(pageable);
         return products.map(Product::toProductDTO);
@@ -146,9 +124,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public List<ProductDTO> getProductsByCategory(ProductCategory category) {
-        List<Product> products = productRepository.findProductsByCategory(category);
-        return products.stream().map(Product::toProductDTO).toList();
+    public Page<ProductDTO> getProductsByCategory(ProductCategory category, Pageable pageable) {
+        Page<Product> products = productRepository.findProductsByCategory(category, pageable);
+        return products.map(Product::toProductDTO);
+
     }
 
     @Transactional
@@ -158,5 +137,17 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ProductNotFoundException("Product does not exist"));
         product.setQuantity(product.getQuantity() - quantity);
         productRepository.save(product);
+    }
+
+    @Transactional
+    @Override
+    public Page<ProductDTO> searchProductByAttributes(String category, Map<String, List<String>> filters, Pageable pageable) {
+        Double minPrice = filters.containsKey("price") && !filters.get("price").isEmpty() ? Double.parseDouble(filters.get("price").get(0)) : 0.0;
+        Double maxPrice = filters.containsKey("price") && filters.get("price").size() > 1 ? Double.parseDouble(filters.get("price").get(1)) : Double.MAX_VALUE;
+
+        Specification<Product> specification = ProductSpecification.filterByAttributes(filters, minPrice, maxPrice);
+        Page<Product> productDTOS = productRepository.findAll(specification,pageable);
+
+        return productDTOS.map(Product::toProductDTO);
     }
 }

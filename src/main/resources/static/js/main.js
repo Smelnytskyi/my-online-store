@@ -93,7 +93,6 @@ document.getElementById('sortSelect').addEventListener('change', function() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadTopPanel();
-    fetchProducts();
 
     const urlParams = new URLSearchParams(window.location.search);
     const searchQuery = urlParams.get('search');
@@ -102,6 +101,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (searchBar) {
             searchBar.value = searchQuery;
             searchProductByName(searchQuery);
+        }
+    }else {
+        // Вызываем fetchProducts только если нет параметра category
+        const category = urlParams.get('category');
+        if (!category) {
+            fetchProducts(); // Загружаем все товары
         }
     }
 });
@@ -151,3 +156,12 @@ scrollToTopBtn.addEventListener("click", () => {
         behavior: 'smooth'
     });
 });
+
+document.querySelectorAll('.categories-container .list-group-item').forEach(item => {
+    item.addEventListener('click', function(event) {
+        event.preventDefault();
+        const category = this.getAttribute('data-category');
+        window.location.href = `category.html?category=${category}`;
+    });
+});
+

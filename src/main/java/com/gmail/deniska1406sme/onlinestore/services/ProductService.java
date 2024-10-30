@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProductService {
 
@@ -20,13 +21,13 @@ public interface ProductService {
 
     Page<ProductDTO> findProductByName(String name, Pageable pageable);
 
-    Page<ProductDTO> findFilteredProducts(Pageable pageable, ProductFilterDTO filterDTO);
-
     Page<ProductDTO> findByQuantityLessThan(Pageable pageable, int quantity);
 
     Page<ProductDTO> getAllProducts(Pageable pageable);
 
-    List<ProductDTO> getProductsByCategory(ProductCategory category);
+    Page<ProductDTO> getProductsByCategory(ProductCategory category, Pageable pageable);
+
+    Page<ProductDTO> searchProductByAttributes(String category, Map<String, List<String>> filters, Pageable pageable);
 
     ProductDTO getProductById(Long id);
 }

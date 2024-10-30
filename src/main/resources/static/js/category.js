@@ -1,6 +1,7 @@
 const urlParams = new URLSearchParams(window.location.search);
 const category = urlParams.get('category'); // Получаем выбранную категорию из URL
 let selectedFilters = []; // Для хранения выбранных фильтров
+
 document.addEventListener('DOMContentLoaded', () => {
     if (category) {
         document.getElementById('category-title').innerText = category; // Устанавливаем заголовок категории
@@ -40,6 +41,7 @@ function fetchProductsByCategory(category, page = 1, size = 20, sort = currentSo
         .then(response => response.json())
         .then(data => {
             if (data.content) { // Убедитесь, что контент существует
+                console.log(data.page);
                 renderProducts(data.content); // Вызов функции для отображения товаров
                 setupPagination(data.page.totalPages, page); // Пагинация
             } else {
@@ -110,6 +112,7 @@ function applyPriceFilter(category, min, max) {
         .then(response => response.json())
         .then(data => {
             renderProducts(data.content); // Обновляем отображение товаров
+            setupPagination(data.page.totalPages, page);
         })
         .catch(error => console.error('Ошибка при фильтрации товаров по цене:', error));
 }
@@ -161,6 +164,7 @@ function applyFilters(category, page = 1, size = 20, sort = currentSort) {
         .then(response => response.json())
         .then(data => {
             renderProducts(data.content); // Обновляем отображение товаров
+            setupPagination(data.page.totalPages, page);
         })
         .catch(error => console.error('Ошибка при фильтрации товаров:', error));
 }

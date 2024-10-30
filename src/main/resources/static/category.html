@@ -13,32 +13,27 @@
 <body>
 <!-- Header -->
 <div id="top-panel"></div>
+
 <!-- Category Section -->
-<section class="category-container">
+<div class="category-container">
+
     <!-- Filter Sidebar -->
     <aside class="filter-sidebar">
-        <h2 id="category-title">Процессоры</h2>
-        <button id="reset-filters">Сбросить</button>
-        <div class="filter-section">
-            <h3>Цена</h3>
-            <div class="price-filter">
-                <label for="min-price">Минимальная цена:</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-cash"></i></span>
-                    <input type="number" id="min-price" placeholder="0" />
-                </div>
-                <label for="max-price">Максимальная цена:</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-cash"></i></span>
-                    <input type="number" id="max-price" placeholder="10000" />
-                </div>
-                <button id="apply-price-filters" class="btn btn-primary">Применить</button>
+        <div class="price-filter">
+            <label>Цена</label>
+            <div class="input-group">
+                <input type="number" id="minPrice" placeholder="Мин">
+                <input type="number" id="maxPrice" placeholder="Макс">
+                <button id="filterPrice">OK</button>
             </div>
+        </div>
+        <div class="filter-group">
         </div>
     </aside>
 
     <!-- Product Grid -->
     <main class="col-10 products-container">
+        <h1 id="category-title" class="category-title">Заголовок Категории</h1>
         <header class="category-header">
             <div class="filter-tags" id="filter-tags-container"></div>
         </header>
@@ -64,7 +59,7 @@
             <i class="bi bi-arrow-up"></i>
         </button>
     </main>
-</section>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/category.js"></script> <!-- JS -->

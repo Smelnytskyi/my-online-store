@@ -1,7 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const category = urlParams.get('category'); // Получаем выбранную категорию из URL
 let selectedFilters = []; // Для хранения выбранных фильтров
-
 document.addEventListener('DOMContentLoaded', () => {
     if (category) {
         document.getElementById('category-title').innerText = category; // Устанавливаем заголовок категории
@@ -18,6 +17,20 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             alert('Пожалуйста, введите корректные значения цен.');
         }
+    });
+
+    // Обработчик сброса фильтров
+    document.getElementById('reset-filters').addEventListener('click', () => {
+        document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
+        selectedFilters = []; // Сбрасываем выбранные фильтры
+        updateFilterTags(); // Обновляем отображение тегов
+        fetchProductsByCategory(category); // Перезагружаем товары без фильтров
+    });
+
+    // Обработчик изменения сортировки
+    document.getElementById('sortSelect').addEventListener('change', function() {
+        currentSort = this.value;
+        fetchProductsByCategory(category); // Перезагрузка товаров с новой сортировкой
     });
 });
 
@@ -49,6 +62,28 @@ function renderFilters(attributes) {
     const filterSidebar = document.querySelector('.filter-sidebar');
     filterSidebar.innerHTML = ''; // Очищаем перед отрисовкой новых фильтров
 
+    // Сначала добавляем фильтр по цене
+    const priceFilterSection = document.createElement('div');
+    priceFilterSection.classList.add('filter-section');
+    priceFilterSection.innerHTML = `
+        <h3>Цена</h3>
+        <div class="price-filter">
+            <label for="min-price">Минимальная цена:</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-cash"></i></span>
+                <input type="number" id="min-price" placeholder="0" />
+            </div>
+            <label for="max-price">Максимальная цена:</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-cash"></i></span>
+                <input type="number" id="max-price" placeholder="10000" />
+            </div>
+            <button id="apply-price-filters" class="btn btn-primary">Применить</button>
+        </div>
+    `;
+    filterSidebar.appendChild(priceFilterSection);
+
+    // Добавляем фильтры по атрибутам
     for (let [attribute, values] of Object.entries(attributes)) {
         const filterSection = document.createElement('div');
         filterSection.classList.add('filter-section');
@@ -129,18 +164,3 @@ function applyFilters(category, page = 1, size = 20, sort = currentSort) {
         })
         .catch(error => console.error('Ошибка при фильтрации товаров:', error));
 }
-
-// Функция для сброса фильтров и загрузки всех товаров категории
-document.getElementById('reset-filters').addEventListener('click', () => {
-    document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
-    selectedFilters = []; // Сбрасываем выбранные фильтры
-    updateFilterTags(); // Обновляем отображение тегов
-    const category = new URLSearchParams(window.location.search).get('category');
-    fetchProductsByCategory(category); // Перезагружаем товары без фильтров
-});
-
-// Обработчик изменения сортировки
-document.getElementById('sortSelect').addEventListener('change', function() {
-    currentSort = this.value;
-    fetchProductsByCategory(category); // Перезагрузка товаров с новой сортировкой
-});

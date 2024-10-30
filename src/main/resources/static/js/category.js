@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchAttributesByCategory(category); // Загружаем фильтры для выбранной категории
     }
 
+    updateFilterTags();
+
     // Обработчик для кнопки применения фильтров по цене
     document.getElementById('apply-price-filters').addEventListener('click', () => {
         const minPrice = parseFloat(document.getElementById('min-price').value);
@@ -94,7 +96,9 @@ function renderFilters(attributes) {
         values.forEach(value => {
             const checkbox = document.createElement('label');
             checkbox.innerHTML = `<input type="checkbox" value="${value}"> ${value}`;
-            checkbox.querySelector('input').addEventListener('change', () => applyFilters(category)); // Добавляем событие для применения фильтра
+            checkbox.querySelector('input').addEventListener('change', function() {
+                toggleFilter(attribute, value); // Используем toggleFilter
+            });
             filterSection.appendChild(checkbox);
         });
         filterSidebar.appendChild(filterSection);
@@ -133,28 +137,34 @@ function updateFilterTags() {
     document.querySelectorAll('.remove-tag').forEach(button => {
         button.addEventListener('click', (e) => {
             const filterToRemove = e.target.getAttribute('data-filter');
-            selectedFilters = selectedFilters.filter(f => f !== filterToRemove);
-            updateFilterTags(); // Обновляем отображение тегов
-            applyFilters(category); // Применяем фильтры заново
+            removeFilter(filterToRemove); // Удаляем фильтр и обновляем страницу
         });
     });
+}
+
+// Функция для добавления или удаления фильтра
+function toggleFilter(attribute, value) {
+    const filterIndex = selectedFilters.findIndex(filter => filter === value);
+    if (filterIndex === -1) {
+        selectedFilters.push(value); // Добавляем фильтр, если его нет в списке
+    } else {
+        selectedFilters.splice(filterIndex, 1); // Удаляем фильтр, если он уже есть
+    }
+    updateFilterTags(); // Обновляем отображение тегов
+    applyFilters(category); // Применяем фильтры к товарам
 }
 
 // Обновляем фильтры при выборе чекбоксов
 function applyFilters(category, page = 1, size = 20, sort = currentSort) {
     const filters = {};
+
     document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked').forEach(checkbox => {
         const attribute = checkbox.closest('.filter-section').querySelector('h3').innerText;
         if (!filters[attribute]) filters[attribute] = [];
         filters[attribute].push(checkbox.value);
 
-        // Обновляем выбранные фильтры
-        if (!selectedFilters.includes(checkbox.value)) {
-            selectedFilters.push(checkbox.value);
-        }
     });
 
-    updateFilterTags(); // Обновляем отображение тегов фильтров
 
     fetch(`/main/search-by-attributes?category=${category}&page=${page - 1}&size=${size}&sort=${sort}`, {
         method: 'POST',
@@ -168,3 +178,27 @@ function applyFilters(category, page = 1, size = 20, sort = currentSort) {
         })
         .catch(error => console.error('Ошибка при фильтрации товаров:', error));
 }
+
+// Функция для удаления фильтра и обновления чекбокса
+function removeFilter(value) {
+    // Удаляем фильтр из selectedFilters
+    selectedFilters = selectedFilters.filter(filter => filter !== value);
+
+    // Обновляем чекбокс
+    document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
+        if (checkbox.value === value) {
+            checkbox.checked = false;
+        }
+    });
+
+    updateFilterTags(); // Обновляем отображение тегов
+    applyFilters(category); // Применяем обновленные фильтры к товарам
+}
+
+// Устанавливаем обработчик на все чекбоксы
+document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        const attribute = this.closest('.filter-section').querySelector('h3').innerText;
+        toggleFilter(attribute, this.value);
+    });
+});

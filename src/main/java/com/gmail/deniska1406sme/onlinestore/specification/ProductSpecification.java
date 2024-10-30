@@ -28,7 +28,6 @@ public class ProductSpecification {
                     ));
                 }
             }
-
             predicates.add(criteriaBuilder.between(root.get("price"), minPrice, maxPrice));
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

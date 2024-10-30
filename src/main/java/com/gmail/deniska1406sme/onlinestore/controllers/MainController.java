@@ -190,10 +190,12 @@ public class MainController {
     @PostMapping("/search-by-attributes")
     public ResponseEntity<Page<ProductDTO>> searchByAttributes(
             @RequestParam String category,
+            @RequestParam(required = false, defaultValue = "0") Double minPrice,
+            @RequestParam(required = false, defaultValue = "1.7976931348623157E308") Double maxPrice,
             @RequestBody Map<String, List<String>> filters,
             Pageable pageable) {
 
-        Page<ProductDTO> filteredProducts = productService.searchProductByAttributes(category, filters, pageable);
+        Page<ProductDTO> filteredProducts = productService.searchProductByAttributes(category, filters, minPrice, maxPrice, pageable);
         return ResponseEntity.ok(filteredProducts);
     }
 

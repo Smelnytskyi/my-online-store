@@ -27,7 +27,8 @@ public interface ProductService {
 
     Page<ProductDTO> getProductsByCategory(ProductCategory category, Pageable pageable);
 
-    Page<ProductDTO> searchProductByAttributes(String category, Map<String, List<String>> filters, Pageable pageable);
+    Page<ProductDTO> searchProductByAttributes(String category, Map<String, List<String>> filters,
+                                               Double minPrice, Double maxPrice, Pageable pageable);
 
     ProductDTO getProductById(Long id);
 }

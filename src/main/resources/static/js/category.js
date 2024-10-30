@@ -10,17 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     updateFilterTags();
-
-    // Обработчик для кнопки применения фильтров по цене
-    document.getElementById('apply-price-filters').addEventListener('click', () => {
-        const minPrice = parseFloat(document.getElementById('min-price').value);
-        const maxPrice = parseFloat(document.getElementById('max-price').value);
-        if (!isNaN(minPrice) && !isNaN(maxPrice) && minPrice <= maxPrice) {
-            applyPriceFilter(category, minPrice, maxPrice);
-        } else {
-            alert('Пожалуйста, введите корректные значения цен.');
-        }
-    });
 });
 
 // Функция для загрузки товаров выбранной категории
@@ -29,7 +18,6 @@ function fetchProductsByCategory(category, page = 1, size = 20, sort = currentSo
         .then(response => response.json())
         .then(data => {
             if (data.content) { // Убедитесь, что контент существует
-                console.log(data.page);
                 renderProducts(data.content); // Вызов функции для отображения товаров
                 setupPagination(data.page.totalPages, page); // Пагинация
             } else {
@@ -73,6 +61,18 @@ function renderFilters(attributes) {
     `;
     filterSidebar.appendChild(priceFilterSection);
 
+    document.getElementById('apply-price-filters').addEventListener('click', () => {
+        const minPrice = parseFloat(document.getElementById('min-price').value);
+        const maxPrice = parseFloat(document.getElementById('max-price').value);
+
+        // Проверка корректности введенных данных
+        if (!isNaN(minPrice) && !isNaN(maxPrice) && minPrice <= maxPrice) {
+            applyPriceFilter(category, minPrice, maxPrice);
+        } else {
+            alert('Пожалуйста, введите корректные значения цен.');
+        }
+    });
+
     // Добавляем фильтры по атрибутам
     for (let [attribute, values] of Object.entries(attributes)) {
         const filterSection = document.createElement('div');
@@ -92,12 +92,20 @@ function renderFilters(attributes) {
 }
 
 // Функция для применения фильтров по цене
-function applyPriceFilter(category, min, max) {
-    const filters = { price: { min, max } };
-    fetch(`/main/search-by-attributes?category=${category}`, {
+function applyPriceFilter(category, min, max, page = 1) {
+
+    // Проверка на наличие выбранных атрибутов
+    const selectedAttributes = {};
+    document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked').forEach(checkbox => {
+        const attribute = checkbox.closest('.filter-section').querySelector('h3').innerText;
+        if (!selectedAttributes[attribute]) selectedAttributes[attribute] = [];
+        selectedAttributes[attribute].push(checkbox.value);
+    });
+
+    fetch(`/main/search-by-attributes?category=${category}&minPrice=${min}&maxPrice=${max}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(filters)
+        body: JSON.stringify(selectedAttributes)
     })
         .then(response => response.json())
         .then(data => {
@@ -161,9 +169,7 @@ function applyFilters(category, page = 1, size = 20, sort = currentSort) {
         const attribute = checkbox.closest('.filter-section').querySelector('h3').innerText;
         if (!filters[attribute]) filters[attribute] = [];
         filters[attribute].push(checkbox.value);
-
     });
-
 
     fetch(`/main/search-by-attributes?category=${category}&page=${page - 1}&size=${size}&sort=${sort}`, {
         method: 'POST',

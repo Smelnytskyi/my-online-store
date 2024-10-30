@@ -141,13 +141,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public Page<ProductDTO> searchProductByAttributes(String category, Map<String, List<String>> filters, Pageable pageable) {
-        Double minPrice = filters.containsKey("price") && !filters.get("price").isEmpty() ? Double.parseDouble(filters.get("price").get(0)) : 0.0;
-        Double maxPrice = filters.containsKey("price") && filters.get("price").size() > 1 ? Double.parseDouble(filters.get("price").get(1)) : Double.MAX_VALUE;
-
+    public Page<ProductDTO> searchProductByAttributes(String category, Map<String, List<String>> filters,
+                                                      Double minPrice, Double maxPrice, Pageable pageable) {
         Specification<Product> specification = ProductSpecification.filterByAttributes(filters, minPrice, maxPrice);
         Page<Product> productDTOS = productRepository.findAll(specification,pageable);
-
         return productDTOS.map(Product::toProductDTO);
     }
 }

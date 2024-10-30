@@ -21,15 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Пожалуйста, введите корректные значения цен.');
         }
     });
-
-    // Обработчик сброса фильтров
-    document.getElementById('reset-filters').addEventListener('click', () => {
-        document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
-        selectedFilters = []; // Сбрасываем выбранные фильтры
-        updateFilterTags(); // Обновляем отображение тегов
-        fetchProductsByCategory(category); // Перезагружаем товары без фильтров
-    });
-
 });
 
 // Функция для загрузки товаров выбранной категории
@@ -121,6 +112,19 @@ function updateFilterTags() {
     const filterTagsContainer = document.getElementById('filter-tags-container');
     filterTagsContainer.innerHTML = ''; // Очищаем перед отрисовкой новых тегов
 
+    // Добавляем тег "Сброс", если есть выбранные фильтры
+    if (selectedFilters.length > 0) {
+        const resetTag = document.createElement('span');
+        resetTag.classList.add('filter-tag');
+        resetTag.innerHTML = 'Сброс <button class="remove-tag" id="reset-tag">x</button>';
+        filterTagsContainer.appendChild(resetTag);
+
+        // Обработчик для тега "Сброс"
+        resetTag.querySelector('#reset-tag').addEventListener('click', () => {
+            resetFilters(); // Сброс всех фильтров
+        });
+    }
+
     selectedFilters.forEach(filter => {
         const tag = document.createElement('span');
         tag.classList.add('filter-tag');
@@ -197,3 +201,14 @@ document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(chec
         toggleFilter(attribute, this.value);
     });
 });
+
+// Функция для сброса всех фильтров
+function resetFilters() {
+    // Сбрасываем выбранные фильтры
+    selectedFilters = [];
+    document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = false; // Сбрасываем чекбоксы
+    });
+    updateFilterTags(); // Обновляем отображение тегов
+    fetchProductsByCategory(category); // Перезагружаем товары без фильтров
+}

@@ -86,11 +86,6 @@ function setupPagination(totalPages, currentPage) {
     }
 }
 
-document.getElementById('sortSelect').addEventListener('change', function() {
-    currentSort = this.value;
-    fetchProducts(1, 20, currentSort);
-});
-
 document.addEventListener('DOMContentLoaded', async () => {
     await loadTopPanel();
 
@@ -108,6 +103,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!category) {
             fetchProducts(); // Загружаем все товары
         }
+    }
+
+    //Сортировка в зависимости от страницы
+    const currentPage = document.body.getAttribute('data-page');
+    if(currentPage === 'category'){
+        document.getElementById('sortSelect').addEventListener('change', function() {
+            currentSort = this.value;
+            if (selectedFilters.length > 0) {
+                applyFilters(category, 1, 20, currentSort); // Применение сортировки к фильтрованным товарам
+            } else {
+                fetchProductsByCategory(category, 1, 20, currentSort); // Сортировка всех товаров категории
+            }
+        });
+    }else if(currentPage === 'main'){
+        document.getElementById('sortSelect').addEventListener('change', function() {
+            currentSort = this.value;
+            fetchProducts(1, 20, currentSort);
+        });
     }
 });
 

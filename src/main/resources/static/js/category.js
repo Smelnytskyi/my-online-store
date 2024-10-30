@@ -30,11 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchProductsByCategory(category); // Перезагружаем товары без фильтров
     });
 
-    // Обработчик изменения сортировки
-    document.getElementById('sortSelect').addEventListener('change', function() {
-        currentSort = this.value;
-        fetchProductsByCategory(category); // Перезагрузка товаров с новой сортировкой
-    });
 });
 
 // Функция для загрузки товаров выбранной категории

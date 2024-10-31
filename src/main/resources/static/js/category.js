@@ -38,21 +38,23 @@ function fetchAttributesByCategory(category) {
 // Функция для отображения доступных фильтров (создает чекбоксы для каждого атрибута)
 function renderFilters(attributes) {
     const filterSidebar = document.querySelector('.filter-sidebar');
-    filterSidebar.innerHTML += `<h5>Дополнительные фильтры</h5>`; // Очищаем перед отрисовкой новых фильтров
+    filterSidebar.innerHTML = ''; // Очищаем перед отрисовкой новых фильтров
 
     // Сначала добавляем фильтр по цене
     const priceFilterSection = document.createElement('div');
-    priceFilterSection.classList.add('filter-section', 'mb-3');
+    priceFilterSection.classList.add('filter-section');
     priceFilterSection.innerHTML = `
-        <h6>Цена</h6>
+        <h3>Цена</h3>
         <div class="price-filter">
-            <div class="input-group mb-2">
-                <span class="input-group-text">Мин</span>
-                <input type="number" id="min-price" class="form-control" placeholder="0" />
+            <label for="min-price">Минимальная цена:</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-cash"></i></span>
+                <input type="number" id="min-price" placeholder="0" />
             </div>
-            <div class="input-group mb-2">
-                <span class="input-group-text">Макс</span>
-                <input type="number" id="max-price" class="form-control" placeholder="10000" />
+            <label for="max-price">Максимальная цена:</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-cash"></i></span>
+                <input type="number" id="max-price" placeholder="10000" />
             </div>
             <button id="apply-price-filters" class="btn btn-primary">Применить</button>
         </div>
@@ -74,16 +76,12 @@ function renderFilters(attributes) {
     // Добавляем фильтры по атрибутам
     for (let [attribute, values] of Object.entries(attributes)) {
         const filterSection = document.createElement('div');
-        filterSection.classList.add('filter-section', 'mb-3');
-        filterSection.innerHTML = `<h6>${attribute}</h6>`;
+        filterSection.classList.add('filter-section');
+        filterSection.innerHTML = `<h3>${attribute}</h3>`;
 
         values.forEach(value => {
             const checkbox = document.createElement('label');
-            checkbox.classList.add('form-check');
-            checkbox.innerHTML = `
-                <input class="form-check-input" type="checkbox" value="${value}" id="${attribute}-${value}">
-                <label class="form-check-label" for="${attribute}-${value}">${value}</label>
-            `;
+            checkbox.innerHTML = `<input type="checkbox" value="${value}"> ${value}`;
             checkbox.querySelector('input').addEventListener('change', function() {
                 toggleFilter(attribute, value); // Используем toggleFilter
             });
@@ -124,12 +122,9 @@ function updateFilterTags() {
 
     // Добавляем тег "Сброс", если есть выбранные фильтры
     if (selectedFilters.length > 0) {
-        const resetTag = document.createElement('div');
-        resetTag.classList.add('badge', 'bg-danger', 'me-2', 'mb-2'); // Используем классы Bootstrap
-        resetTag.innerHTML = `
-        Сброс 
-        <button class="btn-close btn-close-white" aria-label="Close" id="reset-tag"></button>
-    `;
+        const resetTag = document.createElement('span');
+        resetTag.classList.add('filter-tag');
+        resetTag.innerHTML = 'Сброс <button class="remove-tag" id="reset-tag">x</button>';
         filterTagsContainer.appendChild(resetTag);
 
         // Обработчик для тега "Сброс"
@@ -139,21 +134,11 @@ function updateFilterTags() {
     }
 
     selectedFilters.forEach(filter => {
-        const tag = document.createElement('div');
-        tag.classList.add('badge', 'bg-secondary', 'me-2', 'mb-2'); // Используем классы Bootstrap для стилизации
-        tag.innerHTML = `
-        ${filter} 
-        <button class="btn-close btn-close-white" aria-label="Close" data-filter="${filter}"></button>
-    `;
+        const tag = document.createElement('span');
+        tag.classList.add('filter-tag');
+        tag.innerHTML = `${filter} <button class="remove-tag" data-filter="${filter}">x</button>`;
         filterTagsContainer.appendChild(tag);
-
-        // Добавляем обработчик для удаления фильтра
-        tag.querySelector('.btn-close').addEventListener('click', (e) => {
-            const filterToRemove = e.target.getAttribute('data-filter');
-            removeFilter(filterToRemove); // Удаляем фильтр и обновляем
-        });
     });
-
 
     // Добавляем обработчики для удаления тегов
     document.querySelectorAll('.remove-tag').forEach(button => {
@@ -230,11 +215,9 @@ function resetFilters() {
     document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
         checkbox.checked = false; // Сбрасываем чекбоксы
     });
-
     // Сбрасываем поля стоимости
     document.getElementById('min-price').value = '';
     document.getElementById('max-price').value = '';
-
     updateFilterTags(); // Обновляем отображение тегов
     fetchProductsByCategory(category); // Перезагружаем товары без фильтров
 }

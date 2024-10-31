@@ -135,17 +135,16 @@ function updateFilterTags() {
         });
     }
 
+    // Создаем теги для каждого выбранного фильтра
     selectedFilters.forEach(filter => {
         const tag = document.createElement('span');
         tag.classList.add('filter-tag', 'badge', 'bg-secondary', 'me-1');
         tag.innerHTML = `${filter} <button class="btn-close btn-sm" data-filter="${filter}"></button>`;
         filterTagsContainer.appendChild(tag);
-    });
 
-    document.querySelectorAll('.remove-tag').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const filterToRemove = e.target.getAttribute('data-filter');
-            removeFilter(filterToRemove);
+        // Обработчик для удаления тега
+        tag.querySelector('button').addEventListener('click', () => {
+            removeFilter(filter); // Удаляем фильтр и обновляем страницу
         });
     });
 }

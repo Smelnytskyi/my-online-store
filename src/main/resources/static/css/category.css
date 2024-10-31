@@ -9,15 +9,15 @@
     padding: 10px;
     background-color: #fff;
     border-right: 1px solid #ddd;
-    height: calc(100vh - 40px); /* Устанавливаем высоту */
-    overflow-y: auto; /* Прокрутка для фильтров */
+    height: calc(100vh - 40px);
+    overflow-y: auto;
 }
 
 .products-container {
     width: 80%;
     padding: 10px;
-    height: calc(100vh - 40px); /* Устанавливаем высоту */
-    overflow-y: auto; /* Прокрутка для товаров */
+    height: calc(100vh - 40px);
+    overflow-y: auto;
 }
 
 .price-filter {
@@ -27,11 +27,6 @@
 .input-group {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
-}
-
-.input-group input {
-    flex: 1;
 }
 
 .category-header {
@@ -43,12 +38,19 @@
 .filter-tags {
     display: flex;
     gap: 5px;
-    flex-wrap: wrap; /* Чтобы теги не выходили за пределы */
+    flex-wrap: wrap;
 }
 
 .filter-tag {
     background-color: #e1e1e1;
     padding: 5px;
     border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.remove-tag {
+    margin-left: 5px;
+    cursor: pointer;
 }
 

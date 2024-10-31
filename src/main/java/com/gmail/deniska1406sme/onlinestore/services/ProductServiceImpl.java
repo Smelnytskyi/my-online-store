@@ -143,7 +143,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductDTO> searchProductByAttributes(String category, Map<String, List<String>> filters,
                                                       Double minPrice, Double maxPrice, Pageable pageable) {
-        Specification<Product> specification = ProductSpecification.filterByAttributes(filters, minPrice, maxPrice);
+        ProductCategory productCategory = ProductCategory.valueOf(category.toUpperCase());
+        Specification<Product> specification = ProductSpecification.filterByAttributes(productCategory, filters, minPrice, maxPrice);
         Page<Product> productDTOS = productRepository.findAll(specification,pageable);
         return productDTOS.map(Product::toProductDTO);
     }

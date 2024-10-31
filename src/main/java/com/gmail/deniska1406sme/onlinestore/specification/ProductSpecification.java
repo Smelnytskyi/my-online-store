@@ -1,6 +1,7 @@
 package com.gmail.deniska1406sme.onlinestore.specification;
 
 import com.gmail.deniska1406sme.onlinestore.model.Product;
+import com.gmail.deniska1406sme.onlinestore.model.ProductCategory;
 import jakarta.persistence.criteria.MapJoin;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
@@ -12,9 +13,12 @@ import java.util.Map;
 
 public class ProductSpecification {
 
-    public static Specification<Product> filterByAttributes(Map<String, List<String>> filters, Double minPrice, Double maxPrice) {
+    public static Specification<Product> filterByAttributes(ProductCategory category, Map<String, List<String>> filters,
+                                                            Double minPrice, Double maxPrice) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
+
+            predicates.add(criteriaBuilder.equal(root.get("category"), category));
 
             for (Map.Entry<String, List<String>> entry : filters.entrySet()) {
                 String attributeName = entry.getKey();

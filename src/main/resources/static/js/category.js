@@ -1,6 +1,8 @@
 const urlParams = new URLSearchParams(window.location.search);
 const category = urlParams.get('category'); // Получаем выбранную категорию из URL
 let selectedFilters = []; // Для хранения выбранных фильтров
+let minPrice = null; // Для хранения минимальной цены
+let maxPrice = null; // Для хранения максимальной цены
 
 document.addEventListener('DOMContentLoaded', () => {
     if (category) {
@@ -99,6 +101,9 @@ function renderFilters(attributes) {
 
 // Функция для применения фильтров по цене
 function applyPriceFilter(category, min, max, page = 1, sort = currentSort) {
+    minPrice = min; // Сохраняем минимальную цену
+    maxPrice = max; // Сохраняем максимальную цену
+
     const selectedAttributes = {};
     document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked').forEach(checkbox => {
         const attribute = checkbox.closest('.filter-section').querySelector('h4').innerText;
@@ -171,7 +176,21 @@ function applyFilters(category, page = 1, size = 20, sort = currentSort) {
         filters[attribute].push(checkbox.value);
     });
 
-    fetch(`/main/search-by-attributes?category=${category}&page=${page - 1}&size=${size}&sort=${sort}`, {
+    const url = new URL(`/main/search-by-attributes`, window.location.origin);
+    url.searchParams.append('category', category);
+    url.searchParams.append('page', page - 1);
+    url.searchParams.append('size', size);
+    url.searchParams.append('sort', sort);
+
+    // Добавляем параметры стоимости, если они установлены
+    if (minPrice !== null) {
+        url.searchParams.append('minPrice', minPrice);
+    }
+    if (maxPrice !== null) {
+        url.searchParams.append('maxPrice', maxPrice);
+    }
+
+    fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(filters)

@@ -40,24 +40,26 @@ function renderFilters(attributes) {
     const filterSidebar = document.querySelector('.filter-sidebar');
     filterSidebar.innerHTML = ''; // Очищаем перед отрисовкой новых фильтров
 
-    // Сначала добавляем фильтр по цене
+    // Добавляем секцию фильтрации по цене
     const priceFilterSection = document.createElement('div');
-    priceFilterSection.classList.add('filter-section');
+    priceFilterSection.classList.add('filter-section', 'mb-3', 'p-3', 'border', 'rounded');
     priceFilterSection.innerHTML = `
-        <h3>Цена</h3>
-        <div class="price-filter">
-            <label for="min-price">Минимальная цена:</label>
+        <h4 class="mb-3">Цена</h4>
+        <div class="mb-3">
+            <label for="min-price" class="form-label">Минимальная цена:</label>
             <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-cash"></i></span>
-                <input type="number" id="min-price" placeholder="0" />
+                <input type="number" id="min-price" placeholder="0" class="form-control" />
             </div>
-            <label for="max-price">Максимальная цена:</label>
-            <div class="input-group">
-                <span class="input-group-text"><i class="bi bi-cash"></i></span>
-                <input type="number" id="max-price" placeholder="10000" />
-            </div>
-            <button id="apply-price-filters" class="btn btn-primary">Применить</button>
         </div>
+        <div class="mb-3">
+            <label for="max-price" class="form-label">Максимальная цена:</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-cash"></i></span>
+                <input type="number" id="max-price" placeholder="10000" class="form-control" />
+            </div>
+        </div>
+        <button id="apply-price-filters" class="btn btn-primary w-100">Применить</button>
     `;
     filterSidebar.appendChild(priceFilterSection);
 
@@ -76,12 +78,16 @@ function renderFilters(attributes) {
     // Добавляем фильтры по атрибутам
     for (let [attribute, values] of Object.entries(attributes)) {
         const filterSection = document.createElement('div');
-        filterSection.classList.add('filter-section');
-        filterSection.innerHTML = `<h3>${attribute}</h3>`;
+        filterSection.classList.add('filter-section', 'mb-3', 'p-3', 'border', 'rounded');
+        filterSection.innerHTML = `<h4>${attribute}</h4>`;
 
         values.forEach(value => {
-            const checkbox = document.createElement('label');
-            checkbox.innerHTML = `<input type="checkbox" value="${value}"> ${value}`;
+            const checkbox = document.createElement('div');
+            checkbox.classList.add('form-check');
+            checkbox.innerHTML = `
+                <input type="checkbox" class="form-check-input" value="${value}" id="${attribute}-${value}">
+                <label class="form-check-label" for="${attribute}-${value}">${value}</label>
+            `;
             checkbox.querySelector('input').addEventListener('change', function() {
                 toggleFilter(attribute, value); // Используем toggleFilter
             });
@@ -93,11 +99,9 @@ function renderFilters(attributes) {
 
 // Функция для применения фильтров по цене
 function applyPriceFilter(category, min, max, page = 1) {
-
-    // Проверка на наличие выбранных атрибутов
     const selectedAttributes = {};
     document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked').forEach(checkbox => {
-        const attribute = checkbox.closest('.filter-section').querySelector('h3').innerText;
+        const attribute = checkbox.closest('.filter-section').querySelector('h4').innerText;
         if (!selectedAttributes[attribute]) selectedAttributes[attribute] = [];
         selectedAttributes[attribute].push(checkbox.value);
     });
@@ -109,7 +113,7 @@ function applyPriceFilter(category, min, max, page = 1) {
     })
         .then(response => response.json())
         .then(data => {
-            renderProducts(data.content); // Обновляем отображение товаров
+            renderProducts(data.content);
             setupPagination(data.page.totalPages, page);
         })
         .catch(error => console.error('Ошибка при фильтрации товаров по цене:', error));
@@ -118,33 +122,30 @@ function applyPriceFilter(category, min, max, page = 1) {
 // Функция для отображения тегов фильтров
 function updateFilterTags() {
     const filterTagsContainer = document.getElementById('filter-tags-container');
-    filterTagsContainer.innerHTML = ''; // Очищаем перед отрисовкой новых тегов
+    filterTagsContainer.innerHTML = '';
 
-    // Добавляем тег "Сброс", если есть выбранные фильтры
     if (selectedFilters.length > 0) {
         const resetTag = document.createElement('span');
-        resetTag.classList.add('filter-tag');
-        resetTag.innerHTML = 'Сброс <button class="remove-tag" id="reset-tag">x</button>';
+        resetTag.classList.add('filter-tag', 'badge', 'bg-danger', 'me-1');
+        resetTag.innerHTML = 'Сброс <button class="btn-close btn-sm" id="reset-tag"></button>';
         filterTagsContainer.appendChild(resetTag);
 
-        // Обработчик для тега "Сброс"
         resetTag.querySelector('#reset-tag').addEventListener('click', () => {
-            resetFilters(); // Сброс всех фильтров
+            resetFilters();
         });
     }
 
     selectedFilters.forEach(filter => {
         const tag = document.createElement('span');
-        tag.classList.add('filter-tag');
-        tag.innerHTML = `${filter} <button class="remove-tag" data-filter="${filter}">x</button>`;
+        tag.classList.add('filter-tag', 'badge', 'bg-secondary', 'me-1');
+        tag.innerHTML = `${filter} <button class="btn-close btn-sm" data-filter="${filter}"></button>`;
         filterTagsContainer.appendChild(tag);
     });
 
-    // Добавляем обработчики для удаления тегов
     document.querySelectorAll('.remove-tag').forEach(button => {
         button.addEventListener('click', (e) => {
             const filterToRemove = e.target.getAttribute('data-filter');
-            removeFilter(filterToRemove); // Удаляем фильтр и обновляем страницу
+            removeFilter(filterToRemove);
         });
     });
 }
@@ -153,12 +154,12 @@ function updateFilterTags() {
 function toggleFilter(attribute, value) {
     const filterIndex = selectedFilters.findIndex(filter => filter === value);
     if (filterIndex === -1) {
-        selectedFilters.push(value); // Добавляем фильтр, если его нет в списке
+        selectedFilters.push(value);
     } else {
-        selectedFilters.splice(filterIndex, 1); // Удаляем фильтр, если он уже есть
+        selectedFilters.splice(filterIndex, 1);
     }
-    updateFilterTags(); // Обновляем отображение тегов
-    applyFilters(category); // Применяем фильтры к товарам
+    updateFilterTags();
+    applyFilters(category);
 }
 
 // Обновляем фильтры при выборе чекбоксов
@@ -166,7 +167,7 @@ function applyFilters(category, page = 1, size = 20, sort = currentSort) {
     const filters = {};
 
     document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked').forEach(checkbox => {
-        const attribute = checkbox.closest('.filter-section').querySelector('h3').innerText;
+        const attribute = checkbox.closest('.filter-section').querySelector('h4').innerText;
         if (!filters[attribute]) filters[attribute] = [];
         filters[attribute].push(checkbox.value);
     });
@@ -178,7 +179,7 @@ function applyFilters(category, page = 1, size = 20, sort = currentSort) {
     })
         .then(response => response.json())
         .then(data => {
-            renderProducts(data.content); // Обновляем отображение товаров
+            renderProducts(data.content);
             setupPagination(data.page.totalPages, page);
         })
         .catch(error => console.error('Ошибка при фильтрации товаров:', error));
@@ -186,25 +187,23 @@ function applyFilters(category, page = 1, size = 20, sort = currentSort) {
 
 // Функция для удаления фильтра и обновления чекбокса
 function removeFilter(value) {
-    // Удаляем фильтр из selectedFilters
     selectedFilters = selectedFilters.filter(filter => filter !== value);
 
-    // Обновляем чекбокс
     document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
         if (checkbox.value === value) {
             checkbox.checked = false;
         }
     });
 
-    updateFilterTags(); // Обновляем отображение тегов
-    applyFilters(category); // Применяем обновленные фильтры к товарам
+    updateFilterTags();
+    applyFilters(category);
 }
 
 // Устанавливаем обработчик на все чекбоксы
 document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
     checkbox.addEventListener('change', function() {
-        const attribute = this.closest('.filter-section').querySelector('h3').innerText;
-        toggleFilter(attribute, this.value);
+        const attribute = this.closest('.filter-section').querySelector('h4').innerText;
+        toggleFilter(attribute, this.value); // Обновляем фильтр при изменении чекбокса
     });
 });
 

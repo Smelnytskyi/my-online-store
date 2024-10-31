@@ -69,7 +69,7 @@ function renderFilters(attributes) {
 
         // Проверка корректности введенных данных
         if (!isNaN(minPrice) && !isNaN(maxPrice) && minPrice <= maxPrice) {
-            applyPriceFilter(category, minPrice, maxPrice);
+            applyPriceFilter(category, minPrice, maxPrice, 1, currentSort);
         } else {
             alert('Пожалуйста, введите корректные значения цен.');
         }
@@ -98,7 +98,7 @@ function renderFilters(attributes) {
 }
 
 // Функция для применения фильтров по цене
-function applyPriceFilter(category, min, max, page = 1) {
+function applyPriceFilter(category, min, max, page = 1, sort = currentSort) {
     const selectedAttributes = {};
     document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked').forEach(checkbox => {
         const attribute = checkbox.closest('.filter-section').querySelector('h4').innerText;
@@ -106,7 +106,7 @@ function applyPriceFilter(category, min, max, page = 1) {
         selectedAttributes[attribute].push(checkbox.value);
     });
 
-    fetch(`/main/search-by-attributes?category=${category}&minPrice=${min}&maxPrice=${max}`, {
+    fetch(`/main/search-by-attributes?category=${category}&minPrice=${min}&maxPrice=${max}&sort=${sort}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(selectedAttributes)

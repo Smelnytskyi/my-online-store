@@ -215,6 +215,11 @@ function resetFilters() {
     document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
         checkbox.checked = false; // Сбрасываем чекбоксы
     });
+
+    // Сбрасываем поля стоимости
+    document.getElementById('min-price').value = '';
+    document.getElementById('max-price').value = '';
+
     updateFilterTags(); // Обновляем отображение тегов
     fetchProductsByCategory(category); // Перезагружаем товары без фильтров
 }

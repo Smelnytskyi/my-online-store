@@ -8183,3 +8183,573 @@ Caused by: java.sql.SQLSyntaxErrorException: Table 'online_store.product_attribu
 2024-10-31 01:49:54 [http-nio-9999-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
 2024-10-31 01:49:54 [http-nio-9999-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
 2024-10-31 01:49:54 [http-nio-9999-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-10-31 02:04:10 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-10-31 02:04:10 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-10-31 02:04:10 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-10-31 02:04:13 [main] INFO  c.g.d.o.OnlineStoreApplication - Starting OnlineStoreApplication using Java 17.0.10 with PID 24928 (C:\Users\smede\Desktop\proga hw\OnlineStore\target\classes started by smede in C:\Users\smede\Desktop\proga hw\OnlineStore)
+2024-10-31 02:04:13 [main] DEBUG c.g.d.o.OnlineStoreApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2024-10-31 02:04:13 [main] INFO  c.g.d.o.OnlineStoreApplication - No active profile set, falling back to 1 default profile: "default"
+2024-10-31 02:04:14 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-10-31 02:04:14 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 76 ms. Found 8 JPA repository interfaces.
+2024-10-31 02:04:15 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9999 (http)
+2024-10-31 02:04:15 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-10-31 02:04:15 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2024-10-31 02:04:15 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-10-31 02:04:15 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1595 ms
+2024-10-31 02:04:15 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-10-31 02:04:15 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-10-31 02:04:15 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-10-31 02:04:15 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-10-31 02:04:15 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-10-31 02:04:15 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2e8986b6
+2024-10-31 02:04:15 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-10-31 02:04:15 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-10-31 02:04:15 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2024-10-31 02:04:16 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-10-31 02:04:16 [main] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+    alter table cart_item 
+       drop 
+       foreign key FKlqwuo55w1gm4779xcu3t4wnrd" via JDBC [Table 'online_store.cart_item' doesn't exist]
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "
+    alter table cart_item 
+       drop 
+       foreign key FKlqwuo55w1gm4779xcu3t4wnrd" via JDBC [Table 'online_store.cart_item' doesn't exist]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94)
+	at org.hibernate.tool.schema.internal.Helper.applySqlString(Helper.java:233)
+	at org.hibernate.tool.schema.internal.Helper.applySqlStrings(Helper.java:217)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.applyConstraintDropping(SchemaDropperImpl.java:476)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropConstraintsTablesSequences(SchemaDropperImpl.java:242)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropFromMetadata(SchemaDropperImpl.java:215)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.performDrop(SchemaDropperImpl.java:185)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:155)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:115)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:238)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141)
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37)
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:322)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:457)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1506)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:75)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1853)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1802)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:954)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at com.gmail.deniska1406sme.onlinestore.OnlineStoreApplication.main(OnlineStoreApplication.java:43)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'online_store.cart_item' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.StatementImpl.executeInternal(StatementImpl.java:770)
+	at com.mysql.cj.jdbc.StatementImpl.execute(StatementImpl.java:653)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80)
+	... 39 common frames omitted
+2024-10-31 02:04:16 [main] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+    alter table cart_item 
+       drop 
+       foreign key FKqkqmvkmbtiaqn2nfqf25ymfs2" via JDBC [Table 'online_store.cart_item' doesn't exist]
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "
+    alter table cart_item 
+       drop 
+       foreign key FKqkqmvkmbtiaqn2nfqf25ymfs2" via JDBC [Table 'online_store.cart_item' doesn't exist]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94)
+	at org.hibernate.tool.schema.internal.Helper.applySqlString(Helper.java:233)
+	at org.hibernate.tool.schema.internal.Helper.applySqlStrings(Helper.java:217)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.applyConstraintDropping(SchemaDropperImpl.java:476)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropConstraintsTablesSequences(SchemaDropperImpl.java:242)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropFromMetadata(SchemaDropperImpl.java:215)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.performDrop(SchemaDropperImpl.java:185)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:155)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:115)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:238)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141)
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37)
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:322)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:457)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1506)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:75)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1853)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1802)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:954)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at com.gmail.deniska1406sme.onlinestore.OnlineStoreApplication.main(OnlineStoreApplication.java:43)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'online_store.cart_item' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.StatementImpl.executeInternal(StatementImpl.java:770)
+	at com.mysql.cj.jdbc.StatementImpl.execute(StatementImpl.java:653)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80)
+	... 39 common frames omitted
+2024-10-31 02:04:16 [main] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+    alter table carts 
+       drop 
+       foreign key FK87nl9vmq6usftaevxpbnvbfic" via JDBC [Table 'online_store.carts' doesn't exist]
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "
+    alter table carts 
+       drop 
+       foreign key FK87nl9vmq6usftaevxpbnvbfic" via JDBC [Table 'online_store.carts' doesn't exist]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94)
+	at org.hibernate.tool.schema.internal.Helper.applySqlString(Helper.java:233)
+	at org.hibernate.tool.schema.internal.Helper.applySqlStrings(Helper.java:217)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.applyConstraintDropping(SchemaDropperImpl.java:476)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropConstraintsTablesSequences(SchemaDropperImpl.java:242)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropFromMetadata(SchemaDropperImpl.java:215)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.performDrop(SchemaDropperImpl.java:185)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:155)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:115)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:238)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141)
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37)
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:322)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:457)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1506)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:75)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1853)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1802)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:954)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at com.gmail.deniska1406sme.onlinestore.OnlineStoreApplication.main(OnlineStoreApplication.java:43)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'online_store.carts' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.StatementImpl.executeInternal(StatementImpl.java:770)
+	at com.mysql.cj.jdbc.StatementImpl.execute(StatementImpl.java:653)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80)
+	... 39 common frames omitted
+2024-10-31 02:04:16 [main] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+    alter table carts_items 
+       drop 
+       foreign key FKlysar6k9wk8uwk51sf2jktjka" via JDBC [Table 'online_store.carts_items' doesn't exist]
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "
+    alter table carts_items 
+       drop 
+       foreign key FKlysar6k9wk8uwk51sf2jktjka" via JDBC [Table 'online_store.carts_items' doesn't exist]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94)
+	at org.hibernate.tool.schema.internal.Helper.applySqlString(Helper.java:233)
+	at org.hibernate.tool.schema.internal.Helper.applySqlStrings(Helper.java:217)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.applyConstraintDropping(SchemaDropperImpl.java:476)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropConstraintsTablesSequences(SchemaDropperImpl.java:242)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropFromMetadata(SchemaDropperImpl.java:215)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.performDrop(SchemaDropperImpl.java:185)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:155)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:115)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:238)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141)
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37)
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:322)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:457)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1506)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:75)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1853)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1802)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:954)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at com.gmail.deniska1406sme.onlinestore.OnlineStoreApplication.main(OnlineStoreApplication.java:43)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'online_store.carts_items' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.StatementImpl.executeInternal(StatementImpl.java:770)
+	at com.mysql.cj.jdbc.StatementImpl.execute(StatementImpl.java:653)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80)
+	... 39 common frames omitted
+2024-10-31 02:04:16 [main] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+    alter table carts_items 
+       drop 
+       foreign key FKpulqfptcuw8ttvds9pihgai16" via JDBC [Table 'online_store.carts_items' doesn't exist]
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "
+    alter table carts_items 
+       drop 
+       foreign key FKpulqfptcuw8ttvds9pihgai16" via JDBC [Table 'online_store.carts_items' doesn't exist]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94)
+	at org.hibernate.tool.schema.internal.Helper.applySqlString(Helper.java:233)
+	at org.hibernate.tool.schema.internal.Helper.applySqlStrings(Helper.java:217)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.applyConstraintDropping(SchemaDropperImpl.java:476)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropConstraintsTablesSequences(SchemaDropperImpl.java:242)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropFromMetadata(SchemaDropperImpl.java:215)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.performDrop(SchemaDropperImpl.java:185)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:155)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:115)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:238)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141)
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37)
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:322)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:457)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1506)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:75)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1853)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1802)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:954)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at com.gmail.deniska1406sme.onlinestore.OnlineStoreApplication.main(OnlineStoreApplication.java:43)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'online_store.carts_items' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.StatementImpl.executeInternal(StatementImpl.java:770)
+	at com.mysql.cj.jdbc.StatementImpl.execute(StatementImpl.java:653)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80)
+	... 39 common frames omitted
+2024-10-31 02:04:16 [main] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+    alter table orders 
+       drop 
+       foreign key FKqjej6f6f4lfkvn81oyg60aieu" via JDBC [Table 'online_store.orders' doesn't exist]
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "
+    alter table orders 
+       drop 
+       foreign key FKqjej6f6f4lfkvn81oyg60aieu" via JDBC [Table 'online_store.orders' doesn't exist]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94)
+	at org.hibernate.tool.schema.internal.Helper.applySqlString(Helper.java:233)
+	at org.hibernate.tool.schema.internal.Helper.applySqlStrings(Helper.java:217)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.applyConstraintDropping(SchemaDropperImpl.java:476)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropConstraintsTablesSequences(SchemaDropperImpl.java:242)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropFromMetadata(SchemaDropperImpl.java:215)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.performDrop(SchemaDropperImpl.java:185)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:155)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:115)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:238)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141)
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37)
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:322)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:457)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1506)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:75)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1853)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1802)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:954)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at com.gmail.deniska1406sme.onlinestore.OnlineStoreApplication.main(OnlineStoreApplication.java:43)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'online_store.orders' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.StatementImpl.executeInternal(StatementImpl.java:770)
+	at com.mysql.cj.jdbc.StatementImpl.execute(StatementImpl.java:653)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80)
+	... 39 common frames omitted
+2024-10-31 02:04:16 [main] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "
+    alter table product_attributes 
+       drop 
+       foreign key FKcex46yvx4g18b2pn09p79h1mc" via JDBC [Table 'online_store.product_attributes' doesn't exist]
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "
+    alter table product_attributes 
+       drop 
+       foreign key FKcex46yvx4g18b2pn09p79h1mc" via JDBC [Table 'online_store.product_attributes' doesn't exist]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94)
+	at org.hibernate.tool.schema.internal.Helper.applySqlString(Helper.java:233)
+	at org.hibernate.tool.schema.internal.Helper.applySqlStrings(Helper.java:217)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.applyConstraintDropping(SchemaDropperImpl.java:476)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropConstraintsTablesSequences(SchemaDropperImpl.java:242)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropFromMetadata(SchemaDropperImpl.java:215)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.performDrop(SchemaDropperImpl.java:185)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:155)
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:115)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:238)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141)
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37)
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:322)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:457)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1506)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:75)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1853)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1802)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:954)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at com.gmail.deniska1406sme.onlinestore.OnlineStoreApplication.main(OnlineStoreApplication.java:43)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'online_store.product_attributes' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.StatementImpl.executeInternal(StatementImpl.java:770)
+	at com.mysql.cj.jdbc.StatementImpl.execute(StatementImpl.java:653)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80)
+	... 39 common frames omitted
+2024-10-31 02:04:18 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-10-31 02:04:19 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-10-31 02:04:19 [main] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2024-10-31 02:04:19 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: securityFilterChain with arguments: [org.springframework.security.config.annotation.web.builders.HttpSecurity@33a38f07]
+2024-10-31 02:04:19 [main] INFO  c.g.d.o.logging.LoggingAspect - Method securityFilterChain completed successfully, with result: DefaultSecurityFilterChain [RequestMatcher=any request, Filters=[org.springframework.security.web.session.DisableEncodeUrlFilter@f1b0658, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4870d2e1, org.springframework.security.web.context.SecurityContextHolderFilter@648639f1, org.springframework.security.web.header.HeaderWriterFilter@4ab1ff80, org.springframework.security.web.authentication.logout.LogoutFilter@58885a2e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1b9785aa, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6dabad5c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@30367620, org.springframework.security.web.access.ExceptionTranslationFilter@19b7852b, org.springframework.security.web.access.intercept.AuthorizationFilter@5ba4735c]]
+2024-10-31 02:04:19 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: initData with arguments: [org.springframework.data.jpa.repository.support.SimpleJpaRepository@231d5119, org.springframework.data.jpa.repository.support.SimpleJpaRepository@69ca71b3]
+2024-10-31 02:04:19 [main] INFO  c.g.d.o.logging.LoggingAspect - Method initData completed successfully, with result: com.gmail.deniska1406sme.onlinestore.OnlineStoreApplication$$Lambda$1653/0x0000017281a75528@f41db7f
+2024-10-31 02:04:20 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9999 (http) with context path '/'
+2024-10-31 02:04:20 [main] INFO  c.g.d.o.OnlineStoreApplication - Started OnlineStoreApplication in 7.498 seconds (process running for 8.08)
+2024-10-31 02:04:20 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: run with arguments: [[Ljava.lang.String;@76e56b17]
+2024-10-31 02:04:20 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 1', category=CPU, description='description', price=100.0, quantity=7, imageUrl='', deleteImageUrl='', attributes={Company=Intel, Base clock frequency=2500, Connector type=Socket 1700}}]
+2024-10-31 02:04:20 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=1, name='Товар 1', category=CPU, description='description', price=100.0, quantity=7, imageUrl='', deleteImageUrl='', attributes={Company=Intel, Base clock frequency=2500, Connector type=Socket 1700}}
+2024-10-31 02:04:20 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: uploadImage with arguments: [/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxAPEBAQEBAPDxEVEhAQEBUQDw8QDw8PFRcWFxUSFRMYHyggGBolGxUWITEhJSkrLi4uFx8zODUvNygtLisBCgoKDg0OGxAQGislICUrKy0rLS0tLS0tLi0tLy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0vLS0tLS0tLS0tLf/AABEIAMIBAwMBEQACEQEDEQH/xAAbAAEAAQUBAAAAAAAAAAAAAAAABAIDBQYHAf/EAEwQAAEDAgIECQcKAwQLAQAAAAEAAgMEERIhBRMxgQYHIjNBUWFxsTJzdJGhsrMUIzQ1QlJygpLBJGLCZKLh8RYlNkNTY4Oj0dLwFf/EABoBAQACAwEAAAAAAAAAAAAAAAABAwIEBQb/xAA2EQEAAgECBAUBCAEDBAMAAAAAAQIDBBESITEyBRMzQXFRFCJhgaHB0fBCUpGxFSPh8SRERf/aAAwDAQACEQMRAD8A7igICAgICCzV1ccLDJLIyJg2ukc1jR3kqYiZ5QibRHOWjad41KOG7aZr6t/WLxQjr5bhc7mkHrW1j0d7d3JqZNbSvbza9T8Z1c4YtXS5k2Grls0Xta+O5W/Tw7HNecy5mTxTLW20RDIQcaEw5ylif+CR8fiHLGfC6+1v0TXxi3vWE6n40YzzlLI38ErX+Iaq58Lv7WhdXxenvWf90+HjKoXGzmVLO10bCP7riVVPhuaOm0ra+K4J67wnRcO9Gut/EYT/ADQzj24bKudDnj/FdXxDTz/l/wAp0XCegdsq6b80rGn1FVTpssdaz/stjV4Z6XhkIayJ+bJI3j+V7XeBVc1tHWFsZKz0mF9YsxAQEBAQEBAQEBAQEBAQEBAQEBAQEBBz3jG4Y1NFM2mpxG3FC2UyObjeC5z22aDyR5HSDtW7pdPXJHFZzdbqr4pitfo5HpbSM9TIXzyyTOubGRxdhvtDRsaOwWXRrSte2HPnJa/O07oayYspQ82N/iVtYu1pZu9IVioQEBAQeWUG6RT1ssfNyyx/gkezwKwnHS3WIZ1y3r0mU6n4S10fk1dR+aVzx6nXVc6XDPWsLa6zPXpeU6Hh1pJp+kYh1OihI9jQVVOgwT7fqujxLUR/l+kJ8fGTXDa2md3xyAn1PVU+GYvaZWx4tmj2h0bQWk31NPDM5rGl7A4gE2B7Fx81OC81j2d3BknJji8+7KAnq9qrXBfbaCgMeDsQVICAgICAgICAgICAgICAg45xw/T4vRY/iTLq6H05+XD8T9WPj95c6m8o9622tXopRLK0PNjf4lbWLtaWfvX1YqEBAQEBAQEBAUDs3A5/8FSj/lN/dea1XrW+XrdH6FPhc/0xpmxTSuEobDUGlfyWk6wXzAB8nL/BTGlvNorG28xuxnW44rNp32idk7QfCCmrw807y/Bhx3Y5pbivbaM9h2LDLgvina8LMGpx5t+D2ZKFtr96pXriAgICAgICAgICAgICAgIOO8cI/j4vRY/iTLq6H05+XD8T9WPj95c6m8orbatekKXMI2gjK4uCLjrUbxLOYmOrKUHNjf4lbeLtaObvX1YqEBAQEBAQEBB6oHW+Cj7UdN5sfuvNav1rfL1uj9CnwxsYqtIslYJ2NdDpO8TpGtsyOMHC1oA5ZBN7HbbatqfLwzE7da8/zaG2TUVmOLpdneC2kJ/lFXR1L2TSQ6t4lYxsZkY8XAc1uQIuPWe86+elOCuSnKJ35fDa0uS/HbHfnMe7ZRtO5areVICAgICAgICAgICAgICAg49xv/T4vRY/iTLqaH05+f4cPxT1Y+P3lodF9Ji89F7wWzk7ZUafrVluH/0w+aj/AKlr6P023rvVQKDmxv8AErqYu1xs/ekWVqksiSyAgICAgICD1B2Lg3T30fSOG3VNv7V5jVetb5et0foU+EN/B2nex7DrG4pjUYmvIeyc/baejuWVdXkiYnlyjb8mNtFjtWY5853/ADZbg1oSOj1jmvkmkkIMkkrsT3WvYe09vstjmz2y7bxtEdIhlp9NXDvMTMzPvLOsNy7cqGyuICAgICAgICAgICAgICAg4vxzSlukIgLfRI/izLqaGfuT8uP4jSJyRv8AT+WoR014jNdgIIG35zEdhAGzYc8thW1No34XPitusTyiWNLiTckk9JJuSp22WzO7KUHNjf4lbWLtaOfvSQVaoVIhUCiFQRCoAIx3lUGDqHqQ4pVtjb90epGM2t9VQgYfsj1uHgVGyPMtC6KeL/hj9Un/ALKOGfqjz7PXUMR6Ht7nD9wVHDb6pnUz9GaouGktG0U7Yo5GMa1oxucHEWBzIy6epaGTw+uS02m3OXb03it64qxwwujjBN7mlH5ZyPFirnwuP9X6Nn/rE/6P1TIeMhg20r90zT/SFhPhdvazOPF6+9W3cE9Psr2SSMY+PC4MIfhNza9xbvWlqNPbDaImXQ02qrnrNojZnlrtkQEBAQEBAQEBAQEBAQEHFOOr6wi9Ej+LMunoeyflydf6kfDXKerApHRcu5zyI1ZF2m5G0kYcu8rY4Zm+7nebERNPff8AJg1azZSh5sb/ABK2cXa0s3ekhWqXoKIVIhWCiFQKljKsFQxVgoxlW0oxmF1rkYTC60owmGPqy3XOxgltgMtt8AAI7jY7lXO/D93q6GDbhjdXVS0pDtXHI3ysF3Z/btiuTe3IGVulV1jNHWYbEzjnpErkjKOz7OkBs7Bk6+MCMtBv0E6wbb7D2LGJz789mU+V7N94ouYqfPN9wLneKepHw7HhHp2+W/LmOsICAgICAgICAgICAgICDinHV9YReiR/FmXT0PZPy5Ov9SPhoJces+tbrReIMpQ82N/iVs4u1pZu9IurFT26lCoFEPUQrBRiqBRCsFGKsFQxlcBUsJhcaUYzCBXc478vuhQ28XZCOpWCDqHFFzFT55vuBcTxT1K/D0HhHp2+W/LmOsICAgICAgICAgICAgICDinHV9YQ+iR/FmXU0PZPy5Ov9SPj+WgLcaIgylDzY3+JWzi7Wlm719WKmw8GNM09M2RszC/E5pFmMdkAb7StHV4MmS1ZpPR0NHqMWKlovG+/4Nfaehb7nzCsOUMZhuGjNC079Ez1TmEzsc8NdjeAAC23JvY7T0LnZM+SuqjHE8uTp4tNito7ZJj70btTBXSclUCiJhujKGAaFbUGJhl1li+wxka+1r92S5c5Lzq+CJ5f+HWjDj+weZw89+v5tXqZWue5zG4Gk3a0fZHUujjiYrETO7j5JibbxGzxpWaqYQas8t27wCNrH2wsozEHUOKLmKnzzfcC4ninqV+HoPCPTt8t+XMdYQEBAQEBAQEBAQEBAQEHFOOr6wh9Ej+LMupoeyflydf6kfH8tAW40RBlKHmxv8StnF2tLN3r6tVNt4Dus2fvZ4OXI8Rna9Ha8KjemT+/VO0PPEzRjHzNEjG3cWm3KcJThH6rKrNF7arhpP8AdlunnHXR8V43iP5T9C6Xi0oyWCaENs0WGIPAacsTTYYXArHNhvpZi8W3Z4M9NZWcdq7LnBWrFJo2dz2CXVSzYm3AD7FotmD4KdTXzdRERO28Qx0low6W0zG+0yscHKOHV1GlJKZ0xdLIYIWM1uEF9smgWJuSL2yDbqzUXvvXTxbbaOcqNLjpw21Nq77zyhkGMj0tHLFLQvo52tLonujcBfYPnC1t87Xb1HLZlVvbTWi1b8Ue63hrrKTW2Pht7Tt+7Gn/AGeFxb5zp2j+IKv3/wDnb/3o15jbw3b8f3aQCuu4Mq2lGMwhznlHvRsU7YW0ZCDqHFFzFT55vuBcTxT1K/D0HhHp2+W/LmOsICAgICAgICAgICAgICDinHV9YQ+iR/FmXU0PZPy5Ov8AUj4/lo8NI57HvFrMte5sTtOXXa3gtqbRExDTiszG6wsmLKUPNjf4lbOLtaWbvSFaqbTwL8mfvZ4OXI8S76O34V2ZP79VLj/qkDtHxk/+9/fox/8Az/z/AHVcXz7Ty+b/AKgrPFPTj5Y+Eerb4ZrQbRU0tdTBwa8zzjPoxEFriOq4I3Fa2e3lZaZJjltDZ09fOw5MUTz3lL4JVMnyaahilZFVQSSBpIDmEYySQCM23xC9ri4KjVRHmRltH3bbI0dreVbBWdr1mUiofpeGnmnmq6aPAMQbq2EPHSMWEWPQBY3PUor9mveK1pM7/im86zHjm97xG34Ma95dwfudplJPeagq+IiNbtH95Na07+Hbz9f3aMCuu4MqgUYos3lHvRfTpChGQg6hxRcxU+eb7gXE8T9SPh6Dwj07fLflzHWEBAQEBAQEBAQEBAQEBBxTjq+sIfRI/izLp6Hsn5cnX+pHx/LUqEu1FRyMQAFnY2twXycSDm4Wts6SOtX37oa9O2eTGq5SylBzY3+JWzi7Wln70hWql6nqZWXbHJIwOIuGPc3Eei4G3aq70pPO0Qzpe9eVZnn9Fc+ujaI365jDmGPxtac75NOW3NRWMdrcUbbsreZWOGd9vot00sjXfNOka45fNlwcezk7VletZj7235saTeJ+7v8AkrxTQvxXliebm/Ljeb7c8iojy7xtymEz5mOd53iV2niqHu1sbZ3uxE42Nkc7H0nGOnNRa2OscNpj4K1y2nirE/K7pKaqdhFS6oPSwTmTeWhyjFXFHp7fkZrZp9Tf83tDHUzjUwieVozLGY3MGd7loyGam9sVJ4rbRLHHXLkjgpvMfRRJRSsfq3RyNk+45jg/c05lZRlpNeKJ5K7Yr1nhmOa3sNjl0HvWXVVMIsvlFSur0UokQdQ4ouYqfPN9wLieKepX4eg8I9O3y35cx1hAQEBAQEBAQEBAQEBAQcU46vrCH0SP4sy6eh7J+XJ1/qR8fy1Ckzp5gWtOYLSXlrr7SGttZ1g25vZbFu+GtTtlj1aqZSg5sb/EraxdrSz96SrFTb9Hzt0ZQxVTGNdWVLpBE6RuIQQMNnOaOs3H6h1WPNvWdRmmkz92vX8XUx2jTYIyRH3rdPwhj38LqmWOSOqwVbHNIaJGMaY39DgWAbD0eohW/YqVtFsfLZTOvyWrNcm1ol7KXUNPAWWEtQzWl9gS2I2wtF+8e3sVfD9oy24u2vLb8Vs3+y4a8Hdbnv8Ag90TpB1UTS1B1jXh2BxDQ6OQAkEEdgKjPgrgjzcfLbr8J0+otqJ8nLz36T7xKTo+SpZQtFNj1gqHh2rAccOE33XsscnlW1G+TbbhjqsxedXSx5W+/FPRdqZqh1BU/Lr3D4vk2sAEmsvyrW6MP9SUjHGor5P477dGOTzZ01vtH1jh36svUaKr44IaehGrjEbXzSMkbHJLUO8rlXxACw8NgVNMuG17Xy8535R9IW5MGemOuPByjbeZ323lTpXR1W7R8prsJlgLX08usa6RzHGz43EZnK23bl1LLFkxxnjyuk9YV5sWW2nnztt69J35/jDQwV13DlYk2lSsr0UokQdQ4ouYqfPN9wLieKepHw9B4R6c/LflzHWEBAQEBAQEBAQEBAQEBBxTjq+sIfRI/izLp6Hsn5cnX+pHx/LTaXmpLgHM4CXWs7AceVuVye7Oy2bd0NWvbKCrFbK0HNjf4lbOLtaWfvSFaqbjQ0w0nQRU0b2ispTJq2Pdh18DzchvaLNH5c7Yrrm3tOnzTeY+7b9JdSlY1OCKRP3q/rCG3gdPHHJLWOZRxtacJe5kj5JLcljWsJ6d/Z1WTrq2mK4o4pVRoL1ibZZ4YTaanbpWkp4Y5I46ymaYwyR2ETwdGE9YsPbsBBVVrTpstrTG9bfotitdVirWJ2tX9YQ//wAp+jHa2pMYlwnUxteHOLiCMRtsG317jN8v2n/t44nb3kx4Y0n/AHMkxv7QiNrnx0TNXK5jzUOvhdZ5aWnbbovZZzii2pnijlwww861dLHDbaeKSpq/lVIDJIDPC4+W/lSxP6RfynA+wdqyrTyc/wB2OVv0ljfJ52D70/er+sSmvdDpCOIuqGU1RHGIn644Y5mt2PDtgOZ/yAKriL6e0xFd6zz5ezOZpqaRvbhtEbTv0lB0tR0kMbGRzfKJ8RL3x5QNZbyQftG/SD1q/DfLe0zau1f1aufHhx1itbb29/oxYK2mmtP2lGcdHiJEHUOKL6PU+eb7gXE8U9Svw9B4R6dvlvy5jrCAgICAgICAgICAgICAg4px1/WEPokfxZl09D2T8uTr/Uj4/lp0DZGwvdqXPY6+GTC/BE7NrswLG7Tb1dS2LTE223a1YmK77ICtVMrQc2N/iVtYu1p5+9IVikBsQRkRsttBSYieUpiZjnC5PUPkIL3veRkC9znEDesa0rXpCZta3WVpZILpyg5vU3ge4Dnkcszkch1lRxQbS8UoVXRCoFGMrbtpRnHR4gIOo8UP0ep8833AuJ4p6lfh6Dwn07fLflzHWeXQeoCAgICAgICAgICAgIOKcdf1hD6JH8WZdPQ9k/Lk6/1I+P5ato65pqgY5QABZrXuEYFiTiZsNyB6lbk28yvJTj3nHbmxC2GuytBzY3+JW1i7Wnn719WKUyGSIRHEDrAZMPJBDg9rA27r5YS1x2Z4lTat5vy6cv7+a6s04OfX+/8ACqpqYnQMY2LDKMGJ9hZ4Gsvftu4Z9IA6heK47xeZmeXPkm16TSIiOa5HWRMnkka1+B2LDYRtfEXODuSDibsGHucVFsd7Y4rPX8+aYyUreZjostrgGzNDC3G4uGB+FoBvyHCxxNF8hlYj1ZTines79GMZI2mNuqp+kSRAMAGpIIsSA+xB5Q68rX6rDoCiMG3Fz6pnN28ui38sOJ7gAMWeZJwnda+8W7FPkxtET7I83nMx7oyuUrlNHje1uYxENyFzc5D2rDJaa1m0MqVi1oiUKmrtY9sbWOc5x5GwZdZ6rC5PVZcm3iOTbfaHSr4dS1uHeef4Q21vA6R1iahjL7QIXPPvBa3/AFbL9Ib8eCU/1SlDgYzpqH9uGJjfElY28UzT0Z18ExR1tMrkXAuAEF09S7svA0Hs8hVT4jnn3Wx4Rp4+rLUmhYogRHJUsBNyGVMkYceshhAK1758l53tO7appMWONqxsuzaIikbhe6peLBoJq6okAXtbl9pWPm2ZfZsc/wDuWr8FQ/RmnGU7pHPjmaWsc83c5kguzF242Yd11sxPHTdoRScObh9pdpVbeEBAQEBAQEBAQEHhKC06WykcY45nXr4T/ZGfFmXT0XZPy5Ov9SPj+Wp0mH5PNZsuLLGWlojI+yHZ3Njc7lZeZ8yvRTTby7df2Y1bDXZWh5sb/EraxdrTzd6+rFIgICAgICBdBUx5aQQbEEEHqI2FRMbxsmJ2nda0W6OHSrMXKi1r2gdDopL4Bva4Ly+au0TD0mlvvesuu18eCWRv8xI7jmPYVpO1E8lkPzt/n6upQldCIVAIKwEGjcZbTBNRVzbBzCWA7DrGOEsee562MM8tmjq684s7LTTCRjJG5tc1r2/hcLjxUrIneN11EiAgICAgICAgII80llIxlTV2U7DkXGnNjrIj/Z2D/uSrp6Psn5cjX+pHw16GkJpnvIdYODgWlhaLXaQ4XuL9fYrLX2yRCmlN8cyxqvUMrQc2N/itrF2tPP3pCsUvEBAQeoCAg8TcFG6VdXSPmlozEBrSGnLY1rDq8buwCNvrHWvPayIpltv0d7RcV6U4esOtVvKEUn3om3/E3I/suXLv1QnR4j5Tx2NcQFCV1sAuMydu03Pr/wDvFBU2mZe+Ee3u2IL7Qgt6RoIqmF0UzBJGbEg32jYQRmDntCyiZjnDC9YtG0th4MwiKliiaXFsY1TcRucDfJBPTZthuV0W35qIpwfdZRSkQEBAQEBAQEHhQY+tcpga3pCUrOCXLuHr71LPMt9966Ok7J+XI13qR8Nbv/43Lb2ae7xEMrQc2N/itrF2tPP3pCsUiAgICAgIKHmyxllEI7pVXxLYo2PgnIHX+8wnM7SH4MLR+h53Li+KRzizueETtM1dDiOOmb1skc38rhfxXJdv3RRIG7esDedihkfLG9Ace5uSC6ya9uS6x6xa2ZGxEJAQXYurryUoZPQL83t7nDwP7Kykq8kMwrFYgICAgICAgICCJUwhwUwNf0jotxvhcPzXHtCyglyzh7oydkzXujdgEQBc3lNHKdtI2beldHRz92flytdWeOJ/Bqa3Gg8QZWg5sd58Vs4u1pZ+9IVqoUAg9UggICCiQLGUxKDI03yz7lReYhtUiZ6M3wVa9spuySxDcHJcGmUuETST2NleVzdftbG6egi1MnOHStDvxRzN/kbIO9hz9hXEeglbO1QyXWoLjUQutQXGbUFUVfHBNFrHBuskELATm979jR1/4KynVVktERzbSrVYgICAgICAgICCh7LoI8lJfpU7jCaY0WXOBB+z+629PfaGtmjeWsaS4FQT3LmBrvvR8h2/oO8LajM1rYK2appPi8qY7mBzZhtwk4JO4X5J9YVkZo92vbS29mPotD1QGA00+IEgjVPyz67WW5jy0ivVzc2DJN+VZT2cHKw7Kd+8sb4lT9ox/VEaLPP+KXHwPrD9mNv4pB+11hOrxwtjw7NP0SY+A9QfKkhHdjd+wWE62vtC2vheT3mEuLgIftT/AKYv3LlhOt+kLK+F/WyVFwFhHlPmd3FjR4LCdbZbHheP3mUqLgZSjax7vxSP/aywnWX+q6PDsMeyXHwXph/uI94LvFYTqbT7rY0eGP8AGEpmhYh5MUbe6No/ZYTmmfdZGClelY/2QdJ6NsMgqpyLYrswQpnXLW5Pc17Gn7r3tLWu3Eg7lVe28bJmOS3xd8KhUzshkiMTnNcARcxPacrNJ2G9sjfvK074+GVuLPGSNmySCxsei43hVNlcYUSuBBdYiF1oQaLxoRlk2jaobGSvYL3sJeS+M5drc+5bGKeUtLVxziXXqOoEsccjfJexr29zgCPFSzid43XkSICAgICAgICAg8sgszxXWdbbMLRusOpgs+NjwLbqXsU8ZwqTSKeM4XgownGcKoUgTjTwqhShRxnC9FKFHGnhVClCjjTwqhSpxmyoU4UcSdnopwo4jZHraMFqcRs0rSUGrdcZEG4UbmzQaR7qXSDS1rmtjqnsZyZXNbE92JgxF2Bt8YyAB6b55zk513amnnhvt+Mun6WGCV9thdiHc4Yh4rUdSOi1GclDJeagusQXmBENc4yqUSaNmN8LozHMw9N2OANtziO8hW4uVmtqY3xyznFRpP5Toqnubuix07usYDyL9uAsV1o2lRp7b0bgsV4gICAgICAgICAgIPLIjZ5hU7p2MKI2MKhOxhU7j3Co3CyBZB6gIFkFLxcINV4RUm0oOM8N26qsZKNrmRSdzmXjt6owd6trzrs52b7mbibAzjE10jHOFOyMRMa9sshilZI0ZkEgh47lq2x2h08eelo6rz+MamGQw37GzyDcQ0D2pGO30ZTnpHuiS8ZrAbNZKe1sLAP777+xZRhsrnVUR3cZNQ82ippH/wDVa0+psZ8VPk7dZYfa6z0gquGtfdzWCnuBcNDK2dzttswWAJXHEl9TtyRdMy6Zr42QyQTEZF7IqbVxGxuzl3JftvYnI9e1W1rWrWy5MmTltLoXE3omso4qmOphfCxzo5YsWG5fYtfkD1BnqS8xPRlp62rvEw6OsG0ICAgICAgICAgICAgICAgICAgICAgICDH6VpsbSg5dwt4KmrMfK1ZYZM8GK4dhytlswnp+0sq22UZsPHO7D03Fyz7cszvwsZGPbiUzklVGl+ssnRcXdOwglkshBB+ceC3e0NFwom8rI01I67srT8A6UXPyWK5N89Y71BxICjefqzjDSPZlaTgnGwWZDCzrwwxtJ3gKGcUrHSGTh0BYWuQOq5so2ZJ9JogMKkZeJlhZBWgICAgICAgICAgICAgICAgICAgICAgICCl4yQQZIWk+S39IQeshb91v6QgvNjb1D1BBcDR1D1IKgEFSD1AQEBAQEBAQf//Z, ProductDTO{id=1, name='Товар 1', category=CPU, description='description', price=100.0, imageUrl='', deleteImageUrl='', quantity=7, attributes={Company=Intel, Base clock frequency=2500, Connector type=Socket 1700}}]
+2024-10-31 02:04:20 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: getApiKey with arguments: []
+2024-10-31 02:04:20 [main] INFO  c.g.d.o.logging.LoggingAspect - Method getApiKey completed successfully, with result: 3dffd182a67553aeec737407517cdd05
+2024-10-31 02:04:20 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: getApiUrl with arguments: []
+2024-10-31 02:04:20 [main] INFO  c.g.d.o.logging.LoggingAspect - Method getApiUrl completed successfully, with result: *****
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method uploadImage completed successfully, with result: true
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=1, name='Товар 1', category=CPU, description='description', price=100.0, quantity=7, imageUrl='https://i.ibb.co/rdj9SKj/c09cf0c19f20.jpg', deleteImageUrl='https://ibb.co/3R3Kq53/6883fac1273272dd039a94ada9265b86', attributes={Company=Intel, Base clock frequency=2500, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=1, name='Товар 1', category=CPU, description='description', price=100.0, quantity=7, imageUrl='https://i.ibb.co/rdj9SKj/c09cf0c19f20.jpg', deleteImageUrl='https://ibb.co/3R3Kq53/6883fac1273272dd039a94ada9265b86', attributes={Company=Intel, Base clock frequency=2500, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 2', category=CPU, description='description', price=200.0, quantity=5, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=2, name='Товар 2', category=CPU, description='description', price=200.0, quantity=5, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 3', category=CPU, description='desc', price=300.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=3, name='Товар 3', category=CPU, description='desc', price=300.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 4', category=CPU, description='desc', price=400.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=4, name='Товар 4', category=CPU, description='desc', price=400.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 5', category=CPU, description='desc', price=500.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=5, name='Товар 5', category=CPU, description='desc', price=500.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 6', category=CPU, description='desc', price=600.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=6, name='Товар 6', category=CPU, description='desc', price=600.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 7', category=CPU, description='desc', price=700.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=7, name='Товар 7', category=CPU, description='desc', price=700.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 8', category=CPU, description='desc', price=800.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=8, name='Товар 8', category=CPU, description='desc', price=800.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 9', category=CPU, description='desc', price=900.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=9, name='Товар 9', category=CPU, description='desc', price=900.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 10', category=CPU, description='desc', price=1000.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=10, name='Товар 10', category=CPU, description='desc', price=1000.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 11', category=CPU, description='desc', price=1100.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=11, name='Товар 11', category=CPU, description='desc', price=1100.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 12', category=CPU, description='desc', price=1200.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=12, name='Товар 12', category=CPU, description='desc', price=1200.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 13', category=CPU, description='desc', price=1300.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=13, name='Товар 13', category=CPU, description='desc', price=1300.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 14', category=CPU, description='desc', price=1400.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=14, name='Товар 14', category=CPU, description='desc', price=1400.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 15', category=CPU, description='desc', price=1500.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=15, name='Товар 15', category=CPU, description='desc', price=1500.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 16', category=CPU, description='desc', price=1600.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=16, name='Товар 16', category=CPU, description='desc', price=1600.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 17', category=CPU, description='desc', price=1700.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=17, name='Товар 17', category=CPU, description='desc', price=1700.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 18', category=CPU, description='desc', price=1800.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=18, name='Товар 18', category=CPU, description='desc', price=1800.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 19', category=CPU, description='desc', price=1900.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=19, name='Товар 19', category=CPU, description='desc', price=1900.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 20', category=CPU, description='desc', price=2000.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=20, name='Товар 20', category=CPU, description='desc', price=2000.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 21', category=CPU, description='desc', price=2100.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=21, name='Товар 21', category=CPU, description='desc', price=2100.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 22', category=CPU, description='desc', price=2200.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=22, name='Товар 22', category=CPU, description='desc', price=2200.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 23', category=CPU, description='desc', price=2300.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=23, name='Товар 23', category=CPU, description='desc', price=2300.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Product{id=null, name='Товар 24', category=CPU, description='desc', price=2400.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Product{id=24, name='Товар 24', category=CPU, description='desc', price=2400.0, quantity=10, imageUrl='', deleteImageUrl='', attributes={Company=AMD, Base clock frequency=3000, Connector type=Socket 1700}}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Employee{id=nullfirstName='Denys', lastName='Smel', phone='380094'}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Employee{id=1firstName='Denys', lastName='Smel', phone='380094'}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Employee{id=nullfirstName='Denys2', lastName='Smel2', phone='3800942'}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Employee{id=2firstName='Denys2', lastName='Smel2', phone='3800942'}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Client{id=null, firstName='Denys', lastName='Smel', phone='12548', address='null'}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Client{id=3, firstName='Denys', lastName='Smel', phone='12548', address='null'}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Order{id=null, client=Client{id=3, firstName='Denys', lastName='Smel', phone='12548', address='null'}, orderDate=2024-10-31T02:04:21.492969100, orderStatus='SHIPPED', deliveryAddress='my street 25', notes='i dont need instruction'}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Order{id=1, client=Client{id=3, firstName='Denys', lastName='Smel', phone='12548', address='null'}, orderDate=2024-10-31T02:04:21.492969100, orderStatus='SHIPPED', deliveryAddress='my street 25', notes='i dont need instruction'}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Client{id=null, firstName='Denys', lastName='Smel', phone='32432525', address='Main st.15'}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Client{id=4, firstName='Denys', lastName='Smel', phone='32432525', address='Main st.15'}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Client{id=4, firstName='Denys', lastName='Smel', phone='32432525', address='Main st.15'}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Client{id=4, firstName='Denys', lastName='Smel', phone='32432525', address='Main st.15'}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: savePassword with arguments: [*****, ****]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [*****]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: Client{id=4, firstName='Denys', lastName='Smel', phone='32432525', address='Main st.15'}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method call: save with arguments: [Client{id=4, firstName='Denys', lastName='Smel', phone='32432525', address='Main st.15'}]
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method save completed successfully, with result: Client{id=4, firstName='Denys', lastName='Smel', phone='32432525', address='Main st.15'}
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method savePassword completed successfully, with result: null
+2024-10-31 02:04:21 [main] INFO  c.g.d.o.logging.LoggingAspect - Method run completed successfully, with result: null
+2024-10-31 02:04:25 [http-nio-9999-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-10-31 02:04:25 [http-nio-9999-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-10-31 02:04:25 [http-nio-9999-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-10-31 02:04:25 [http-nio-9999-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method call: getProductAttributes with arguments: [CPU]
+2024-10-31 02:04:25 [http-nio-9999-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method call: getProductsByCategory with arguments: [CPU, Page request [number: 0, size 2147483647, sort: UNSORTED]]
+2024-10-31 02:04:25 [http-nio-9999-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getProductsByCategory with arguments: [CPU, name,asc, Page request [number: 0, size 20, sort: name: ASC]]
+2024-10-31 02:04:25 [http-nio-9999-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method call: findProductsByCategory with arguments: [CPU, Page request [number: 0, size 2147483647, sort: UNSORTED]]
+2024-10-31 02:04:25 [http-nio-9999-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getProductsByCategory with arguments: [CPU, Page request [number: 0, size 20, sort: name: ASC]]
+2024-10-31 02:04:25 [http-nio-9999-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: findProductsByCategory with arguments: [CPU, Page request [number: 0, size 20, sort: name: ASC]]
+2024-10-31 02:04:25 [http-nio-9999-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method findProductsByCategory completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.model.Product instances
+2024-10-31 02:04:25 [http-nio-9999-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method getProductsByCategory completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances
+2024-10-31 02:04:25 [http-nio-9999-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method findProductsByCategory completed successfully, with result: Page 1 of 2 containing com.gmail.deniska1406sme.onlinestore.model.Product instances
+2024-10-31 02:04:25 [http-nio-9999-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getProductsByCategory completed successfully, with result: Page 1 of 2 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances
+2024-10-31 02:04:25 [http-nio-9999-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getProductsByCategory completed successfully, with result: <200 OK OK,Page 1 of 2 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances,[]>
+2024-10-31 02:04:25 [http-nio-9999-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [null, org.apache.catalina.session.StandardSessionFacade@7a2513bd]
+2024-10-31 02:04:25 [http-nio-9999-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientById with arguments: [null]
+2024-10-31 02:04:25 [http-nio-9999-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method getClientById completed successfully, with result: null
+2024-10-31 02:04:25 [http-nio-9999-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-10-31 02:04:25 [http-nio-9999-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-10-31 02:04:25 [http-nio-9999-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-10-31 02:04:25 [http-nio-9999-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method getProductAttributes completed successfully, with result: <200 OK OK,{Company=[AMD, Intel], Base clock frequency=[2500, 3000], Connector type=[Socket 1700]},[]>
+2024-10-31 02:04:25 [http-nio-9999-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [null, org.apache.catalina.session.StandardSessionFacade@7a2513bd]
+2024-10-31 02:04:25 [http-nio-9999-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientById with arguments: [null]
+2024-10-31 02:04:25 [http-nio-9999-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method getClientById completed successfully, with result: null
+2024-10-31 02:04:25 [http-nio-9999-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-10-31 02:04:25 [http-nio-9999-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-10-31 02:04:25 [http-nio-9999-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-10-31 02:04:29 [http-nio-9999-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method call: searchByAttributes with arguments: [CPU, 0.0, 1.7976931348623157E308, {Company=[Intel]}, Page request [number: 0, size 20, sort: name: ASC]]
+2024-10-31 02:04:29 [http-nio-9999-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method call: searchProductByAttributes with arguments: [CPU, {Company=[Intel]}, 0.0, 1.7976931348623157E308, Page request [number: 0, size 20, sort: name: ASC]]
+2024-10-31 02:04:29 [http-nio-9999-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method call: findAll with arguments: [com.gmail.deniska1406sme.onlinestore.specification.ProductSpecification$$Lambda$2006/0x0000017281bc2560@7c1ddd9b, Page request [number: 0, size 20, sort: name: ASC]]
+2024-10-31 02:04:29 [http-nio-9999-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method findAll completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.model.Product instances
+2024-10-31 02:04:29 [http-nio-9999-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method searchProductByAttributes completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances
+2024-10-31 02:04:29 [http-nio-9999-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method searchByAttributes completed successfully, with result: <200 OK OK,Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances,[]>
+2024-10-31 02:04:29 [http-nio-9999-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [null, org.apache.catalina.session.StandardSessionFacade@7a2513bd]
+2024-10-31 02:04:29 [http-nio-9999-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientById with arguments: [null]
+2024-10-31 02:04:29 [http-nio-9999-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method getClientById completed successfully, with result: null
+2024-10-31 02:04:29 [http-nio-9999-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-10-31 02:04:29 [http-nio-9999-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-10-31 02:04:29 [http-nio-9999-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-10-31 02:04:31 [http-nio-9999-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method call: getProductsByCategory with arguments: [CPU, name,asc, Page request [number: 0, size 20, sort: name: ASC]]
+2024-10-31 02:04:31 [http-nio-9999-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method call: searchByAttributes with arguments: [CPU, 0.0, 1.7976931348623157E308, {}, Page request [number: 0, size 20, sort: name: ASC]]
+2024-10-31 02:04:31 [http-nio-9999-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method call: getProductsByCategory with arguments: [CPU, Page request [number: 0, size 20, sort: name: ASC]]
+2024-10-31 02:04:31 [http-nio-9999-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method call: findProductsByCategory with arguments: [CPU, Page request [number: 0, size 20, sort: name: ASC]]
+2024-10-31 02:04:31 [http-nio-9999-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method call: searchProductByAttributes with arguments: [CPU, {}, 0.0, 1.7976931348623157E308, Page request [number: 0, size 20, sort: name: ASC]]
+2024-10-31 02:04:31 [http-nio-9999-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method call: findAll with arguments: [com.gmail.deniska1406sme.onlinestore.specification.ProductSpecification$$Lambda$2006/0x0000017281bc2560@6de7d17a, Page request [number: 0, size 20, sort: name: ASC]]
+2024-10-31 02:04:31 [http-nio-9999-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method findAll completed successfully, with result: Page 1 of 2 containing com.gmail.deniska1406sme.onlinestore.model.Product instances
+2024-10-31 02:04:31 [http-nio-9999-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method findProductsByCategory completed successfully, with result: Page 1 of 2 containing com.gmail.deniska1406sme.onlinestore.model.Product instances
+2024-10-31 02:04:31 [http-nio-9999-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method searchProductByAttributes completed successfully, with result: Page 1 of 2 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances
+2024-10-31 02:04:31 [http-nio-9999-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method getProductsByCategory completed successfully, with result: Page 1 of 2 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances
+2024-10-31 02:04:31 [http-nio-9999-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method getProductsByCategory completed successfully, with result: <200 OK OK,Page 1 of 2 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances,[]>
+2024-10-31 02:04:31 [http-nio-9999-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method searchByAttributes completed successfully, with result: <200 OK OK,Page 1 of 2 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances,[]>
+2024-10-31 02:04:31 [http-nio-9999-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [null, org.apache.catalina.session.StandardSessionFacade@7a2513bd]
+2024-10-31 02:04:31 [http-nio-9999-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientById with arguments: [null]
+2024-10-31 02:04:31 [http-nio-9999-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method getClientById completed successfully, with result: null
+2024-10-31 02:04:31 [http-nio-9999-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-10-31 02:04:31 [http-nio-9999-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-10-31 02:04:31 [http-nio-9999-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-10-31 02:04:31 [http-nio-9999-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [null, org.apache.catalina.session.StandardSessionFacade@7a2513bd]
+2024-10-31 02:04:31 [http-nio-9999-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientById with arguments: [null]
+2024-10-31 02:04:31 [http-nio-9999-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method getClientById completed successfully, with result: null
+2024-10-31 02:04:31 [http-nio-9999-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-10-31 02:04:31 [http-nio-9999-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-10-31 02:04:31 [http-nio-9999-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>

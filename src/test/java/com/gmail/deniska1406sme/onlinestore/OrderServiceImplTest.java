@@ -1,5 +1,6 @@
 package com.gmail.deniska1406sme.onlinestore;
 
+import com.gmail.deniska1406sme.onlinestore.dto.CartItemDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.ClientDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.OrderDTO;
 import com.gmail.deniska1406sme.onlinestore.exceptions.OrderNotFoundException;
@@ -20,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -61,7 +63,11 @@ public class OrderServiceImplTest {
         when(clientRepository.findById(id)).thenReturn(Optional.of(client));
         when(orderRepository.save(any(Order.class))).thenReturn(order);
 
-        OrderDTO orderDTO = orderService.addOrder("123 Main St", "Test order", clientDTO);
+        Set<CartItemDTO> cartItemDTOS = new HashSet<>();
+        CartItemDTO cartItemDTO = new CartItemDTO(1L, 3);
+        cartItemDTOS.add(cartItemDTO);
+
+        OrderDTO orderDTO = orderService.addOrder("123 Main St", "Test order", clientDTO, cartItemDTOS);
 
         assertNotNull(orderDTO);
         assertEquals(1L, orderDTO.getId());
@@ -77,8 +83,12 @@ public class OrderServiceImplTest {
 
         when(clientRepository.findById(id)).thenReturn(Optional.empty());
 
+        Set<CartItemDTO> cartItemDTOS = new HashSet<>();
+        CartItemDTO cartItemDTO = new CartItemDTO(1L, 3);
+        cartItemDTOS.add(cartItemDTO);
+
         assertThrows(UserNotFoundException.class, () -> {
-            orderService.addOrder("123 Main St", "Test order", clientDTO);
+            orderService.addOrder("123 Main St", "Test order", clientDTO, cartItemDTOS);
         });
         verify(clientRepository).findById(id);
         verify(orderRepository, never()).save(any(Order.class));

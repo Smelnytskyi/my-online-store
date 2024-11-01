@@ -73,4 +73,16 @@ public class PasswordAuthenticationServiceImpl implements PasswordAuthentication
             throw new UserNotFoundException("User not found");
         }
     }
+
+    @Transactional
+    @Override
+    public boolean hasPassword(String login){
+        User user = userRepository.findByEmail(login);
+
+        if (user == null){
+            throw new UserNotFoundException("User not found");
+        }
+
+        return user.getPassword() != null && !user.getPassword().isEmpty();
+    }
 }

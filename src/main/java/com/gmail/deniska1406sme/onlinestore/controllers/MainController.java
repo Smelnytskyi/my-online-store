@@ -6,7 +6,6 @@ import com.gmail.deniska1406sme.onlinestore.model.ProductCategory;
 import com.gmail.deniska1406sme.onlinestore.services.*;
 import com.gmail.deniska1406sme.onlinestore.validation.OnUpdate;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -20,7 +19,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/main")
@@ -72,7 +70,7 @@ public class MainController {
         ClientDTO clientDTO;
 
         if (token != null && jwtTokenProvider.validateToken(token)) {
-            String email = jwtTokenProvider.getLogin(token.replace("Bearer ", ""));
+            String email = jwtTokenProvider.getLogin(token);
             clientDTO = clientService.getClientByEmail(email);
         } else {
             Long tempClientId = (Long) session.getAttribute("tempClientId");
@@ -149,7 +147,7 @@ public class MainController {
         for (CartItemDTO cartItemDTO : clientDTO.getCartDTO().getItems()) {
             productService.updateProductQuantity(cartItemDTO.getProductId(), cartItemDTO.getQuantity());
         }
-        OrderDTO order = orderService.addOrder(deliveryAddress, notes, clientDTO);
+        OrderDTO order = orderService.addOrder(deliveryAddress, notes, clientDTO, clientDTO.getCartDTO().getItems());
         sendOrderConfirmationEmail(clientDTO, email);
         cartService.removeAllProductsFromCart(clientDTO);
 
@@ -214,7 +212,7 @@ public class MainController {
         ClientDTO clientDTO;
 
         if (token != null && jwtTokenProvider.validateToken(token)) {
-            String email = jwtTokenProvider.getLogin(token.replace("Bearer ", ""));
+            String email = jwtTokenProvider.getLogin(token);
             clientDTO = clientService.getClientByEmail(email);
         } else {
             Long tempClientId = (Long) session.getAttribute("tempClientId");

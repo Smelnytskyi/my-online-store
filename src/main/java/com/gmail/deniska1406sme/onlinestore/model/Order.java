@@ -1,9 +1,12 @@
 package com.gmail.deniska1406sme.onlinestore.model;
 
+import com.gmail.deniska1406sme.onlinestore.dto.CartItemDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.OrderDTO;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Orders")
@@ -27,19 +30,31 @@ public class Order {
 
     private String notes;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Set<OrderItem> orderItems = new HashSet<>();
+
     public Order() {
     }
 
-    public Order(Client client, LocalDateTime orderDate, OrderStatus orderStatus, String deliveryAddress, String notes) {
+    public Order(Client client, LocalDateTime orderDate, OrderStatus orderStatus, String deliveryAddress, String notes,
+                 Set<CartItemDTO> cartItems) {
         this.client = client;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
         this.deliveryAddress = deliveryAddress;
         this.notes = notes;
+        for (CartItemDTO item : cartItems) {
+            this.orderItems.add(new OrderItem(this, item.getProductId(), item.getQuantity()));
+        }
     }
 
     public OrderDTO toOrderDTO() {
-        return new OrderDTO(id, orderDate, orderStatus, deliveryAddress, notes);
+        Set<CartItemDTO> cartItemDTOS = new HashSet<>();
+        for (OrderItem item : orderItems) {
+            cartItemDTOS.add(new CartItemDTO(item.getProductId(), item.getQuantity()));
+        }
+        return new OrderDTO(id, orderDate, orderStatus, deliveryAddress, notes, cartItemDTOS);
     }
 
     public Long getId() {
@@ -57,7 +72,6 @@ public class Order {
     public void setClient(Client client) {
         this.client = client;
     }
-
 
     public LocalDateTime getOrderDate() {
         return orderDate;
@@ -91,15 +105,24 @@ public class Order {
         this.notes = notes;
     }
 
+    public Set<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(Set<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
                 ", client=" + client +
                 ", orderDate=" + orderDate +
-                ", orderStatus='" + orderStatus + '\'' +
+                ", orderStatus=" + orderStatus +
                 ", deliveryAddress='" + deliveryAddress + '\'' +
                 ", notes='" + notes + '\'' +
+                ", orderItemsCount=" + orderItems.size() +
                 '}';
     }
 }

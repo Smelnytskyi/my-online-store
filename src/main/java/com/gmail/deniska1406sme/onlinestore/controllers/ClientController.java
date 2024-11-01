@@ -73,6 +73,12 @@ public class ClientController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/profile/has-password")
+    public ResponseEntity<Boolean> hasPassword(@RequestHeader(value = "Authorization") String token) {
+        String email = jwtTokenProvider.getLogin(token);
+        return ResponseEntity.ok(passwordAuthenticationService.hasPassword(email));
+    }
+
     @PatchMapping("/profile/update")
     public ResponseEntity<List<String>> updateClient(@RequestHeader(value = "Authorization") String token,
                                                      @RequestBody @Validated(OnUpdate.class) ClientDTO clientDTO,

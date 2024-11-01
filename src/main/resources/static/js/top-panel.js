@@ -189,7 +189,7 @@ function openAuthModal() {
     const token = localStorage.getItem('token');
     if (token) {
         // Если токен есть, перенаправляем на страницу профиля
-        window.location.href = '/profile';
+        window.location.href = 'profile-client.html';
     } else {
         // Если токена нет, открываем модальное окно авторизации
         document.getElementById('authModal').style.display = 'flex';

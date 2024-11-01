@@ -4,6 +4,7 @@ import com.gmail.deniska1406sme.onlinestore.model.OrderStatus;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 public class OrderDTO {
     private Long id;
@@ -18,15 +19,19 @@ public class OrderDTO {
     private String deliveryAddress;
     private String notes;
 
+    private Set<CartItemDTO> items;
+
     public OrderDTO() {
     }
 
-    public OrderDTO(Long id, LocalDateTime orderDate, OrderStatus orderStatus, String deliveryAddress, String notes) {
+    public OrderDTO(Long id, LocalDateTime orderDate, OrderStatus orderStatus, String deliveryAddress, String notes,
+                    Set<CartItemDTO> items) {
         this.id = id;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
         this.deliveryAddress = deliveryAddress;
         this.notes = notes;
+        this.items = items;
     }
 
     public Long getId() {
@@ -69,15 +74,23 @@ public class OrderDTO {
         this.notes = notes;
     }
 
+    public Set<CartItemDTO> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<CartItemDTO> items) {
+        this.items = items;
+    }
 
     @Override
     public String toString() {
         return "OrderDTO{" +
                 "id=" + id +
                 ", orderDate=" + orderDate +
-                ", orderStatus='" + orderStatus + '\'' +
+                ", orderStatus=" + orderStatus +
                 ", deliveryAddress='" + deliveryAddress + '\'' +
                 ", notes='" + notes + '\'' +
+                ", items=" + items +
                 '}';
     }
 }

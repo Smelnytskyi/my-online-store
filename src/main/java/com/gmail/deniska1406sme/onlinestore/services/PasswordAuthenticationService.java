@@ -8,4 +8,5 @@ public interface PasswordAuthenticationService {
 
     void changePassword(String login, String oldRawPassword, String newRawPassword);
 
+    boolean hasPassword(String login);
 }

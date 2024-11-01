@@ -1,11 +1,13 @@
 package com.gmail.deniska1406sme.onlinestore.services;
 
+import com.gmail.deniska1406sme.onlinestore.dto.CartItemDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.ClientDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.OrderDTO;
 import com.gmail.deniska1406sme.onlinestore.exceptions.OrderNotFoundException;
 import com.gmail.deniska1406sme.onlinestore.exceptions.UserNotFoundException;
 import com.gmail.deniska1406sme.onlinestore.model.Client;
 import com.gmail.deniska1406sme.onlinestore.model.Order;
+import com.gmail.deniska1406sme.onlinestore.model.OrderItem;
 import com.gmail.deniska1406sme.onlinestore.model.OrderStatus;
 import com.gmail.deniska1406sme.onlinestore.repositories.ClientRepository;
 import com.gmail.deniska1406sme.onlinestore.repositories.OrderRepository;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -29,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public OrderDTO addOrder(String deliveryAddress, String notes, ClientDTO clientDTO) {
+    public OrderDTO addOrder(String deliveryAddress, String notes, ClientDTO clientDTO, Set<CartItemDTO> cartItems) {
         Order order = new Order();
         Client client = clientRepository.findById(clientDTO.getId())
                 .orElseThrow(() -> new UserNotFoundException("Client not found"));
@@ -39,6 +42,9 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderStatus(OrderStatus.CONFIRMED);
         order.setDeliveryAddress(deliveryAddress);
         order.setNotes(notes);
+        for (CartItemDTO item : cartItems) {
+            order.getOrderItems().add(new OrderItem(order, item.getProductId(), item.getQuantity()));
+        }
         Order savedOrder = orderRepository.save(order);
         return savedOrder.toOrderDTO();
     }

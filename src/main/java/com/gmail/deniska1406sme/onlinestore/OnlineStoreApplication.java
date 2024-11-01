@@ -1,5 +1,6 @@
 package com.gmail.deniska1406sme.onlinestore;
 
+import com.gmail.deniska1406sme.onlinestore.dto.CartItemDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.ProductDTO;
 import com.gmail.deniska1406sme.onlinestore.model.*;
 import com.gmail.deniska1406sme.onlinestore.repositories.ClientRepository;
@@ -101,12 +102,22 @@ public class OnlineStoreApplication {
 
             Client client1 = new Client("client1@gmail.com", UserRole.CLIENT, "Denys", "Smel", "12548");
             clientRepository.save(client1);
-            Order order1 = new Order(client1, LocalDateTime.now(), OrderStatus.SHIPPED, "my street 25", "i dont need instruction");
-            orderRepository.save(order1);
 
             Client testMail = new Client("denys.smelnytskyi@nure.ua", null, null,
                     "Denys", "Smel", "Main st.15", "32432525");
             clientRepository.save(testMail);
+
+            Set<CartItemDTO> cartItemDTOS = new HashSet<>();
+            CartItemDTO cartItemDTO = new CartItemDTO(1L, 3);
+            cartItemDTOS.add(cartItemDTO);
+
+            Order order1 = new Order(testMail, LocalDateTime.now(), OrderStatus.SHIPPED, "my street 25", "i dont need instruction",
+                    cartItemDTOS);
+            orderRepository.save(order1);
+
+            Order order2 = new Order(testMail, LocalDateTime.now(), OrderStatus.CONFIRMED, "my street 25", "i dont need instruction",
+                    cartItemDTOS);
+            orderRepository.save(order2);
 
             Cart newCart = new Cart();
             newCart.setItems(new HashSet<>());

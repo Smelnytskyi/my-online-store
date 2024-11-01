@@ -44,6 +44,7 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
+            token = token.replace("Bearer ", "");
             Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
             return true;
         } catch (Exception e) {
@@ -52,19 +53,20 @@ public class JwtTokenProvider {
     }
 
     public String getLogin(String token) {
+        token = token.replace("Bearer ", "");
         Claims claims = Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
         return claims.get("login").toString();
     }
 
     public UserRole getRole(String token) {
+        token = token.replace("Bearer ", "");
         Claims claims = Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
         return UserRole.valueOf(claims.get("role").toString());
     }
 
     public String getUserId(String token) {
+        token = token.replace("Bearer ", "");
         return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody()
                 .get("userId", String.class);
     }
-
-
 }

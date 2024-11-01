@@ -200,6 +200,11 @@ async function displayOrders(orders) {
         // Получаем информацию о продуктах для каждого заказа
         const products = await Promise.all(order.items.map(item => getProductById(item.productId)));
 
+        // Рассчитываем общую сумму заказа
+        const totalPrice = products.reduce((sum, product, index) => {
+            return sum + (product.price * order.items[index].quantity);
+        }, 0);
+
         const orderElement = document.createElement('div');
         orderElement.className = 'order';
         orderElement.innerHTML = `
@@ -207,7 +212,7 @@ async function displayOrders(orders) {
                 <p>№ ${order.id}</p>
                 <p>${formatDate(order.orderDate)}</p> <!-- Форматируем дату -->
                 <p>${order.orderStatus}</p>
-                <p>${order.totalPrice} ₴</p> <!-- Здесь предполагаем, что totalPrice будет доступен в ответе -->
+                <p>Итого: ${totalPrice.toFixed(2)} ₴</p> <!-- Отображаем общую сумму -->
             </div>
             <div class="order-details" id="order-${order.id}" style="display: none;">
                 <p>Адрес доставки: ${order.deliveryAddress}</p>
@@ -215,7 +220,10 @@ async function displayOrders(orders) {
                 <h4>Товары в заказе:</h4>
                 <ul>
                     ${products.map((product, index) => `
-                        <li>${product.name} (кол-во: ${order.items[index].quantity})</li>
+                        <li>
+                            <img src="${product.imageUrl}" alt="${product.name}" style="width: 50px; height: auto;"> 
+                            ${product.name} (кол-во: ${order.items[index].quantity}, цена: ${product.price.toFixed(2)} ₴)
+                        </li>
                     `).join('')}
                 </ul>
                 <button onclick="cancelOrder(${order.id})" ${order.orderStatus !== 'PENDING' && order.orderStatus !== 'CONFIRMED' ? 'style="display:none;"' : ''}>

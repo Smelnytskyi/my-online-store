@@ -95,6 +95,10 @@ public class ClientController {
         String email = jwtTokenProvider.getLogin(token);
         Long id = clientService.getClientByEmail(email).getId();
         Page<OrderDTO> orders = orderService.getOrdersByClient(id, pageable);
+        for(OrderDTO order: orders){
+            order.setClientFirstName(clientService.getClientByEmail(email).getFirstName());
+            order.setClientLastName(clientService.getClientByEmail(email).getLastName());
+        }
         return ResponseEntity.ok(orders);
     }
 

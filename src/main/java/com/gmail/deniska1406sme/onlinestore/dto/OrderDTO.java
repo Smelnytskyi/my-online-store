@@ -21,6 +21,9 @@ public class OrderDTO {
 
     private Set<CartItemDTO> items;
 
+    private String clientFirstName;
+    private String clientLastName;
+
     public OrderDTO() {
     }
 
@@ -80,6 +83,22 @@ public class OrderDTO {
 
     public void setItems(Set<CartItemDTO> items) {
         this.items = items;
+    }
+
+    public String getClientFirstName() {
+        return clientFirstName;
+    }
+
+    public void setClientFirstName(String clientFirstName) {
+        this.clientFirstName = clientFirstName;
+    }
+
+    public String getClientLastName() {
+        return clientLastName;
+    }
+
+    public void setClientLastName(String clientLastName) {
+        this.clientLastName = clientLastName;
     }
 
     @Override

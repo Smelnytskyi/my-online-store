@@ -197,26 +197,22 @@ async function displayOrders(orders) {
     ordersList.innerHTML = ''; // Очищаем предыдущий список
 
     for (const order of orders) {
-        // Получаем информацию о продуктах для каждого заказа
         const products = await Promise.all(order.items.map(item => getProductById(item.productId)));
-
-        // Рассчитываем общую сумму заказа
-        const totalPrice = products.reduce((sum, product, index) => {
-            return sum + (product.price * order.items[index].quantity);
-        }, 0);
+        const totalPrice = products.reduce((sum, product, index) => sum + (product.price * order.items[index].quantity), 0);
 
         const orderElement = document.createElement('div');
         orderElement.className = 'order';
         orderElement.innerHTML = `
             <div class="order-summary" onclick="toggleOrderDetails('order-${order.id}')">
                 <p>№ ${order.id}</p>
-                <p>${formatDate(order.orderDate)}</p> <!-- Форматируем дату -->
+                <p>${formatDate(order.orderDate)}</p>
                 <p>${order.orderStatus}</p>
-                <p>Итого: ${totalPrice.toFixed(2)} ₴</p> <!-- Отображаем общую сумму -->
+                <p>Итого: ${totalPrice.toFixed(2)} ₴</p>
             </div>
             <div class="order-details" id="order-${order.id}" style="display: none;">
+                <p>Получатель: ${order.clientFirstName} ${order.clientLastName}</p> <!-- Имя и фамилия клиента -->
                 <p>Адрес доставки: ${order.deliveryAddress}</p>
-                <p>Заметки: ${order.notes || 'Нет'}</p> <!-- Показываем заметки или 'Нет' если пусто -->
+                <p>Заметки: ${order.notes || 'Нет'}</p>
                 <h4>Товары в заказе:</h4>
                 <ul>
                     ${products.map((product, index) => `
@@ -234,6 +230,7 @@ async function displayOrders(orders) {
         ordersList.appendChild(orderElement);
     }
 }
+
 
 async function getProductById(productId) {
     const response = await fetch(`/main/product/${productId}`);

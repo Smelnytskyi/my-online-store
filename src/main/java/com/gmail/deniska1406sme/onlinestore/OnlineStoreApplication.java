@@ -99,6 +99,8 @@ public class OnlineStoreApplication {
             Employee employee2 = new Employee("emp2@gmail.com", "pass", "", "Denys2", "Smel2", "3800942");
             employeeRepository.save(employee2);
 
+            passwordAuthenticationService.savePassword("emp1@gmail.com", "password");
+
             Client client1 = new Client("client1@gmail.com", UserRole.CLIENT, "Denys", "Smel", "12548");
             clientRepository.save(client1);
 

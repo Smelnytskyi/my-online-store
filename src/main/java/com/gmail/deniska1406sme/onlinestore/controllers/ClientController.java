@@ -84,8 +84,14 @@ public class ClientController {
                                                      @RequestBody @Validated(OnUpdate.class) ClientDTO clientDTO,
                                                      BindingResult bindingResult) {
         String email = jwtTokenProvider.getLogin(token);
-        Long id = clientService.getClientByEmail(email).getId();
-        clientService.updateClient(clientDTO, id);
+        if(jwtTokenProvider.getRole(token) == UserRole.CLIENT) {
+            Long id = clientService.getClientByEmail(email).getId();
+            clientService.updateClient(clientDTO, id);
+        }else if(jwtTokenProvider.getRole(token) == UserRole.EMPLOYEE) {
+            EmployeeDTO employeeDTO = new EmployeeDTO(clientDTO.getFirstName(),clientDTO.getLastName(),clientDTO.getPhone());
+            Long id = employeeService.getEmployeeByEmail(email).getId();
+            employeeService.updateEmployee(employeeDTO, id);
+        }
         return ResponseEntity.ok().build();
     }
 

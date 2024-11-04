@@ -1,5 +1,7 @@
 // Глобальная переменная для хранения списка сотрудников
 let employees = [];
+let selectedEmployees = [];
+let currentPage = 0; // Добавляем переменную для текущей страницы
 
 // Загрузка данных при старте страницы
 window.onload = function() {
@@ -34,13 +36,19 @@ async function loadEmployees(page = 0) {
             const data = await response.json();
             employees = data.content;  // Сохраняем сотрудников в глобальную переменную
             displayEmployees(employees);
-            setupPagination(data.totalPages);
+            setupPagination(data.page.totalPages, page);
+            currentPage = page;
         } else {
             console.error('Ошибка загрузки сотрудников');
         }
     } catch (error) {
         console.error('Ошибка:', error);
     }
+}
+
+// Функция для загрузки определенной страницы
+function loadPage(page) {
+    loadEmployees(page); // Загружаем сотрудников для указанной страницы
 }
 
 // Функция отображения сотрудников
@@ -65,18 +73,22 @@ function displayEmployees(employees) {
     }
 }
 
-// Функция добавления нового сотрудника
 async function addEmployee() {
     const newEmployee = {
-        firstName: document.getElementById('employee-first-name').value,
-        lastName: document.getElementById('employee-last-name').value,
-        phone: document.getElementById('employee-phone').value,
-        email: document.getElementById('employee-email').value,
+        employee: {
+            firstName: document.getElementById('employee-first-name').value,
+            lastName: document.getElementById('employee-last-name').value,
+            phone: document.getElementById('employee-phone').value
+        },
+        user: {
+            email: document.getElementById('employee-email').value,
+            googleId: null // Или любое другое значение по умолчанию, если не используется
+        },
         password: document.getElementById('employee-password').value
     };
 
     try {
-        const response = await fetch('/admin/employees', {
+        const response = await fetch('/admin/employee/add', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -88,8 +100,14 @@ async function addEmployee() {
         if (response.ok) {
             alert('Сотрудник добавлен');
             loadEmployees(); // Обновляем список сотрудников
+            closeAddEmployeeModal(); // Закрыть модальное окно после успешного добавления
         } else {
-            console.error('Ошибка при добавлении сотрудника');
+            const errorData = await response.json();
+            if (response.status === 400 && errorData.message === 'Email already exists') {
+                alert('Ошибка: Email уже существует.');
+            } else {
+                displayValidationErrors(errorData); // Отображаем другие ошибки валидации
+            }
         }
     } catch (error) {
         console.error('Ошибка:', error);
@@ -102,7 +120,6 @@ function showEditEmployeeModal(employeeId) {
     document.getElementById('edit-employee-first-name').value = employee.firstName;
     document.getElementById('edit-employee-last-name').value = employee.lastName;
     document.getElementById('edit-employee-phone').value = employee.phone;
-    document.getElementById('edit-employee-email').value = employee.email;
     document.getElementById('edit-employee-id').value = employee.id;
 
     document.getElementById('editEmployeeModal').style.display = 'flex';
@@ -123,12 +140,11 @@ async function updateEmployee(employeeId) {
         firstName: document.getElementById('edit-employee-first-name').value,
         lastName: document.getElementById('edit-employee-last-name').value,
         phone: document.getElementById('edit-employee-phone').value,
-        email: document.getElementById('edit-employee-email').value,
     };
 
     try {
-        const response = await fetch(`/admin/employees/${employeeId}`, {
-            method: 'PUT',
+        const response = await fetch(`/admin/employee/update/${employeeId}`, {
+            method: 'PATCH',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
@@ -139,6 +155,7 @@ async function updateEmployee(employeeId) {
         if (response.ok) {
             alert('Сотрудник обновлен');
             loadEmployees(); // Обновляем список сотрудников
+            closeEditEmployeeModal()
         } else {
             console.error('Ошибка при обновлении сотрудника');
         }
@@ -151,7 +168,7 @@ async function updateEmployee(employeeId) {
 async function deleteEmployee(employeeId) {
     if (confirm('Вы уверены, что хотите удалить этого сотрудника?')) {
         try {
-            const response = await fetch(`/admin/employees/${employeeId}`, {
+            const response = await fetch(`/admin/user/delete/${employeeId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -170,14 +187,94 @@ async function deleteEmployee(employeeId) {
     }
 }
 
-// Дополнительные функции для удаления выбранных сотрудников и переключения состояния чекбоксов
+// Функция для переключения состояния выбора сотрудника
 function toggleEmployeeSelection(employeeId) {
     const checkbox = document.getElementById(`employee-checkbox-${employeeId}`);
-    // Здесь можно реализовать логику для управления состоянием выбранных сотрудников
+    if (checkbox.checked) {
+        // Добавляем сотрудника в массив выбранных
+        selectedEmployees.push(employeeId);
+    } else {
+        // Удаляем сотрудника из массива выбранных
+        selectedEmployees = selectedEmployees.filter(id => id !== employeeId);
+    }
 }
 
-function deleteSelectedEmployees() {
-    const selectedIds = employees.filter(emp => document.getElementById(`employee-checkbox-${emp.id}`).checked).map(emp => emp.id);
-    // Здесь можно реализовать логику для удаления выбранных сотрудников
+// Функция для удаления выбранных сотрудников
+async function deleteSelectedEmployees() {
+    if (selectedEmployees.length === 0) {
+        alert('Пожалуйста, выберите сотрудников для удаления.');
+        return;
+    }
+
+    const confirmation = confirm('Вы уверены, что хотите удалить выбранных сотрудников?');
+    if (!confirmation) return;
+
+    try {
+        const response = await fetch('/admin/users/delete', {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(selectedEmployees)
+        });
+
+        if (response.ok) {
+            alert('Сотрудники успешно удалены.');
+            loadEmployees(); // Обновляем список сотрудников
+            selectedEmployees = []; // Очищаем массив выбранных сотрудников
+        } else {
+            console.error('Ошибка при удалении сотрудников');
+            alert('Не удалось удалить сотрудников. Пожалуйста, попробуйте позже.');
+        }
+    } catch (error) {
+        console.error('Ошибка:', error);
+    }
 }
 
+// Функция для отображения ошибок валидации
+function displayValidationErrors(errors) {
+    let errorMessages = '';
+
+    // Предполагаем, что ошибки приходят в формате { field: 'error message' }
+    for (const field in errors) {
+        errorMessages += `${field}: ${errors[field]} \n`;
+    }
+
+    alert(`Ошибки валидации:\n${errorMessages}`);
+}
+
+// Функция для настройки пагинации
+function setupPagination(totalPages, currentPage) {
+    const paginationContainer = document.getElementById('pagination-container'); // Измените ID на ваш актуальный
+    paginationContainer.innerHTML = '';
+
+    // Скрываем контейнер, если страниц меньше или равно 1
+    if (totalPages <= 1) {
+        paginationContainer.style.display = 'none';
+        return;
+    }
+
+    paginationContainer.style.display = 'flex'; // Показываем контейнер
+
+    // Добавляем кнопки пагинации
+    for (let i = 0; i < totalPages; i++) {
+        const pageItem = document.createElement('li');
+        pageItem.classList.add('page-item');
+
+        // Если это текущая страница, добавляем класс 'active'
+        if (i === currentPage) {
+            pageItem.classList.add('active');
+        }
+
+        pageItem.innerHTML = `<a class="page-link" href="#">${i + 1}</a>`; // Пагинация с 1 до totalPages
+
+        // Добавляем обработчик события для клика по кнопке страницы
+        pageItem.addEventListener('click', (e) => {
+            e.preventDefault();
+            loadPage(i); // Замените fetchProducts на loadPage
+        });
+
+        paginationContainer.appendChild(pageItem);
+    }
+}

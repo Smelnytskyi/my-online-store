@@ -3,10 +3,7 @@ package com.gmail.deniska1406sme.onlinestore;
 import com.gmail.deniska1406sme.onlinestore.dto.CartItemDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.ProductDTO;
 import com.gmail.deniska1406sme.onlinestore.model.*;
-import com.gmail.deniska1406sme.onlinestore.repositories.ClientRepository;
-import com.gmail.deniska1406sme.onlinestore.repositories.EmployeeRepository;
-import com.gmail.deniska1406sme.onlinestore.repositories.OrderRepository;
-import com.gmail.deniska1406sme.onlinestore.repositories.ProductRepository;
+import com.gmail.deniska1406sme.onlinestore.repositories.*;
 import com.gmail.deniska1406sme.onlinestore.services.ImageService;
 import com.gmail.deniska1406sme.onlinestore.services.PasswordAuthenticationService;
 import com.gmail.deniska1406sme.onlinestore.utils.ImageUtil;
@@ -39,6 +36,8 @@ public class OnlineStoreApplication {
     private ImageService imageService;
     @Autowired
     private PasswordAuthenticationService passwordAuthenticationService;
+    @Autowired
+    private AdminRepository adminRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(OnlineStoreApplication.class, args);
@@ -132,6 +131,10 @@ public class OnlineStoreApplication {
             clientRepository.save(testMail);
 
             passwordAuthenticationService.savePassword("denys.smelnytskyi@nure.ua", "password");
+
+            Admin admin = new Admin("admin@gmail.com", UserRole.ADMIN);
+            adminRepository.save(admin);
+            passwordAuthenticationService.savePassword("admin@gmail.com", "password");
         };
     }
 

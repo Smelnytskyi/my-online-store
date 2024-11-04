@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль администратора</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/profile-admin.css">
+    <link rel="stylesheet" href="css/top-panel.css">
+</head>
+<body data-page="profile-admin">
+<div id="top-panel"></div>
+
+<div class="container mt-4 d-flex">
+    <!-- Левая панель -->
+    <aside class="sidebar">
+        <div class="list-group">
+            <button id="employees-button" class="list-group-item list-group-item-action active" onclick="showEmployeesSection()">Работники</button>
+        </div>
+    </aside>
+
+    <!-- Основной контент -->
+    <main class="content">
+        <!-- Секция работников -->
+        <section id="employees-section" class="employees-section mb-4">
+            <h2>Работники</h2>
+            <div class="d-flex justify-content-between mb-3">
+                <button class="btn btn-primary" onclick="showAddEmployeeModal()">Добавить сотрудника</button>
+                <button class="btn btn-danger" onclick="deleteSelectedEmployees()">Удалить выбранных</button>
+            </div>
+            <div id="employees-list" class="list-group"></div>
+            <div id="pagination" class="d-flex justify-content-center mt-3"></div>
+        </section>
+    </main>
+</div>
+
+<!-- Модальное окно для добавления сотрудника -->
+<div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEmployeeModalLabel">Добавить сотрудника</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="employee-first-name" class="form-control mb-2" placeholder="Имя" required>
+                <input type="text" id="employee-last-name" class="form-control mb-2" placeholder="Фамилия" required>
+                <input type="text" id="employee-phone" class="form-control mb-2" placeholder="Телефон" required>
+                <input type="text" id="employee-email" class="form-control mb-2" placeholder="Email" required>
+                <input type="password" id="employee-password" class="form-control mb-2" placeholder="Пароль" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-success" onclick="addEmployee()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/profile-admin.js"></script>
+<script src="js/top-panel.js"></script>
+</body>
+</html>

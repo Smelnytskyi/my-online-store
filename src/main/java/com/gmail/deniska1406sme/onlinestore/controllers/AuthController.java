@@ -1,8 +1,11 @@
 package com.gmail.deniska1406sme.onlinestore.controllers;
 
+import com.gmail.deniska1406sme.onlinestore.config.JwtTokenProvider;
 import com.gmail.deniska1406sme.onlinestore.dto.LoginRequest;
 import com.gmail.deniska1406sme.onlinestore.exceptions.UserNotFoundException;
+import com.gmail.deniska1406sme.onlinestore.model.UserRole;
 import com.gmail.deniska1406sme.onlinestore.services.PasswordAuthenticationService;
+import io.jsonwebtoken.JwtException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +21,12 @@ import java.util.Collections;
 public class AuthController {
 
     private final PasswordAuthenticationService passwordAuthenticationService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public AuthController(PasswordAuthenticationService passwordAuthenticationService) {
+    public AuthController(PasswordAuthenticationService passwordAuthenticationService, JwtTokenProvider jwtTokenProvider) {
         this.passwordAuthenticationService = passwordAuthenticationService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @PostMapping("/login")
@@ -36,6 +41,16 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Неправильный логин");
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Неправильный пароль");
+        }
+    }
+
+    @GetMapping("/role")
+    public ResponseEntity<?> getRole(@RequestHeader(value = "Authorization") String token) {
+        try {
+            UserRole role = jwtTokenProvider.getRole(token);
+            return ResponseEntity.ok(Collections.singletonMap("role", role));
+        } catch (JwtException | IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Неверный или просроченный токен");
         }
     }
 }

@@ -185,14 +185,50 @@ function showNoResultsMessage() {
     paginationContainer.style.display = 'none';
 }
 
-function openAuthModal() {
+async function openAuthModal() {
     const token = localStorage.getItem('token');
     if (token) {
-        // Если токен есть, перенаправляем на страницу профиля
-        window.location.href = 'profile-client.html';
+        try {
+            const role = await getUserRole(token);
+            redirectToProfile(role);
+        } catch (error) {
+            console.error("Ошибка получения роли пользователя:", error);
+            showError("Ошибка при определении профиля");
+        }
     } else {
         // Если токена нет, открываем модальное окно авторизации
         document.getElementById('authModal').style.display = 'flex';
+    }
+}
+
+async function getUserRole(token) {
+    try {
+        const response = await fetch('/auth/role', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch user role");
+
+        const data = await response.json();
+        return data.role; // Предполагаем, что роль хранится в поле "role"
+    } catch (error) {
+        console.error("Ошибка при получении роли пользователя:", error);
+        throw error; // Чтобы обработать ошибку выше
+    }
+}
+
+function redirectToProfile(role) {
+    if (role === 'CLIENT') {
+        window.location.href = 'profile-client.html';
+    } else if (role === 'ADMIN') {
+        window.location.href = 'profile-admin.html';
+    } else if (role === 'EMPLOYEE') {
+        window.location.href = 'profile-employee.html';
+    } else {
+        console.error("Неизвестная роль:", role);
+        showError("Неизвестный профиль пользователя");
     }
 }
 

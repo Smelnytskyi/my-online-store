@@ -66,9 +66,9 @@ public class OnlineStoreApplication {
             productRepository.save(product1);
 
             ProductDTO productDTO = product1.toProductDTO();
-            String photo1 = imageUtil.convertImageToBase64("C:\\Users\\smede\\Desktop\\proga hw\\OnlineStore" +
-                    "\\src\\main\\resources\\static\\productPhotos\\photo 1.jpg");
-            imageService.uploadImage(photo1, productDTO);
+            //String photo1 = imageUtil.convertImageToBase64("C:\\Users\\smede\\Desktop\\proga hw\\OnlineStore" +
+            //        "\\src\\main\\resources\\static\\productPhotos\\photo 1.jpg");
+            //imageService.uploadImage(photo1, productDTO);
             product1.setImageUrl(productDTO.getImageUrl());
             product1.setDeleteImageUrl(productDTO.getDeleteImageUrl());
             productRepository.save(product1);

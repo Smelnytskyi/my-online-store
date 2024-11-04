@@ -8,15 +8,19 @@ window.onload = function() {
 };
 
 function showProfileSection() {
-    document.getElementById("profile-section").style.display = "block";
-    document.getElementById("orders-section").style.display = "none";
+    document.getElementById('profile-section').style.display = 'block';
+    document.getElementById('orders-section').style.display = 'none';
+    document.getElementById('profile-button').classList.add('active');
+    document.getElementById('orders-button').classList.remove('active');
     loadProfile();
     checkPasswordExistence();
 }
 
 function showOrdersSection() {
-    document.getElementById("profile-section").style.display = "none";
-    document.getElementById("orders-section").style.display = "block";
+    document.getElementById('profile-section').style.display = 'none';
+    document.getElementById('orders-section').style.display = 'block';
+    document.getElementById('orders-button').classList.add('active');
+    document.getElementById('profile-button').classList.remove('active');
     loadOrders(); // Загрузить заказы при открытии секции
 }
 
@@ -201,28 +205,28 @@ async function displayOrders(orders) {
         const totalPrice = products.reduce((sum, product, index) => sum + (product.price * order.items[index].quantity), 0);
 
         const orderElement = document.createElement('div');
-        orderElement.className = 'order';
+        orderElement.className = 'order card mb-3';
         orderElement.innerHTML = `
-            <div class="order-summary" onclick="toggleOrderDetails('order-${order.id}')">
-                <p>№ ${order.id}</p>
-                <p>${formatDate(order.orderDate)}</p>
-                <p>${order.orderStatus}</p>
-                <p>Итого: ${totalPrice.toFixed(2)} ₴</p>
+            <div class="order-summary card-header d-flex justify-content-between align-items-center" onclick="toggleOrderDetails('order-${order.id}')">
+                <span>№ ${order.id}</span>
+                <span>${formatDate(order.orderDate)}</span>
+                <span>${order.orderStatus}</span>
+                <span>Итого: ${totalPrice.toFixed(2)} ₴</span>
             </div>
-            <div class="order-details" id="order-${order.id}" style="display: none;">
-                <p>Получатель: ${order.clientFirstName} ${order.clientLastName}</p> <!-- Имя и фамилия клиента -->
-                <p>Адрес доставки: ${order.deliveryAddress}</p>
-                <p>Заметки: ${order.notes || 'Нет'}</p>
+            <div class="order-details card-body" id="order-${order.id}" style="display: none;">
+                <p><strong>Получатель:</strong> ${order.clientFirstName} ${order.clientLastName}</p>
+                <p><strong>Адрес доставки:</strong> ${order.deliveryAddress}</p>
+                <p><strong>Заметки:</strong> ${order.notes || 'Нет'}</p>
                 <h4>Товары в заказе:</h4>
-                <ul>
+                <ul class="list-unstyled">
                     ${products.map((product, index) => `
-                        <li>
-                            <img src="${product.imageUrl}" alt="${product.name}" style="width: 50px; height: auto;"> 
-                            ${product.name} (кол-во: ${order.items[index].quantity}, цена: ${product.price.toFixed(2)} ₴)
+                        <li class="d-flex align-items-center mb-2">
+                            <img src="${product.imageUrl}" alt="${product.name}" class="me-2" style="width: 50px;">
+                            <span>${product.name}</span> <span>(кол-во: ${order.items[index].quantity}, цена: ${product.price.toFixed(2)} ₴)</span>
                         </li>
                     `).join('')}
                 </ul>
-                <button onclick="cancelOrder(${order.id})" ${order.orderStatus !== 'PENDING' && order.orderStatus !== 'CONFIRMED' ? 'style="display:none;"' : ''}>
+                <button class="btn btn-danger" onclick="cancelOrder(${order.id})" ${order.orderStatus !== 'PENDING' && order.orderStatus !== 'CONFIRMED' ? 'style="display:none;"' : ''}>
                     Отменить
                 </button>
             </div>
@@ -230,7 +234,6 @@ async function displayOrders(orders) {
         ordersList.appendChild(orderElement);
     }
 }
-
 
 async function getProductById(productId) {
     const response = await fetch(`/main/product/${productId}`);

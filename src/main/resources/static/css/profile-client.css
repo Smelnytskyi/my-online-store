@@ -1,72 +1,61 @@
 /* Основные стили */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
 }
 
 .container {
     display: flex;
-    margin-top: 1rem;
 }
 
 .sidebar {
     width: 200px;
-    padding: 1rem;
-    background-color: #f7f7f7;
-}
-
-.profile-menu .profile-item {
-    padding: 10px;
-    cursor: pointer;
-    color: #333;
-}
-
-.profile-menu .profile-item.active {
-    font-weight: bold;
+    margin-right: 20px;
 }
 
 .content {
     flex-grow: 1;
-    padding: 1rem;
 }
 
-h2 {
-    font-size: 1.5rem;
+.list-group-item.active {
+    background-color: #0d6efd;
+    color: white;
 }
 
-.account-info, .order-summary {
+.profile-section, #change-password-section {
+    max-width: 500px;
+}
+
+.orders-section {
+    width: 100%;
+}
+
+.order-summary {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
-    background: #f0f0f0;
-    border: 1px solid #ddd;
-    cursor: pointer;
-}
-
-.edit-section, .order-details {
-    display: none;
-    margin-top: 1rem;
-}
-
-button {
-    margin-top: 0.5rem;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #218838;
-}
-
-.product-item {
-    display: flex;
     align-items: center;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    margin-bottom: 5px;
 }
 
-.product-item img {
+.order-details {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.order-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.order-details img {
     width: 50px;
     height: 50px;
     margin-right: 10px;
 }
+

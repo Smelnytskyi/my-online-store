@@ -26,4 +26,6 @@ public interface OrderService {
 
     Page<OrderDTO> getOrdersByStatus(OrderStatus orderStatus, Pageable pageable);
 
+    ClientDTO getClient(Long id);
+
 }

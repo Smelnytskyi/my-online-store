@@ -112,4 +112,12 @@ public class OrderServiceImpl implements OrderService {
         Page<Order> orders = orderRepository.findByOrderStatus(orderStatus, pageable);
         return orders.map(Order::toOrderDTO);
     }
+
+    @Transactional
+    @Override
+    public ClientDTO getClient(Long id){
+        Order order = orderRepository.findOrderById(id);
+        Client client = order.getClient();
+        return client.toClientDTO();
+    }
 }

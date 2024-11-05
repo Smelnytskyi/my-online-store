@@ -1,8 +1,11 @@
 package com.gmail.deniska1406sme.onlinestore.controllers;
 
+import com.gmail.deniska1406sme.onlinestore.dto.ClientDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.OrderDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.ProductDTO;
+import com.gmail.deniska1406sme.onlinestore.exceptions.OrderNotFoundException;
 import com.gmail.deniska1406sme.onlinestore.model.OrderStatus;
+import com.gmail.deniska1406sme.onlinestore.services.ClientService;
 import com.gmail.deniska1406sme.onlinestore.services.OrderService;
 import com.gmail.deniska1406sme.onlinestore.services.ProductService;
 import com.gmail.deniska1406sme.onlinestore.validation.OnCreate;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -33,6 +37,11 @@ public class EmployeeController {
     @GetMapping("/orders")
     public ResponseEntity<Page<OrderDTO>> getOrders(Pageable pageable) {
         Page<OrderDTO> orders = orderService.getOrders(pageable);
+        for(OrderDTO order: orders){
+            ClientDTO clientDTO = orderService.getClient(order.getId());
+            order.setClientFirstName(clientDTO.getFirstName());
+            order.setClientLastName(clientDTO.getLastName());
+        }
         return ResponseEntity.ok(orders);
     }
 
@@ -48,7 +57,7 @@ public class EmployeeController {
         return ResponseEntity.ok(updatedOrder);
     }
 
-    @DeleteMapping("/order/delete{id}")
+    @DeleteMapping("/order/delete/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
         return ResponseEntity.ok().build();
@@ -56,8 +65,15 @@ public class EmployeeController {
 
     @GetMapping("/order/get-single/{id}")
     public ResponseEntity<OrderDTO> getSingleOrder(@PathVariable Long id) {
-        OrderDTO orderDTO = orderService.getOrder(id);
-        return ResponseEntity.ok(orderDTO);
+        try {
+            OrderDTO orderDTO = orderService.getOrder(id);
+            ClientDTO clientDTO = orderService.getClient(orderDTO.getId());
+            orderDTO.setClientFirstName(clientDTO.getFirstName());
+            orderDTO.setClientLastName(clientDTO.getLastName());
+            return ResponseEntity.ok(orderDTO);
+        } catch (OrderNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @PostMapping("/product/add")

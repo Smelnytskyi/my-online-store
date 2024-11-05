@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadEmployeeProfile();
     loadOrders();
     showTab("personal-info");
+    fetchProducts();
 
     // Загрузка и отображение информации работника
     function loadEmployeeProfile() {
@@ -125,6 +126,135 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("order-search").addEventListener("keyup", function (e) {
         if (e.key === "Enter" && this.value) {
             searchOrderById(this.value);
+        }
+    });
+
+    // Обработчик нажатия на кнопку добавления товара
+    document.getElementById('add-product').addEventListener('click', function() {
+        document.getElementById('productForm').reset();
+        openModal();
+    });
+
+    // Обработчик нажатия на кнопку сохранения товара
+    document.getElementById('saveProductButton').addEventListener('click', async function() {
+        const productId = document.getElementById('productId').value;
+        const productData = {
+            name: document.getElementById('productName').value,
+            category: document.getElementById('productCategory').value,
+            description: document.getElementById('productDescription').value,
+            price: parseFloat(document.getElementById('productPrice').value),
+            quantity: parseInt(document.getElementById('productQuantity').value),
+            attributes: {}
+        };
+
+        // Сбор атрибутов в объект
+        const attributeRows = document.getElementById('attributesContainer').getElementsByClassName('attribute-row');
+        for (let row of attributeRows) {
+            const key = row.querySelector('input:nth-child(1)').value; // Ключ
+            const value = row.querySelector('input:nth-child(2)').value; // Значение
+            if (key && value) {
+                productData.attributes[key] = value;
+            }
+        }
+
+        if (productId) {
+            // Обновление товара
+            await fetch(`/employee/product/update/${productId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(productData)
+            });
+        } else {
+            // Добавление товара
+            await fetch('/employee/product/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(productData)
+            });
+        }
+
+        closeModal();
+        fetchProducts();
+    });
+
+    // Обработчик для редактирования товара
+    document.getElementById('products-list').addEventListener('click', async function(event) {
+        if (event.target.classList.contains('editButton')) {
+            const productId = event.target.dataset.id;
+            const response = await fetch(`/main/product/${productId}`);
+            const product = await response.json();
+
+            document.getElementById('productId').value = product.id;
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productCategory').value = product.category;
+            document.getElementById('productDescription').value = product.description;
+            document.getElementById('productPrice').value = product.price;
+            document.getElementById('productQuantity').value = product.quantity;
+
+            // Удаление существующих атрибутов
+            const attributesContainer = document.getElementById('attributesContainer');
+            attributesContainer.innerHTML = ''; // Очищаем контейнер перед добавлением атрибутов
+
+            // Преобразование объекта атрибутов в массив и добавление атрибутов
+            if (typeof product.attributes === 'object' && product.attributes !== null) {
+                Object.entries(product.attributes).forEach(([key, value]) => {
+                    const attributeRow = document.createElement('div');
+                    attributeRow.classList.add('attribute-row', 'd-flex', 'mb-2');
+                    attributeRow.innerHTML = `
+                    <input type="text" class="form-control mr-2" placeholder="Ключ" value="${key}" />
+                    <input type="text" class="form-control mr-2" placeholder="Значение" value="${value}" />
+                    <button type="button" class="btn btn-danger removeAttributeButton">Удалить</button>
+                `;
+                    attributesContainer.appendChild(attributeRow);
+                });
+            } else {
+                console.warn('Attributes is not a valid object:', product.attributes);
+            }
+
+            openModal();
+        }
+
+        // Обработчик для удаления товара
+        if (event.target.classList.contains('deleteButton')) {
+            const productId = event.target.dataset.id;
+            if (confirm('Вы уверены, что хотите удалить этот товар?')) {
+                await fetch(`/employee/product/delete/${productId}`, {
+                    method: 'DELETE'
+                });
+                fetchProducts();
+            }
+        }
+    });
+
+    // Обработчик для поиска товаров
+    document.getElementById('searchButton').addEventListener('click', async function() {
+        const quantity = parseInt(document.getElementById('product-quantity').value);
+        const response = await fetch(`/employee/products-by-quantity?quantity=${quantity}`);
+        const products = await response.json();
+        displayProducts(products.content); // предположим, что ответ включает поле 'content' с продуктами
+    });
+
+    // Функция для добавления новой строки атрибута
+    document.getElementById('addAttributeButton').addEventListener('click', function() {
+        const attributeRow = document.createElement('div');
+        attributeRow.classList.add('attribute-row', 'd-flex', 'mb-2');
+        attributeRow.innerHTML = `
+            <input type="text" class="form-control mr-2" placeholder="Ключ" />
+            <input type="text" class="form-control mr-2" placeholder="Значение" />
+            <button type="button" class="btn btn-danger removeAttributeButton">Удалить</button>
+        `;
+        document.getElementById('attributesContainer').appendChild(attributeRow);
+    });
+
+    // Обработчик для удаления атрибута
+    document.getElementById('attributesContainer').addEventListener('click', function(event) {
+        if (event.target.classList.contains('removeAttributeButton')) {
+            const attributeRow = event.target.closest('.attribute-row');
+            document.getElementById('attributesContainer').removeChild(attributeRow);
         }
     });
 });
@@ -337,4 +467,43 @@ function setupPagination(totalPages, currentPage) {
         }
     }
 }
+
+// Функция для отображения товаров
+function displayProducts(products) {
+    document.getElementById('products-list').innerHTML = '';
+
+    products.forEach(product => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+                <td>${product.id}</td>
+                <td><img src="${product.imageUrl}" alt="${product.name}" width="50" /></td>
+                <td>${product.name}</td>
+                <td>${product.quantity}</td>
+                <td>
+                    <button class="btn btn-warning editButton" data-id="${product.id}">Редактировать</button>
+                    <button class="btn btn-danger deleteButton" data-id="${product.id}">Удалить</button>
+                </td>
+            `;
+        document.getElementById('products-list').appendChild(row);
+    });
+}
+
+// Получение списка товаров (например, при загрузке страницы)
+async function fetchProducts() {
+    const response = await fetch('/main/products');
+    const data = await response.json();
+    displayProducts(data.content);
+}
+
+function openModal() {
+    document.getElementById('productModal').style.display = 'block';
+    document.getElementById('modalBackground').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('productModal').style.display = 'none';
+    document.getElementById('modalBackground').style.display = 'none';
+}
+
+
 

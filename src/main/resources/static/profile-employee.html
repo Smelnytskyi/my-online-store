@@ -15,7 +15,8 @@
 
 <div class="container mt-4 d-flex">
     <!-- Боковая панель -->
-    <aside class="sidebar">
+    <aside class="sidebar me-4">
+        <h5 class="text-center">Навигация</h5>
         <div class="list-group">
             <button id="personal-info-tab" class="list-group-item list-group-item-action active" onclick="showTab('personal-info')">Личные данные</button>
             <button id="orders-tab" class="list-group-item list-group-item-action" onclick="showTab('orders')">Заказы</button>
@@ -24,7 +25,7 @@
     </aside>
 
     <!-- Основной контент -->
-    <main class="content">
+    <main class="content flex-grow-1">
         <!-- Личные данные -->
         <section id="personal-info" class="tab-content active mb-4">
             <h2>Личные данные</h2>
@@ -36,6 +37,7 @@
             </div>
 
             <div class="card p-3 mb-3" id="edit-info-form" style="display: none;">
+                <h5>Редактирование личных данных</h5>
                 <input type="text" id="input-firstName" class="form-control mb-2" placeholder="Имя">
                 <input type="text" id="input-lastName" class="form-control mb-2" placeholder="Фамилия">
                 <input type="text" id="input-phone" class="form-control mb-2" placeholder="Телефон">
@@ -58,8 +60,8 @@
         <section id="orders" class="tab-content" style="display: none;">
             <h3>Заказы</h3>
             <div class="mb-3">
-                <label for="order-status">Фильтр по статусу:</label>
-                <select id="order-status" class="form-control">
+                <label for="order-status" class="form-label">Фильтр по статусу:</label>
+                <select id="order-status" class="form-select">
                     <option value="ALL">Все</option>
                     <option value="PENDING">Ожидающие</option>
                     <option value="CONFIRMED">Подтвержденные</option>
@@ -69,7 +71,7 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label for="order-search">Поиск по ID:</label>
+                <label for="order-search" class="form-label">Поиск по ID:</label>
                 <div class="input-group">
                     <input type="text" id="order-search" class="form-control" placeholder="Введите ID заказа">
                     <button id="search-button" class="btn btn-primary">Найти</button>
@@ -96,7 +98,7 @@
             <h3>Товары</h3>
             <button class="btn btn-success mb-3" id="add-product">Добавить товар</button>
             <div class="mb-3">
-                <label for="product-quantity">Поиск по количеству:</label>
+                <label for="product-quantity" class="form-label">Поиск по количеству:</label>
                 <input type="number" id="product-quantity" class="form-control" placeholder="Введите количество">
             </div>
             <table class="table table-striped mt-3">

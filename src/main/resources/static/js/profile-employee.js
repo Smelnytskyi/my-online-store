@@ -1,3 +1,6 @@
+let currentPage = 1; // Текущая страница
+const itemsPerPage = 20; // Количество заказов на странице
+
 const OrderStatus = {
     PENDING: "Ожидающие",
     CONFIRMED: "Подтвержденные",
@@ -150,7 +153,7 @@ function displayOrders(orders) {
 }
 
 // Загрузка заказов при загрузке страницы или изменении фильтра
-function loadOrders(status = "ALL") {
+function loadOrders(status = "ALL", page = 1) {
     let url = '/employee/orders';
     if (status !== "ALL") {
         url = `/employee/orders-by-status?status=${status}`;
@@ -164,6 +167,7 @@ function loadOrders(status = "ALL") {
         .then(response => response.json())
         .then(data => {
             displayOrders(data.content); // Метод для отображения заказов
+            setupPagination(data.page.totalPages, page);
         })
         .catch(error => console.error("Ошибка загрузки заказов:", error));
 }
@@ -308,7 +312,6 @@ async function showOrderDetails(orderId) {
     }
 }
 
-
 async function getProductById(productId) {
     const response = await fetch(`/main/product/${productId}`);
     if (!response.ok) {
@@ -316,5 +319,22 @@ async function getProductById(productId) {
         return { name: 'Неизвестный товар' }; // Возвращаем заглушку, если продукт не найден
     }
     return await response.json();
+}
+
+function setupPagination(totalPages, currentPage) {
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+
+    if (totalPages === 1) {
+        pagination.parentElement.style.display = "none";
+    } else {
+        pagination.parentElement.style.display = "block";
+        for (let i = 1; i <= totalPages; i++) {
+            const pageItem = document.createElement("li");
+            pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
+            pageItem.innerHTML = `<a class="page-link" href="#" onclick="loadOrders(document.getElementById('order-status').value, ${i})">${i}</a>`;
+            pagination.appendChild(pageItem);
+        }
+    }
 }
 

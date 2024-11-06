@@ -167,15 +167,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Обработка файла изображения
         const imageFile = document.getElementById('productImage').files[0];
-        if (imageFile) {
+        if (!imageFile) {
+            displayValidationErrors(['Пожалуйста, загрузите изображение товара.'], 'product-validation-errors');
+            return; // Останавливаем выполнение, если изображение не выбрано
+        } else {
             const reader = new FileReader();
             reader.onload = function(e) {
                 productData.imageUrl = e.target.result.split(',')[1]; // Устанавливаем значение imageUrl как Base64
                 saveProduct(productId, productData);
             };
             reader.readAsDataURL(imageFile); // Читаем файл как Data URL
-        } else {
-            saveProduct(productId, productData); // Если изображение не выбрано, сохраняем данные без него
         }
     });
 
@@ -194,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('productQuantity').value = product.quantity;
 
             // Валидация: проверка, что категория выбрана
-            if (!productData.category) {
+            if (!product.category) {
                 displayValidationErrors(['Пожалуйста, выберите категорию товара.'], 'product-validation-errors');
                 return; // Останавливаем выполнение, если категория не выбрана
             }
@@ -284,13 +285,11 @@ async function saveProduct(productId, productData) {
             body: JSON.stringify(productData),
         });
 
-    const result = await response.json();
-
     if (response.ok) {
         closeModal();
         fetchProducts();
     } else {
-        // Если есть ошибки, выводим их
+        const result = await response.json();
         if (result) {
             displayValidationErrors(result, 'product-validation-errors');
         } else {

@@ -1,20 +1,7 @@
 const urlParams = new URLSearchParams(window.location.search);
 const productId = urlParams.get('id');
 
-async function loadTopPanel() {
-    try {
-        const response = await fetch('top-panel.html');
-        if (!response.ok) throw new Error("Failed to load top panel");
-        const html = await response.text();
-        document.getElementById('top-panel').innerHTML = html;
-    } catch (error) {
-        console.error("Error loading top panel:", error);
-    }
-}
-
-
 document.addEventListener("DOMContentLoaded", async () => {
-    loadTopPanel();
 
     if (!productId) {
         console.error("Product ID не найден в URL");

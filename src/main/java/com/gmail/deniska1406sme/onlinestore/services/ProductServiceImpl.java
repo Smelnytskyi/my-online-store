@@ -1,7 +1,6 @@
 package com.gmail.deniska1406sme.onlinestore.services;
 
 import com.gmail.deniska1406sme.onlinestore.dto.ProductDTO;
-import com.gmail.deniska1406sme.onlinestore.dto.ProductFilterDTO;
 import com.gmail.deniska1406sme.onlinestore.exceptions.ProductNotFoundException;
 import com.gmail.deniska1406sme.onlinestore.model.Product;
 import com.gmail.deniska1406sme.onlinestore.model.ProductCategory;
@@ -45,7 +44,6 @@ public class ProductServiceImpl implements ProductService {
                 productDTO.getDeleteImageUrl(),
                 productDTO.getAttributes()
         );
-
         productRepository.save(product);
     }
 
@@ -136,8 +134,12 @@ public class ProductServiceImpl implements ProductService {
     public void updateProductQuantity(Long id, Integer quantity) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product does not exist"));
-        product.setQuantity(product.getQuantity() - quantity);
-        productRepository.save(product);
+        if (product.getQuantity() > quantity) {
+            product.setQuantity(product.getQuantity() - quantity);
+            productRepository.save(product);
+        }else {
+            throw new IllegalArgumentException("The quantity of product is less than required: " + product.getQuantity());
+        }
     }
 
     @Transactional

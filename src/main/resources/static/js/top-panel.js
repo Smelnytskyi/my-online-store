@@ -1,7 +1,9 @@
 let cartCount = 0;
+let topPanelLoaded = 0;
 
 // Загружаем верхнюю панель и количество товаров в корзине
 async function loadTopPanel() {
+
     try {
         const response = await fetch('top-panel.html');
         if (!response.ok) throw new Error("Failed to load top panel");
@@ -112,13 +114,15 @@ async function loadTopPanel() {
         });
 
         // Обработчик для кнопоки заказа
-        document.getElementById('checkoutBtn').addEventListener('click', () => {
+        document.getElementById('checkoutBtn').addEventListener('click', async () => {
             const token = localStorage.getItem('token');
             const authWarning = document.getElementById('authWarning');
 
             if (token) {
+
+                const isUserAllowed = await checkRole(token);
                 // Пользователь авторизован, скрываем предупреждение (если оно было показано ранее)
-                if (checkRole(token)){
+                if (isUserAllowed){
                     authWarning.style.display = 'none';
                     openOrderModal();
                 }else {
@@ -132,9 +136,48 @@ async function loadTopPanel() {
 
         document.getElementById('closeOrderModal').addEventListener('click', closeOrderModal);
 
+        document.getElementById('confirmOrderBtn').addEventListener('click', async () => {
+            const token = localStorage.getItem('token');
+            const notes = document.getElementById('orderNotes').value; // Предполагается, что поле для заметок имеет id="notes"
+
+            if (!token) {
+                console.error('Пользователь не авторизован');
+                return;
+            }
+
+            try {
+                const response = await fetch('main/order/create', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(notes)
+                });
+
+                if (response.status === 402) {  // PAYMENT_REQUIRED
+                    alert('Пожалуйста, введите адрес в вашем профиле');
+                } else if (response.status === 400){
+                    alert('Количество товара на складе меньше чем в заказе');
+                } else if (response.ok) {
+                    alert('Заказ успешно подтвержден');
+                    closeOrderModal();
+                    document.getElementById('cartModal').style.display = 'none';
+                    location.reload();
+                } else {
+                    console.error('Ошибка при подтверждении заказа');
+                }
+            } catch (error) {
+                console.error('Ошибка при отправке запроса:', error);
+            }
+        });
+
     } catch (error) {
         console.error("Error loading top panel:", error);
     }
+
+    topPanelLoaded += 1;
+    console.log(topPanelLoaded);
 }
 
 // Получаем количество товаров в корзине
@@ -226,12 +269,14 @@ function updateCartItems(cartItems) {
 // Функция для обновления количества товара
 async function updateQuantity(productId, quantity) {
     if (quantity < 1) return; // Количество не может быть меньше 1
+    const token = localStorage.getItem('token');
 
     try {
         await fetch('/main/cart/update', {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
             },
             body: JSON.stringify({ productId, quantity })
         });
@@ -244,8 +289,15 @@ async function updateQuantity(productId, quantity) {
 
 // Удаление товара из корзины
 async function removeFromCart(productId) {
+    const token = localStorage.getItem('token');
+
     try {
-        await fetch(`/main/cart/remove/${productId}`, { method: 'DELETE' });
+        await fetch(`/main/cart/remove/${productId}`, {
+            method: 'DELETE' ,
+            headers: {
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            }
+        });
         await openCart();
         await loadCartCount();
     } catch (error) {

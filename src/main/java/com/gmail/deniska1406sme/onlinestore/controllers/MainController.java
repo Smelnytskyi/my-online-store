@@ -7,6 +7,7 @@ import com.gmail.deniska1406sme.onlinestore.services.*;
 import com.gmail.deniska1406sme.onlinestore.validation.OnUpdate;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -128,6 +129,7 @@ public class MainController {
         return ResponseEntity.ok().build();
     }
 
+    @CacheEvict(value = "products", allEntries = true)
     @PostMapping("/order/create")
     public ResponseEntity<OrderDTO> createOrder(@RequestHeader("Authorization") String token, HttpSession session,
                                                 @RequestBody(required = false) String notes) {
@@ -142,10 +144,14 @@ public class MainController {
         if (deliveryAddress == null || deliveryAddress.isEmpty()) {
             return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).build();
         }
-
-        for (CartItemDTO cartItemDTO : clientDTO.getCartDTO().getItems()) {
-            productService.updateProductQuantity(cartItemDTO.getProductId(), cartItemDTO.getQuantity());
+        try {
+            for (CartItemDTO cartItemDTO : clientDTO.getCartDTO().getItems()) {
+                productService.updateProductQuantity(cartItemDTO.getProductId(), cartItemDTO.getQuantity());
+            }
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+
         OrderDTO order = orderService.addOrder(deliveryAddress, notes, clientDTO, clientDTO.getCartDTO().getItems());
         sendOrderConfirmationEmail(clientDTO, email);
         cartService.removeAllProductsFromCart(clientDTO);
@@ -252,5 +258,4 @@ public class MainController {
     private void setRedirectAfterLogin(HttpSession session, String redirectUrl) {
         session.setAttribute("redirectAfterLogin", redirectUrl);
     }
-
 }

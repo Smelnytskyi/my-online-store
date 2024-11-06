@@ -118,7 +118,7 @@ async function loadTopPanel() {
 
             if (token) {
                 // Пользователь авторизован, скрываем предупреждение (если оно было показано ранее)
-                if (checkRole(token) === true){
+                if (checkRole(token)){
                     authWarning.style.display = 'none';
                     openOrderModal();
                 }else {

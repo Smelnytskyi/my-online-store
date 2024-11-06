@@ -11,10 +11,10 @@ async function checkRole(token){
         const roleData = await roleResponse.json();
         const role = roleData.role;
 
+        console.log(role);
+
         // Если роль — админ или работник, не позволяем добавить товар в корзину
-        if (role === 'ADMIN' || role === 'EMPLOYEE') {
-            return false;  // Завершаем выполнение функции
-        }
+        return !(role === 'ADMIN' || role === 'EMPLOYEE');
     }
     return true;
 }

@@ -253,8 +253,9 @@ async function submitLoginForm() {
         if (response.ok) {
             const data = await response.json();
             localStorage.setItem('token', data.token);
-            document.getElementById('authModal').style.display = 'none'; // Закрываем окно авторизации
-            // Здесь можно обновить состояние пользователя
+            document.getElementById('authModal').style.display = 'none';
+            const role = await getUserRole(data.token);
+            redirectToProfile(role);
         } else {
             const errorMessage = await response.text(); // Получаем текст ошибки
             showError(errorMessage); // Показываем сообщение об ошибке

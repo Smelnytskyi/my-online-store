@@ -19,6 +19,15 @@ async function loadTopPanel() {
         // Обработчик для иконки человека
         document.getElementById('personBtn').addEventListener('click', openAuthModal);
 
+        // Проверка авторизации
+        const token = localStorage.getItem('token');
+        const personIcon = document.querySelector('.person-icon');
+        if (token) {
+            personIcon.classList.add('person-icon-auth'); // Добавляем зелёный класс
+        } else {
+            personIcon.classList.remove('person-icon-auth'); // Убираем зелёный класс
+        }
+
         //Устанавливаем обработчик событий для поиска
         document.querySelector('form[role="search"]').addEventListener('submit', async (event) => {
             event.preventDefault();

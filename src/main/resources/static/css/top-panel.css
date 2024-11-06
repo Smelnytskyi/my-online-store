@@ -15,8 +15,13 @@
     font-size: 32px;
 }
 
-.person-icon{
+.person-icon {
     font-size: 32px;
+    color: white; /* Цвет по умолчанию */
+}
+
+.person-icon-auth {
+    color: green; /* Зеленый цвет для авторизованного пользователя */
 }
 
 .search-bar {

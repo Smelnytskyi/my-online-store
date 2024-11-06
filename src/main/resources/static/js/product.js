@@ -33,12 +33,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById('stock-status').textContent = product.quantity > 0 ? "В наличии" : "Нет в наличии";
         document.getElementById('product-image').src = product.imageUrl;
 
+        // Отображение описания товара
+        const descriptionElement = document.getElementById('description-text');
+        descriptionElement.textContent = product.description || "Описание товара отсутствует.";
+
         // Отображение характеристик
         const specsList = document.getElementById('specifications-list');
-        for (const [key, value] of Object.entries(product.attributes)) {
-            const li = document.createElement('li');
-            li.innerHTML = `<span class="key">${key}:</span> <span class="value">${value}</span>`;
-            specsList.appendChild(li);
+        if (Object.keys(product.attributes).length === 0) {
+            specsList.innerHTML = "<li class='list-group-item'>Характеристики не указаны</li>";
+        } else {
+            for (const [key, value] of Object.entries(product.attributes)) {
+                const li = document.createElement('li');
+                li.classList.add('list-group-item');
+                li.innerHTML = `<strong>${key}:</strong> ${value}`;
+                specsList.appendChild(li);
+            }
         }
     } catch (error) {
         console.error("Ошибка загрузки данных продукта:", error);

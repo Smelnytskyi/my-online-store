@@ -18,17 +18,29 @@
     <p id="product-id">ID: </p>
 
     <div class="product-details">
-        <!-- Left Section for Specifications -->
+        <!-- Left Section for Description and Specifications -->
         <div class="product-specs">
-            <ul id="specifications-list"></ul>
+            <!-- Описание товара -->
+            <div id="product-description" class="product-description mb-4">
+                <h3>Описание:</h3>
+                <p id="description-text">Тут будет описание товара.</p>
+            </div>
+
+            <!-- Характеристики товара -->
+            <div id="product-specs" class="product-specs">
+                <h3>Характеристики:</h3>
+                <ul id="specifications-list" class="list-group">
+                    <!-- Характеристики будут добавляться сюда -->
+                </ul>
+            </div>
         </div>
 
         <!-- Right Section for Image, Price, etc. -->
         <div class="product-overview">
-            <img id="product-image" src="" alt="Product Image">
-            <p id="product-price">Price: </p>
-            <p id="stock-status">Available in stock</p>
-            <button id="buy-button">
+            <img id="product-image" src="" alt="Product Image" class="img-fluid mb-3">
+            <p id="product-price" class="h4">Цена: </p>
+            <p id="stock-status" class="h5">Available in stock</p>
+            <button id="buy-button" class="btn btn-success btn-lg mt-3">
                 <i class="bi bi-cart2"></i> Купить
             </button>
         </div>

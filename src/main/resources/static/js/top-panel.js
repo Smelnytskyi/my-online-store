@@ -118,7 +118,15 @@ async function loadTopPanel() {
 // Получаем количество товаров в корзине
 async function loadCartCount() {
     try {
-        const response = await fetch('/main/cart/count');
+        const token = localStorage.getItem('token');
+
+
+        const response = await fetch('/main/cart/count',{
+            method: 'GET',
+            headers: {
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
+        });
         if (!response.ok) throw new Error("Failed to fetch cart count");
 
         const data = await response.json();

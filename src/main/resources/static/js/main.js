@@ -137,20 +137,22 @@ async function addToCart(productId) {
         const token = localStorage.getItem('token');
 
         // Получаем роль пользователя
-        const roleResponse = await fetch('/auth/role', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        });
+        if (token){
+            const roleResponse = await fetch('/auth/role', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
 
-        const roleData = await roleResponse.json();
-        const role = roleData.role;
+            const roleData = await roleResponse.json();
+            const role = roleData.role;
 
-        // Если роль — админ или работник, не позволяем добавить товар в корзину
-        if (role === 'ADMIN' || role === 'EMPLOYEE') {
-            alert('Администратор и работник не могут добавлять товары в корзину. Пожалуйста, авторизируйтесь под клиентом.');
-            return;  // Завершаем выполнение функции
+            // Если роль — админ или работник, не позволяем добавить товар в корзину
+            if (role === 'ADMIN' || role === 'EMPLOYEE') {
+                alert('Администратор и работник не могут добавлять товары в корзину. Пожалуйста, авторизируйтесь под клиентом.');
+                return;  // Завершаем выполнение функции
+            }
         }
 
         const response = await fetch('/main/cart/add', {
@@ -165,7 +167,7 @@ async function addToCart(productId) {
         if (!response.ok) throw new Error("Failed to add product to cart");
         const data = await response.json().catch(() => ({}));
         console.log(`Товар с ID ${productId} добавлен в корзину`, data);
-        loadCartCount();
+        await loadCartCount();
     } catch (error) {
         console.error("Error adding product to cart:", error);
     }

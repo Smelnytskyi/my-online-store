@@ -52,7 +52,14 @@ public class ImageServiceImpl implements ImageService {
     public void deleteImage(String deleteUrl) {
         RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<Void> response = restTemplate.exchange(deleteUrl, HttpMethod.DELETE, null, Void.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("key", imgbbConfig.getApiKey());
+
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        ResponseEntity<String> response = restTemplate.exchange(deleteUrl, HttpMethod.POST, requestEntity, String.class);
 
         if (response.getStatusCode().is2xxSuccessful()) {
             System.out.println("Deleted image successfully");

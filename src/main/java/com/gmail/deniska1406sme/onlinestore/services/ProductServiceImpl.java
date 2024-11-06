@@ -81,6 +81,7 @@ public class ProductServiceImpl implements ProductService {
             product.setQuantity(productDTO.getQuantity());
         }
         if (productDTO.getImageUrl() != null) {
+            imageService.deleteImage(product.getDeleteImageUrl());
             imageService.uploadImage(productDTO.getImageUrl(), productDTO);
             product.setImageUrl(productDTO.getImageUrl());
             product.setDeleteImageUrl(productDTO.getDeleteImageUrl());

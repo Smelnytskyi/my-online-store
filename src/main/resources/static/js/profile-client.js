@@ -44,6 +44,7 @@ async function loadProfile() {
         });
         if (response.ok) {
             const data = await response.json();
+            console.log(data.firstName, data.lastName, data.phone, data.address);
             displayProfileData(data);
         } else {
             console.error('Ошибка загрузки профиля');
@@ -54,10 +55,11 @@ async function loadProfile() {
 }
 
 function displayProfileData(data) {
+    console.log(data); // Дополнительная отладка
     document.getElementById('first-name').innerText = data.firstName;
     document.getElementById('last-name').innerText = data.lastName;
-    document.getElementById('phone').innerText = data.phone;
-    document.getElementById('address').innerText = data.address;
+    document.getElementById('client-phone').innerText = data.phone;
+    document.getElementById('client-address').innerText = data.address;
 }
 
 async function updateProfile() {
@@ -80,7 +82,7 @@ async function updateProfile() {
 
         if (response.ok) {
             alert('Данные обновлены');
-            loadProfile();
+            await loadProfile();
         } else {
             const errorData = await response.json();
             displayValidationErrors(errorData); // Обработка ошибок валидации
@@ -187,7 +189,7 @@ async function loadOrders(page = 0) {
         if (response.ok) {
             const data = await response.json();
             await displayOrders(data.content); // Отобразить заказы
-            setupPagination(data.totalPages); // Настроить пагинацию
+            setupPagination(data.page.totalPages); // Настроить пагинацию
         } else {
             console.error('Ошибка загрузки заказов');
         }
@@ -273,7 +275,7 @@ async function cancelOrder(orderId) {
 
         if (response.ok) {
             alert('Заказ отменён');
-            loadOrders(currentPage); // Перезагружаем заказы
+            await loadOrders(currentPage); // Перезагружаем заказы
         } else {
             console.error('Ошибка отмены заказа');
         }

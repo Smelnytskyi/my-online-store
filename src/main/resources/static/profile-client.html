@@ -28,10 +28,10 @@
         <section id="profile-section" class="profile-section mb-4">
             <h2>Личные данные</h2>
             <div class="card p-3 mb-3">
-                <p><strong>Телефон:</strong> <span id="phone"></span></p>
+                <p><strong>Телефон:</strong> <span id="client-phone"></span></p>
                 <p><strong>Фамилия:</strong> <span id="last-name"></span></p>
                 <p><strong>Имя:</strong> <span id="first-name"></span></p>
-                <p><strong>Адрес:</strong> <span id="address"></span></p>
+                <p><strong>Адрес:</strong> <span id="client-address"></span></p>
                 <button class="btn btn-outline-primary mt-2" onclick="toggleEditSection('personal-info')">Редактировать</button>
             </div>
 
@@ -51,6 +51,12 @@
                 <input type="password" id="change-new-password" class="form-control mb-2" placeholder="Новый пароль" required>
                 <div id="password-error-messages" class="text-danger mb-2"></div>
                 <button class="btn btn-warning" onclick="changePassword()">Изменить пароль</button>
+            </div>
+
+            <div id="set-password-section" class="card p-3 mb-3" style="display: none;">
+                <h3>Сменить пароль</h3>
+                <input type="password" id="set-new-password" class="form-control mb-2" placeholder="Новый пароль" required>
+                <button class="btn btn-warning" onclick="setPassword()">Изменить пароль</button>
             </div>
         </section>
 

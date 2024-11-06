@@ -149,6 +149,12 @@ document.addEventListener("DOMContentLoaded", function () {
             imageUrl: null
         };
 
+        // Валидация: проверка, что категория выбрана
+        if (!productData.category) {
+            displayValidationErrors(['Пожалуйста, выберите категорию товара.'], 'product-validation-errors');
+            return; // Останавливаем выполнение, если категория не выбрана
+        }
+
         // Сбор атрибутов в объект
         const attributeRows = document.getElementById('attributesContainer').getElementsByClassName('attribute-row');
         for (let row of attributeRows) {
@@ -186,6 +192,12 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('productDescription').value = product.description;
             document.getElementById('productPrice').value = product.price;
             document.getElementById('productQuantity').value = product.quantity;
+
+            // Валидация: проверка, что категория выбрана
+            if (!productData.category) {
+                displayValidationErrors(['Пожалуйста, выберите категорию товара.'], 'product-validation-errors');
+                return; // Останавливаем выполнение, если категория не выбрана
+            }
 
             // Удаление существующих атрибутов
             const attributesContainer = document.getElementById('attributesContainer');
@@ -226,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('searchButton').addEventListener('click', async function() {
         const quantity = parseInt(document.getElementById('product-quantity').value);
         if (quantity){
-            fetchProducts(1, quantity);
+            fetchProducts(1, quantity + 1);
         } else {
             fetchProducts();
         }
@@ -256,28 +268,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Функция для сохранения или обновления товара
 async function saveProduct(productId, productData) {
-    if (productId) {
-        // Обновление товара
-        await fetch(`/employee/product/update/${productId}`, {
+    const response = productId
+        ? await fetch(`/employee/product/update/${productId}`, {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(productData)
-        });
-    } else {
-        // Добавление товара
-        await fetch('/employee/product/add', {
+            body: JSON.stringify(productData),
+        })
+        : await fetch('/employee/product/add', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(productData)
+            body: JSON.stringify(productData),
         });
-    }
 
-    closeModal();
-    fetchProducts();
+    const result = await response.json();
+
+    if (response.ok) {
+        closeModal();
+        fetchProducts();
+    } else {
+        // Если есть ошибки, выводим их
+        if (result) {
+            displayValidationErrors(result, 'product-validation-errors');
+        } else {
+            document.getElementById('product-validation-errors').style.display = 'none';
+        }
+    }
 }
 
 // Отображение заказов
@@ -544,6 +563,26 @@ function openModal() {
 function closeModal() {
     document.getElementById('productModal').style.display = 'none';
     document.getElementById('modalBackground').style.display = 'none';
+}
+
+function displayValidationErrors(errors, containerId) {
+    // Получаем контейнер для ошибок
+    const errorContainer = document.getElementById(containerId);
+    errorContainer.innerHTML = ''; // Очищаем контейнер
+
+    // Проверяем, что ошибки это массив
+    if (Array.isArray(errors) && errors.length > 0) {
+        // Перебираем каждую ошибку из массива
+        errors.forEach((error) => {
+            const errorElement = document.createElement('div');
+            errorElement.classList.add('error-message');
+            errorElement.innerText = error;  // Каждую ошибку отображаем как текст
+            errorContainer.appendChild(errorElement);
+        });
+        errorContainer.style.display = 'block'; // Показываем ошибки
+    } else {
+        errorContainer.style.display = 'none'; // Если ошибок нет, скрываем контейнер
+    }
 }
 
 

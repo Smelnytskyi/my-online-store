@@ -18,6 +18,7 @@ public class ProductDTO {
     @Size(max = 200, message = "Name must not be grater than 200 characters", groups = {OnCreate.class, OnUpdate.class})
     private String name;
 
+    @NotNull(message = "Category must not be null", groups = {OnCreate.class, OnUpdate.class})
     private ProductCategory category;
 
     @NotBlank(message = "Description must not be blank", groups = OnCreate.class)

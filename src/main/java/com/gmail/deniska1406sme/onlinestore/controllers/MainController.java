@@ -129,7 +129,8 @@ public class MainController {
     }
 
     @PostMapping("/order/create")
-    public ResponseEntity<OrderDTO> createOrder(@RequestHeader("Authorization") String token, HttpSession session) {
+    public ResponseEntity<OrderDTO> createOrder(@RequestHeader("Authorization") String token, HttpSession session,
+                                                @RequestBody(required = false) String notes) {
         if (token == null || !jwtTokenProvider.validateToken(token)) {
             setRedirectAfterLogin(session, "/order/create");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -141,8 +142,6 @@ public class MainController {
         if (deliveryAddress == null || deliveryAddress.isEmpty()) {
             return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).build();
         }
-
-        String notes = "";//TODO: think about the logic of adding notes.
 
         for (CartItemDTO cartItemDTO : clientDTO.getCartDTO().getItems()) {
             productService.updateProductQuantity(cartItemDTO.getProductId(), cartItemDTO.getQuantity());

@@ -24,8 +24,57 @@
                 <!-- Здесь будет список товаров в корзине -->
             </div>
             <div class="modal-footer">
+                <span id="authWarning" style="color: red; display: none; margin-left: 10px;">Пожалуйста, авторизируйтесь</span>
                 <span>Сумма: <span id="totalAmount">0 ₴</span></span>
                 <button class="btn btn-success" id="checkoutBtn">Оформить заказ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для оформления заказа -->
+<div class="modal" id="orderModal" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <h5 class="modal-title">Оформление заказа</h5>
+                <button type="button" class="btn-close" id="closeOrderModal"></button>
+            </div>
+
+            <!-- Тело модального окна -->
+            <div class="modal-body">
+                <!-- Контактные данные -->
+                <h6>Ваши контактные данные</h6>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="clientName" readonly>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="clientAddress" readonly>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="clientPhone" readonly>
+                </div>
+
+                <!-- Список товаров -->
+                <h6>Заказ</h6>
+                <div id="orderItemsContainer"></div>
+
+                <!-- Поле заметки -->
+                <h6>Заметки</h6>
+                <div class="mb-3">
+                    <textarea class="form-control" id="orderNotes" rows="3"></textarea>
+                </div>
+            </div>
+
+            <!-- Правая панель "Итого" -->
+            <div class="modal-footer">
+                <div class="text-end w-100">
+                    <p>Итого: <span id="totalAmountOrder">0 ₴</span></p>
+                    <p>Стоимость доставки: по тарифам перевозчика</p>
+                    <p>К оплате: <span id="totalPayment">0 ₴</span></p>
+                    <button class="btn btn-success" id="confirmOrderBtn">Заказ подтверждаю</button>
+                </div>
             </div>
         </div>
     </div>
@@ -102,3 +151,4 @@
     </div>
 </div>
 
+<script src="js/display-error.js"></script>

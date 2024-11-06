@@ -61,36 +61,21 @@ document.getElementById('buy-button').addEventListener('click', async () => {
     };
 
     const token = localStorage.getItem('token');
-    if (token){
-        // Получаем роль пользователя
-        const roleResponse = await fetch('/auth/role', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        });
-
-        const roleData = await roleResponse.json();
-        const role = roleData.role;
-
-        // Если роль — админ или работник, не позволяем добавить товар в корзину
-        if (role === 'ADMIN' || role === 'EMPLOYEE') {
-            alert('Администратор и работник не могут добавлять товары в корзину. Пожалуйста, авторизируйтесь под клиентом.');
-            return;  // Завершаем выполнение функции
+    if (await checkRole(token)){
+        try {
+            await fetch('/main/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(token ? {'Authorization': `Bearer ${token}`} : {})
+                },
+                body: JSON.stringify(cartItem)
+            });
+            await loadCartCount();
+        } catch (error) {
+            console.error("Ошибка при добавлении в корзину:", error);
         }
-    }
-
-    try {
-        await fetch('/main/cart/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-            },
-            body: JSON.stringify(cartItem)
-        });
-        await loadCartCount();
-    } catch (error) {
-        console.error("Ошибка при добавлении в корзину:", error);
+    }else{
+        alert('Администратор и работник не могут добавлять товары в корзину. Пожалуйста, авторизируйтесь под клиентом.');
     }
 });

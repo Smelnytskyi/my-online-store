@@ -110,6 +110,28 @@ async function loadTopPanel() {
         document.getElementById('googleAuthBtn').addEventListener('click', () => {
             window.location.href = '/auth/google'; // Путь для авторизации через Google
         });
+
+        // Обработчик для кнопоки заказа
+        document.getElementById('checkoutBtn').addEventListener('click', () => {
+            const token = localStorage.getItem('token');
+            const authWarning = document.getElementById('authWarning');
+
+            if (token) {
+                // Пользователь авторизован, скрываем предупреждение (если оно было показано ранее)
+                if (checkRole(token) === true){
+                    authWarning.style.display = 'none';
+                    openOrderModal();
+                }else {
+                    authWarning.style.display = 'inline';
+                }
+            } else {
+                // Показываем предупреждение о необходимости авторизации
+                authWarning.style.display = 'inline';
+            }
+        });
+
+        document.getElementById('closeOrderModal').addEventListener('click', closeOrderModal);
+
     } catch (error) {
         console.error("Error loading top panel:", error);
     }
@@ -349,21 +371,62 @@ function showError(message) {
     errorContainer.style.display = 'block'; // Показываем сообщение об ошибке
 }
 
-// Функция для отображения ошибок валидации
-function displayValidationErrors(errors, containerId) {
-    const errorContainer = document.getElementById(containerId);
-    errorContainer.innerHTML = '';
-    if (Array.isArray(errors) && errors.length > 0) {
-        errors.forEach((error) => {
-            const errorElement = document.createElement('div');
-            errorElement.classList.add('error-message');
-            errorElement.innerText = error;
-            errorContainer.appendChild(errorElement);
-        });
-        errorContainer.style.display = 'block';
-    } else {
-        errorContainer.style.display = 'none';
+async function openOrderModal() {
+    // Получение данных профиля пользователя
+    const profileResponse = await fetch('/client/profile', {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    });
+    const profileData = await profileResponse.json();
+    document.getElementById('clientName').value = `${profileData.lastName} ${profileData.firstName}`;
+    document.getElementById('clientAddress').value = profileData.address;
+    document.getElementById('clientPhone').value = profileData.phone;
+
+    // Получение данных корзины
+    const cartResponse = await fetch('/main/cart', {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    });
+    const cartItems = await cartResponse.json();
+
+    let totalAmount = 0;
+    const orderItemsContainer = document.getElementById('orderItemsContainer');
+    orderItemsContainer.innerHTML = ''; // Очистка предыдущих данных
+
+    // Загрузка информации о каждом товаре
+    for (const item of cartItems) {
+        const productResponse = await fetch(`/main/product/${item.productId}`);
+        const productData = await productResponse.json();
+
+        const itemTotal = productData.price * item.quantity;
+        totalAmount += itemTotal;
+
+        // Создание элемента для товара
+        const orderItem = document.createElement('div');
+        orderItem.classList.add('order-item');
+        orderItem.innerHTML = `
+            <img src="${productData.imageUrl}" alt="${productData.name}">
+            <div>
+                <p>${productData.name}</p>
+                <p>${productData.price} ₴ × ${item.quantity} ед.</p>
+            </div>
+            <div><strong>${itemTotal} ₴</strong></div>
+        `;
+        orderItemsContainer.appendChild(orderItem);
     }
+
+    // Установка итоговой суммы
+    document.getElementById('totalAmountOrder').innerText = `${totalAmount} ₴`;
+    document.getElementById('totalPayment').innerText = `${totalAmount} ₴`;
+
+    // Показ модального окна
+    document.getElementById('orderModal').style.display = 'flex';
+}
+
+function closeOrderModal() {
+    document.getElementById('orderModal').style.display = 'none';
 }
 
 loadTopPanel();

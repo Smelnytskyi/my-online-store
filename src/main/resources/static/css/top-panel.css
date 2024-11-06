@@ -85,7 +85,7 @@
     background-color: #c33b2e; /* Цвет при наведении */
 }
 
-#registrationModal .modal {
+#registrationModal #orderModal .modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -107,4 +107,29 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+#orderModal .modal-dialog {
+    width: 90%;
+    max-width: 800px;
+}
+
+#orderItemsContainer .order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+#orderItemsContainer .order-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+#orderModal .modal-footer {
+    background-color: #f8f9fa;
 }

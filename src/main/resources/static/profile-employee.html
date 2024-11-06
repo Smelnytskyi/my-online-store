@@ -47,7 +47,7 @@
             </div>
 
             <!-- Смена пароля -->
-            <div class="card p-3 mb-3">
+            <div class="card p-3 mb-3" id="change-password-form">
                 <h3>Сменить пароль</h3>
                 <input type="password" id="old-password" class="form-control mb-2" placeholder="Старый пароль">
                 <input type="password" id="new-password" class="form-control mb-2" placeholder="Новый пароль">
@@ -143,7 +143,19 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="productCategory">Категория товара</label>
-                                    <input type="text" id="productCategory" class="form-control" required />
+                                    <select id="productCategory" class="form-control" required>
+                                        <option value="" disabled selected>Выберите категорию</option>
+                                        <option value="MOTHERBOARD">Материнская плата</option>
+                                        <option value="GPU">Видеокарта</option>
+                                        <option value="CPU">Процессор</option>
+                                        <option value="RAM">Оперативная память</option>
+                                        <option value="SSD">Твердотельный накопитель</option>
+                                        <option value="HDD">Жесткий диск</option>
+                                        <option value="POWER_UNIT">Блок питания</option>
+                                        <option value="CORPS">Корпус</option>
+                                        <option value="REFRIGERATOR_SYSTEM">Система охлаждения</option>
+                                        <option value="OTHER">Другое</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="productDescription">Описание</label>
@@ -156,6 +168,10 @@
                                 <div class="form-group">
                                     <label for="productQuantity">Количество</label>
                                     <input type="number" id="productQuantity" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="productImage">Фото товара</label>
+                                    <input type="file" id="productImage" class="form-control" accept="image/jpeg, image/png, image/gif" />
                                 </div>
                                 <div class="form-group" id="attributesContainer">
                                     <label>Атрибуты</label>
@@ -177,6 +193,11 @@
             </div>
             <!-- Фон модального окна -->
             <div id="modalBackground" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+            <nav>
+                <ul class="pagination justify-content-center" id="products-pagination">
+                    <!-- Элементы пагинации будут добавлены здесь -->
+                </ul>
+            </nav>
         </section>
     </main>
 </div>

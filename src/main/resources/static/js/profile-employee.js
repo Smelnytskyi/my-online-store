@@ -132,6 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Обработчик нажатия на кнопку добавления товара
     document.getElementById('add-product').addEventListener('click', function() {
         document.getElementById('productForm').reset();
+        document.getElementById('attributesContainer').innerHTML = '';
         openModal();
     });
 
@@ -144,7 +145,8 @@ document.addEventListener("DOMContentLoaded", function () {
             description: document.getElementById('productDescription').value,
             price: parseFloat(document.getElementById('productPrice').value),
             quantity: parseInt(document.getElementById('productQuantity').value),
-            attributes: {}
+            attributes: {},
+            imageUrl: null
         };
 
         // Сбор атрибутов в объект
@@ -157,28 +159,18 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        if (productId) {
-            // Обновление товара
-            await fetch(`/employee/product/update/${productId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(productData)
-            });
+        // Обработка файла изображения
+        const imageFile = document.getElementById('productImage').files[0];
+        if (imageFile) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                productData.imageUrl = e.target.result.split(',')[1]; // Устанавливаем значение imageUrl как Base64
+                saveProduct(productId, productData);
+            };
+            reader.readAsDataURL(imageFile); // Читаем файл как Data URL
         } else {
-            // Добавление товара
-            await fetch('/employee/product/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(productData)
-            });
+            saveProduct(productId, productData); // Если изображение не выбрано, сохраняем данные без него
         }
-
-        closeModal();
-        fetchProducts();
     });
 
     // Обработчик для редактирования товара
@@ -233,9 +225,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Обработчик для поиска товаров
     document.getElementById('searchButton').addEventListener('click', async function() {
         const quantity = parseInt(document.getElementById('product-quantity').value);
-        const response = await fetch(`/employee/products-by-quantity?quantity=${quantity}`);
-        const products = await response.json();
-        displayProducts(products.content); // предположим, что ответ включает поле 'content' с продуктами
+        if (quantity){
+            fetchProducts(1, quantity);
+        } else {
+            fetchProducts();
+        }
     });
 
     // Функция для добавления новой строки атрибута
@@ -258,6 +252,33 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+// Функция для сохранения или обновления товара
+async function saveProduct(productId, productData) {
+    if (productId) {
+        // Обновление товара
+        await fetch(`/employee/product/update/${productId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(productData)
+        });
+    } else {
+        // Добавление товара
+        await fetch('/employee/product/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(productData)
+        });
+    }
+
+    closeModal();
+    fetchProducts();
+}
 
 // Отображение заказов
 function displayOrders(orders) {
@@ -284,9 +305,9 @@ function displayOrders(orders) {
 
 // Загрузка заказов при загрузке страницы или изменении фильтра
 function loadOrders(status = "ALL", page = 1) {
-    let url = '/employee/orders';
+    let url = `/employee/orders?page=${page - 1}&size=${itemsPerPage}`;
     if (status !== "ALL") {
-        url = `/employee/orders-by-status?status=${status}`;
+        url = `/employee/orders-by-status?status=${status}&page=${page - 1}&size=${itemsPerPage}`;
     }
 
     fetch(url, {
@@ -297,7 +318,7 @@ function loadOrders(status = "ALL", page = 1) {
         .then(response => response.json())
         .then(data => {
             displayOrders(data.content); // Метод для отображения заказов
-            setupPagination(data.page.totalPages, page);
+            setupPagination(data.page.totalPages, page, (newPage) => loadOrders(status, newPage), 'pagination');
         })
         .catch(error => console.error("Ошибка загрузки заказов:", error));
 }
@@ -451,22 +472,31 @@ async function getProductById(productId) {
     return await response.json();
 }
 
-function setupPagination(totalPages, currentPage) {
-    const pagination = document.getElementById("pagination");
+// Универсальная функция для настройки пагинации
+function setupPagination(totalPages, currentPage, loadFunction, paginationElementId) {
+    const pagination = document.getElementById(paginationElementId);
     pagination.innerHTML = "";
 
-    if (totalPages === 1) {
+    if (totalPages <= 1) {
         pagination.parentElement.style.display = "none";
     } else {
         pagination.parentElement.style.display = "block";
+
         for (let i = 1; i <= totalPages; i++) {
             const pageItem = document.createElement("li");
             pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
-            pageItem.innerHTML = `<a class="page-link" href="#" onclick="loadOrders(document.getElementById('order-status').value, ${i})">${i}</a>`;
+
+            pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+            pageItem.addEventListener('click', (e) => {
+                e.preventDefault();
+                loadFunction(i); // Вызываем переданную функцию загрузки данных с номером страницы
+            });
+
             pagination.appendChild(pageItem);
         }
     }
 }
+
 
 // Функция для отображения товаров
 function displayProducts(products) {
@@ -489,10 +519,21 @@ function displayProducts(products) {
 }
 
 // Получение списка товаров (например, при загрузке страницы)
-async function fetchProducts() {
-    const response = await fetch('/main/products');
-    const data = await response.json();
-    displayProducts(data.content);
+async function fetchProducts(page = 1, quantity = null) {
+    let data;
+    try {
+        if (quantity === null){
+            const response = await fetch(`/main/products?page=${page - 1}&size=${itemsPerPage}`);
+            data = await response.json();
+        }else {
+            const response = await fetch(`/employee/products-by-quantity?quantity=${quantity}`);
+            data = await response.json();
+        }
+        displayProducts(data.content); // Отображаем товары
+        setupPagination(data.page.totalPages, page, fetchProducts, 'products-pagination'); // Настраиваем пагинацию
+    } catch (error) {
+        console.error("Ошибка загрузки товаров:", error);
+    }
 }
 
 function openModal() {

@@ -42,11 +42,16 @@ body {
     display: block;
 }
 
-.personal-info{
+#personal-info {
     max-width: 500px;
 }
-#change-password {
-    margin-top: 20px;
+
+/* Сужаем форму редактирования личных данных */
+#edit-info-form {
+    max-width: 500px;
+}
+
+#change-password-form {
     max-width: 500px;
 }
 

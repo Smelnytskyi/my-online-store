@@ -5,6 +5,7 @@ import com.gmail.deniska1406sme.onlinestore.validation.OnCreate;
 import com.gmail.deniska1406sme.onlinestore.validation.OnUpdate;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.HashMap;
@@ -17,21 +18,20 @@ public class ProductDTO {
     @Size(max = 200, message = "Name must not be grater than 200 characters", groups = {OnCreate.class, OnUpdate.class})
     private String name;
 
-    @NotBlank(message = "Product category must not be blank", groups = OnCreate.class)
     private ProductCategory category;
 
     @NotBlank(message = "Description must not be blank", groups = OnCreate.class)
     @Size(max = 2000, message = "Description must not be grater than 200 characters", groups = {OnCreate.class, OnUpdate.class})
     private String description;
 
-    @NotBlank(message = "Price must not be blank", groups = OnCreate.class)
+    @NotNull(message = "Price must not be blank", groups = OnCreate.class)
     @Min(value = 0, message = "Price must not be negative", groups = {OnCreate.class, OnUpdate.class})
     private Double price;
 
     private String imageUrl;
     private String deleteImageUrl;
 
-    @NotBlank(message = "Quantity must not be blank", groups = OnCreate.class)
+    @NotNull(message = "Quantity must not be blank", groups = OnCreate.class)
     @Min(value = 0, message = "Quantity must not be negative", groups = {OnCreate.class, OnUpdate.class})
     private int quantity;
     private Map<String, String> attributes = new HashMap<>();

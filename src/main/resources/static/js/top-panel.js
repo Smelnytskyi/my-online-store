@@ -42,11 +42,71 @@ async function loadTopPanel() {
             document.getElementById('authModal').style.display = 'none';
         });
 
-        // Обработчики для кнопок регистрации и Google авторизации
+        // Открытие модального окна при нажатии на кнопку регистрации
         document.getElementById('registerBtn').addEventListener('click', () => {
-            window.location.href = '/registration'; // Перенаправление на страницу регистрации
+            const modal = document.getElementById('registrationModal');
+            modal.style.display = 'flex';  // Показываем модальное окно
         });
 
+        // Закрытие модального окна
+        document.getElementById('closeRegisterBtn').addEventListener('click', () => {
+            const modal = document.getElementById('registrationModal');
+            modal.style.display = 'none';  // Скрываем модальное окно
+        });
+
+        // Обработчик отправки формы
+        document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();  // Предотвращаем обычное отправление формы
+
+            // Сбор данных из формы
+            const formData = new FormData(e.target);
+            const data = {
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+                phone: formData.get('phone'),
+                address: formData.get('address'),
+                email: formData.get('email'),
+                password: formData.get('password'),
+            };
+
+            try {
+                // Отправляем данные на сервер
+                const response = await fetch('/client/registration', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        clientDTO: {
+                            firstName: data.firstName,
+                            lastName: data.lastName,
+                            phone: data.phone,
+                            address: data.address,
+                        },
+                        userDTO: {
+                            email: data.email,
+                        },
+                        password: data.password,
+                    }),
+                });
+
+                if (response.ok) {
+                    alert('Регистрация прошла успешно!');
+                    // Закрываем модальное окно
+                    const modal = document.getElementById('registrationModal');
+                    modal.style.display = 'none';
+                } else {
+                    // Получаем ошибки с бэкенда
+                    const errors = await response.json();
+                    displayValidationErrors(errors, 'validationErrors');
+                }
+            } catch (error) {
+                console.error('Ошибка при регистрации:', error);
+                alert('Произошла ошибка. Попробуйте позже.');
+            }
+        });
+
+        // Обработчик для кнопоки Google авторизации
         document.getElementById('googleAuthBtn').addEventListener('click', () => {
             window.location.href = '/auth/google'; // Путь для авторизации через Google
         });
@@ -279,6 +339,23 @@ function showError(message) {
     const errorContainer = document.getElementById('errorContainer'); // Элемент для отображения ошибок
     errorContainer.textContent = message;
     errorContainer.style.display = 'block'; // Показываем сообщение об ошибке
+}
+
+// Функция для отображения ошибок валидации
+function displayValidationErrors(errors, containerId) {
+    const errorContainer = document.getElementById(containerId);
+    errorContainer.innerHTML = '';
+    if (Array.isArray(errors) && errors.length > 0) {
+        errors.forEach((error) => {
+            const errorElement = document.createElement('div');
+            errorElement.classList.add('error-message');
+            errorElement.innerText = error;
+            errorContainer.appendChild(errorElement);
+        });
+        errorContainer.style.display = 'block';
+    } else {
+        errorContainer.style.display = 'none';
+    }
 }
 
 loadTopPanel();

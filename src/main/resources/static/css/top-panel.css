@@ -85,3 +85,26 @@
     background-color: #c33b2e; /* Цвет при наведении */
 }
 
+#registrationModal .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);  /* Полупрозрачный фон */
+    display: none;  /* Изначально окно скрыто */
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;  /* Для отображения поверх остального контента */
+}
+
+#registrationModal .modal-dialog {
+    width: 500px;
+    max-width: 90%;
+}
+
+#registrationModal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

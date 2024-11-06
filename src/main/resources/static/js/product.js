@@ -59,7 +59,25 @@ document.getElementById('buy-button').addEventListener('click', async () => {
         productId: parseInt(urlParams.get('id')),
         quantity: 1
     };
+
     const token = localStorage.getItem('token');
+
+    // Получаем роль пользователя
+    const roleResponse = await fetch('/auth/role', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    const roleData = await roleResponse.json();
+    const role = roleData.role;
+
+    // Если роль — админ или работник, не позволяем добавить товар в корзину
+    if (role === 'ADMIN' || role === 'EMPLOYEE') {
+        alert('Администратор и работник не могут добавлять товары в корзину. Пожалуйста, авторизируйтесь под клиентом.');
+        return;  // Завершаем выполнение функции
+    }
 
     try {
         await fetch('/main/cart/add', {

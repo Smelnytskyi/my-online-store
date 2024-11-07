@@ -12,6 +12,7 @@ import com.gmail.deniska1406sme.onlinestore.validation.OnCreate;
 import com.gmail.deniska1406sme.onlinestore.validation.OnUpdate;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -79,6 +80,7 @@ public class ClientController {
         return ResponseEntity.ok(passwordAuthenticationService.hasPassword(email));
     }
 
+    @CacheEvict(value = "employees", allEntries = true)
     @PatchMapping("/profile/update")
     public ResponseEntity<List<String>> updateClient(@RequestHeader(value = "Authorization") String token,
                                                      @RequestBody @Validated(OnUpdate.class) ClientDTO clientDTO,

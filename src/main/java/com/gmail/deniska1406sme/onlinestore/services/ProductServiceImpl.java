@@ -134,7 +134,7 @@ public class ProductServiceImpl implements ProductService {
     public void updateProductQuantity(Long id, Integer quantity) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product does not exist"));
-        if (product.getQuantity() > quantity) {
+        if (product.getQuantity() >= quantity) {
             product.setQuantity(product.getQuantity() - quantity);
             productRepository.save(product);
         }else {

@@ -57,11 +57,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Если ответ успешен, выполняем действия сразу
                     loadEmployeeProfile();
                     toggleEditSection('edit-info-form');
+                    displayValidationErrors([], 'error-messages');
                     return response.json().catch(() => ({})); // Обрабатываем JSON, даже если он пустой
                 } else {
                     // Если статус не успешный, парсим ошибочный ответ
                     return response.json().then(result => {
-                        throw new Error(result.errors ? result.errors.join(", ") : "Неизвестная ошибка");
+                        if (result) {
+                            // Передаем ошибки в функцию displayValidationErrors
+                            displayValidationErrors(result, 'error-messages');
+                        }else {
+                            // Если ошибок нет, просто показываем сообщение об ошибке
+                            displayValidationErrors(["Неизвестная ошибка"], 'error-messages');
+                        }
                     });
                 }
             })
@@ -132,6 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Обработчик нажатия на кнопку добавления товара
     document.getElementById('add-product').addEventListener('click', function() {
         document.getElementById('productForm').reset();
+        document.getElementById('productId').value = '';
         document.getElementById('attributesContainer').innerHTML = '';
         openModal();
     });
@@ -219,7 +227,6 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 console.warn('Attributes is not a valid object:', product.attributes);
             }
-
             openModal();
         }
 

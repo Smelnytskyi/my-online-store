@@ -254,15 +254,27 @@ function formatDate(date) {
 
 function setupPagination(totalPages) {
     const paginationContainer = document.getElementById('pagination');
-    paginationContainer.innerHTML = ''; // Очищаем предыдущую пагинацию
+    paginationContainer.innerHTML = ''; // Очищаем контейнер
 
-    for (let i = 0; i < totalPages; i++) {
-        const pageButton = document.createElement('button');
-        pageButton.innerText = i + 1;
-        pageButton.onclick = () => loadOrders(i);
-        paginationContainer.appendChild(pageButton);
+    if (totalPages > 1) {
+        for (let i = 0; i < totalPages; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.className = `btn btn-outline-primary mx-1 ${i === currentPage ? 'active' : ''}`; // Добавляем класс активной кнопке
+            pageButton.innerText = i + 1;
+            pageButton.onclick = () => {
+                currentPage = i;
+                loadOrders(i);
+                setupPagination(totalPages); // Обновляем пагинацию для новой активной страницы
+            };
+
+            paginationContainer.appendChild(pageButton);
+        }
+        paginationContainer.style.display = 'flex'; // Показываем контейнер
+    } else {
+        paginationContainer.style.display = 'none'; // Скрываем пагинацию, если только одна страница
     }
 }
+
 
 async function cancelOrder(orderId) {
     try {

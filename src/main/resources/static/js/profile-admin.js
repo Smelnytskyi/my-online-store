@@ -156,8 +156,9 @@ async function updateEmployee(employeeId) {
             alert('Сотрудник обновлен');
             loadEmployees(); // Обновляем список сотрудников
             closeEditEmployeeModal()
-        } else {
-            console.error('Ошибка при обновлении сотрудника');
+        } else{
+            const errorData = await response.json();
+            displayValidationErrors(errorData); // Отображаем другие ошибки валидации
         }
     } catch (error) {
         console.error('Ошибка:', error);

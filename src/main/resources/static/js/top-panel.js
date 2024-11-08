@@ -110,7 +110,7 @@ async function loadTopPanel() {
 
         // Обработчик для кнопоки Google авторизации
         document.getElementById('googleAuthBtn').addEventListener('click', () => {
-            window.location.href = '/auth/google'; // Путь для авторизации через Google
+            window.location.href = '/oauth2/authorization/google';
         });
 
         // Обработчик для кнопоки заказа

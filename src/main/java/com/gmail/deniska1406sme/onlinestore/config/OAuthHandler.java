@@ -1,10 +1,11 @@
 package com.gmail.deniska1406sme.onlinestore.config;
 
 import com.gmail.deniska1406sme.onlinestore.dto.ClientDTO;
-import com.gmail.deniska1406sme.onlinestore.dto.UserDTO;
 import com.gmail.deniska1406sme.onlinestore.model.UserRole;
 import com.gmail.deniska1406sme.onlinestore.services.CartService;
 import com.gmail.deniska1406sme.onlinestore.services.ClientService;
+import com.gmail.deniska1406sme.onlinestore.services.OAuth2ClientService;
+import com.gmail.deniska1406sme.onlinestore.services.OAuth2ClientServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,12 +26,15 @@ public class OAuthHandler implements AuthenticationSuccessHandler {
     private final ClientService clientService;
     private final CartService cartService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final OAuth2ClientService oAuth2ClientService;
 
     @Autowired
-    public OAuthHandler(ClientService clientService, CartService cartService, JwtTokenProvider jwtTokenProvider) {
+    public OAuthHandler(ClientService clientService, CartService cartService, JwtTokenProvider jwtTokenProvider,
+                        OAuth2ClientServiceImpl oauth2ClientService) {
         this.clientService = clientService;
         this.cartService = cartService;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.oAuth2ClientService = oauth2ClientService;
     }
 
     @Override
@@ -42,42 +46,24 @@ public class OAuthHandler implements AuthenticationSuccessHandler {
 
         Map<String, Object> attributes = user.getAttributes();
         String email = (String) attributes.get("email");
-        String googleId = (String) attributes.get("sub");
 
         ClientDTO existingClient = clientService.getClientByEmail(email);
-        String tokenJwt = "";
+        String tokenJwt;
 
         Long tempClientId = (Long) request.getSession().getAttribute("tempClientId");
         request.getSession().removeAttribute("tempClientId");
         ClientDTO tempClientDTO = (tempClientId != null) ? clientService.getClientById(tempClientId) : null;
 
-        if (existingClient == null) {
-            UserDTO userDTO = UserDTO.of(null, email, googleId);
-            ClientDTO clientDTO = ClientDTO.of(
-                    (String) attributes.get("given_name"),
-                    (String) attributes.get("family_name"),
-                    null,
-                    null,
-                    tempClientDTO != null ? tempClientDTO.getCartDTO() : null
-            );
-
-            clientService.addNewClient(clientDTO, userDTO);
+        if (existingClient == null){
+            ClientDTO newClientDTO = oAuth2ClientService.createNewClientFromGoogleData(user, tempClientDTO);
             tokenJwt = jwtTokenProvider.createToken(email, UserRole.CLIENT.name(), clientService.getClientByEmail(email).getId());
         } else {
             transferTempCartToClient(existingClient, tempClientId);
             tokenJwt = jwtTokenProvider.createToken(email, UserRole.CLIENT.name(), existingClient.getId());
         }
 
-        String redirectUrl = (String) request.getSession().getAttribute("redirectAfterLogin");
-        request.getSession().removeAttribute("redirectAfterLogin");
-
         response.addHeader("Authorization", "Bearer " + tokenJwt);
-
-        if (redirectUrl != null) {
-            response.sendRedirect(redirectUrl);
-        } else {
-            response.sendRedirect("/index.html");
-        }
+        response.sendRedirect("/profile-client.html");
     }
 
     private void transferTempCartToClient(ClientDTO clientDTO, Long tempClientId) {

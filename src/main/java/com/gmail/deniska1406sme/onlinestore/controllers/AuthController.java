@@ -5,17 +5,20 @@ import com.gmail.deniska1406sme.onlinestore.config.PasswordAuthenticationHandler
 import com.gmail.deniska1406sme.onlinestore.dto.LoginRequest;
 import com.gmail.deniska1406sme.onlinestore.exceptions.UserNotFoundException;
 import com.gmail.deniska1406sme.onlinestore.model.UserRole;
+import com.gmail.deniska1406sme.onlinestore.services.OAuth2ClientService;
 import com.gmail.deniska1406sme.onlinestore.services.PasswordAuthenticationService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,12 +30,25 @@ public class AuthController {
     private final PasswordAuthenticationService passwordAuthenticationService;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordAuthenticationHandler passwordAuthenticationHandler;
+    private final OAuth2ClientService oAuth2ClientService;
+
+    @Value("${google.client-id}")
+    private String clientId;
+
+    @Value("${google.client-secret}")
+    private String clientSecret;
+
+    @Value("${google.redirect-uri}")
+    private String redirectUri;
 
     @Autowired
-    public AuthController(PasswordAuthenticationService passwordAuthenticationService, JwtTokenProvider jwtTokenProvider, PasswordAuthenticationHandler passwordAuthenticationHandler) {
+    public AuthController(PasswordAuthenticationService passwordAuthenticationService, JwtTokenProvider jwtTokenProvider,
+                          PasswordAuthenticationHandler passwordAuthenticationHandler,
+                          OAuth2ClientService oAuth2ClientService) {
         this.passwordAuthenticationService = passwordAuthenticationService;
         this.jwtTokenProvider = jwtTokenProvider;
         this.passwordAuthenticationHandler = passwordAuthenticationHandler;
+        this.oAuth2ClientService = oAuth2ClientService;
     }
 
     @PostMapping("/login")

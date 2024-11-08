@@ -2,13 +2,16 @@ package com.gmail.deniska1406sme.onlinestore.config;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -18,29 +21,22 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final OAuthHandler oAuthHandler;
-    private final PasswordAuthenticationHandler passwordAuthenticationHandler;
     private final JwtTokenProvider jwtTokenProvider;
-    private final JwtAuthenticationProvider jwtAuthenticationProvider;
+
+    @Value("${spring.security.oauth2.client.registration.google.client-id}")
+    private String clientId;
+
+    @Value("${spring.security.oauth2.client.registration.google.client-secret}")
+    private String clientSecret;
 
     @Autowired
-    public SecurityConfig(OAuthHandler oAuthHandler,
-                          PasswordAuthenticationHandler passwordAuthenticationHandler,
-                          JwtTokenProvider jwtTokenProvider,
-                          JwtAuthenticationProvider jwtAuthenticationProvider) {
+    public SecurityConfig(OAuthHandler oAuthHandler, JwtTokenProvider jwtTokenProvider) {
         this.oAuthHandler = oAuthHandler;
-        this.passwordAuthenticationHandler = passwordAuthenticationHandler;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.jwtAuthenticationProvider = jwtAuthenticationProvider;
-    }
-
-    // Автоконфигурация AuthenticationManager
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         AuthenticationEntryPoint customAuthEntryPoint = (request, response, authException) -> {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -54,7 +50,6 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
-                // Разрешаем доступ ко всем статическим ресурсам, включая HTML-страницы
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/static/**", "/css/**", "/js/**").permitAll()  // Разрешаем доступ к статическим ресурсам
 
@@ -62,15 +57,37 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**", "/client/**", "/employee/**").authenticated()
                         .anyRequest().permitAll()
                 )
-
+                .formLogin(AbstractHttpConfigurer::disable)
+                .oauth2Login(oauth2Login ->
+                        oauth2Login
+                                .clientRegistrationRepository(clientRegistrationRepository()) // Укажите репозиторий для клиента
+                                .successHandler(oAuthHandler) // Ваш обработчик успешной авторизации
+                )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(customAuthEntryPoint)
-                )
-                .formLogin(AbstractHttpConfigurer::disable)
-                .oauth2Login(oauth2 -> oauth2
-                        .successHandler(oAuthHandler)
                 );
 
         return http.build();
+    }
+
+    @Bean
+    public ClientRegistrationRepository clientRegistrationRepository() {
+        return new InMemoryClientRegistrationRepository(this.googleClientRegistration());
+    }
+
+    @Bean
+    public ClientRegistration googleClientRegistration() {
+        return ClientRegistration.withRegistrationId("google")
+                .clientId(clientId)
+                .clientSecret(clientSecret)
+                .redirectUri("http://localhost:8080/login/oauth2/code/google")
+                .scope("openid", "profile", "email")
+                .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
+                .tokenUri("https://oauth2.googleapis.com/token")
+                .userInfoUri("https://openidconnect.googleapis.com/v1/userinfo")
+                .userNameAttributeName("sub")
+                .clientName("Google")
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .build();
     }
 }

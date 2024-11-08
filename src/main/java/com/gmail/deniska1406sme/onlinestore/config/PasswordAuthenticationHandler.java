@@ -5,18 +5,14 @@ import com.gmail.deniska1406sme.onlinestore.dto.ClientDTO;
 import com.gmail.deniska1406sme.onlinestore.model.UserRole;
 import com.gmail.deniska1406sme.onlinestore.services.CartService;
 import com.gmail.deniska1406sme.onlinestore.services.ClientService;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Component
-public class PasswordAuthenticationHandler implements AuthenticationSuccessHandler {
+public class PasswordAuthenticationHandler {
 
     private final ClientService clientService;
     private final CartService cartService;
@@ -30,49 +26,42 @@ public class PasswordAuthenticationHandler implements AuthenticationSuccessHandl
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request,
-                                        HttpServletResponse response,
-                                        Authentication authentication) throws IOException, ServletException {
-
-        Long tempClientId = (Long) request.getSession().getAttribute("tempClientId");
-        request.getSession().removeAttribute("tempClientId");
-        ClientDTO tempClientDTO = (tempClientId != null) ? clientService.getClientById(tempClientId) : null;
-
-        String email = authentication.getName();
-        ClientDTO clientDTO = clientService.getClientByEmail(email);
-
-        if (tempClientDTO != null) {
-            transferTempCartToClient(clientDTO, tempClientId);
-        }
-
-        String token = request.getHeader("Authorization").replace("Bearer ", "");
+    public void onAuthenticationSuccess(HttpSession session, String token, Long tempClientId) {
         UserRole role = jwtTokenProvider.getRole(token);
         String redirectUrl = "/";
-        String clientRedirectUrl = (String) request.getSession().getAttribute("redirectAfterLogin");
-        request.getSession().removeAttribute("redirectAfterLogin");
 
-        if (role == UserRole.ADMIN) {
-            redirectUrl = "/admin";
-        } else if (role == UserRole.EMPLOYEE) {
-            redirectUrl = "/employee";
-        } else if (role == UserRole.CLIENT) {
-            if (clientRedirectUrl != null) {
-                redirectUrl = clientRedirectUrl;
-            } else {
-                redirectUrl = "/main";
+        ClientDTO tempClientDTO = (tempClientId != null) ? clientService.getClientById(tempClientId) : null;
+
+        if (role == UserRole.CLIENT) {
+            ClientDTO clientDTO = clientService.getClientByEmail(jwtTokenProvider.getLogin(token));
+
+            if (tempClientDTO != null) {
+                cartService.transferCartToClient(clientDTO, tempClientDTO);
+                deleteTempClient(tempClientDTO);
             }
+            redirectUrl = "/profile-client.html";
+        } else if (role == UserRole.ADMIN) {
+            if (tempClientDTO != null) {
+                deleteTempClient(tempClientDTO);
+            }
+            redirectUrl = "/profile-admin.html";
+        } else if (role == UserRole.EMPLOYEE) {
+            if (tempClientDTO != null) {
+                deleteTempClient(tempClientDTO);
+            }
+            redirectUrl = "/profile-employee.html";
         }
-        response.sendRedirect(redirectUrl);
+
+        // Перенаправление на соответствующую страницу профиля
+        try {
+            session.setAttribute("redirectUrl", redirectUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void transferTempCartToClient(ClientDTO clientDTO, Long tempClientId) {
-        if (tempClientId != null) {
-            ClientDTO tempClientDTO = clientService.getClientById(tempClientId);
-            cartService.transferCartToClient(clientDTO, tempClientDTO);
-            cartService.removeAllProductsFromCart(tempClientDTO);
-            clientService.removeClient(tempClientDTO);
-        }
+    private void deleteTempClient(ClientDTO tempClientDTO) {
+        cartService.removeAllProductsFromCart(tempClientDTO);
+        clientService.removeClient(tempClientDTO);
     }
-
 }

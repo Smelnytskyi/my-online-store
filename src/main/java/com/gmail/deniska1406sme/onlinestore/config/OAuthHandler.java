@@ -76,7 +76,7 @@ public class OAuthHandler implements AuthenticationSuccessHandler {
         if (redirectUrl != null) {
             response.sendRedirect(redirectUrl);
         } else {
-            response.sendRedirect("/main");
+            response.sendRedirect("/index.html");
         }
     }
 

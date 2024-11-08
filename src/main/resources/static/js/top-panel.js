@@ -405,8 +405,12 @@ async function submitLoginForm() {
             const data = await response.json();
             localStorage.setItem('token', data.token);
             document.getElementById('authModal').style.display = 'none';
-            const role = await getUserRole(data.token);
-            redirectToProfile(role);
+            const redirectUrl = data.redirectUrl;
+            if (redirectUrl) {
+                window.location.href = redirectUrl; // Перенаправление на нужную страницу
+            } else {
+                console.error("Redirect URL is missing!");
+            }
         } else {
             const errorMessage = await response.text(); // Получаем текст ошибки
             showError(errorMessage); // Показываем сообщение об ошибке

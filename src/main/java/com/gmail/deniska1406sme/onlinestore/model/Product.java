@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-@Table(name = "Products", indexes = { //TODO: add indexed find-request in DB for performance
+@Table(name = "Products", indexes = {
         @Index(name = "idx_name", columnList = "name"),
         @Index(name = "idx_price", columnList = "price"),
         @Index(name = "idx_category", columnList = "category")

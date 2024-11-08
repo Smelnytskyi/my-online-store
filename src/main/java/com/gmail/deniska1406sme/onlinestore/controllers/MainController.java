@@ -4,6 +4,7 @@ import com.gmail.deniska1406sme.onlinestore.config.JwtTokenProvider;
 import com.gmail.deniska1406sme.onlinestore.dto.*;
 import com.gmail.deniska1406sme.onlinestore.model.ProductCategory;
 import com.gmail.deniska1406sme.onlinestore.services.*;
+import com.gmail.deniska1406sme.onlinestore.validation.OnCreate;
 import com.gmail.deniska1406sme.onlinestore.validation.OnUpdate;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,18 +32,21 @@ public class MainController {
     private final OrderService orderService;
     private final JwtTokenProvider jwtTokenProvider;
     private final EmailNotificationService emailNotificationService;
+    private final PasswordAuthenticationService passwordAuthenticationService;
     long temp = 1L; //for temporary clients
 
     @Autowired
     public MainController(ProductService productService, ClientService clientService, CartService cartService,
                           OrderService orderService, JwtTokenProvider jwtTokenProvider,
-                          EmailNotificationService emailNotificationService) {
+                          EmailNotificationService emailNotificationService,
+                          PasswordAuthenticationService passwordAuthenticationService) {
         this.productService = productService;
         this.clientService = clientService;
         this.cartService = cartService;
         this.orderService = orderService;
         this.jwtTokenProvider = jwtTokenProvider;
         this.emailNotificationService = emailNotificationService;
+        this.passwordAuthenticationService = passwordAuthenticationService;
     }
 
     @Cacheable("products")
@@ -211,6 +215,14 @@ public class MainController {
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sortObject);
         Page<ProductDTO> productDTOS = productService.getProductsByCategory(ProductCategory.valueOf(category.toUpperCase()), pageable);
         return ResponseEntity.ok(productDTOS);
+    }
+
+    @PostMapping("/registration")
+    public ResponseEntity<Void> registerNewClient(@RequestBody @Validated(OnCreate.class) AddClientRequest request,
+                                                  BindingResult bindingResult) {
+        clientService.addNewClient(request.getClientDTO(), request.getUserDTO());
+        passwordAuthenticationService.savePassword(request.getUserDTO().getEmail(), request.getPassword());
+        return ResponseEntity.ok().build();
     }
 
     private ClientDTO getClientDTO(String token, HttpSession session) {

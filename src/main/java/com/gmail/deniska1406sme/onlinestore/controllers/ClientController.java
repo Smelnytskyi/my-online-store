@@ -119,13 +119,4 @@ public class ClientController {
         orderService.updateOrder(orderDTO, id);
         return ResponseEntity.ok().build();
     }
-
-    @PostMapping("/registration")
-    public ResponseEntity<Void> registerNewClient(@RequestBody @Validated(OnCreate.class) AddClientRequest request,
-                                                  BindingResult bindingResult) {
-        clientService.addNewClient(request.getClientDTO(), request.getUserDTO());
-        passwordAuthenticationService.savePassword(request.getUserDTO().getEmail(), request.getPassword());
-        return ResponseEntity.ok().build();
-    }
-
 }

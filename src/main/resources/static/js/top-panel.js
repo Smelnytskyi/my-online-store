@@ -73,7 +73,7 @@ async function loadTopPanel() {
 
             try {
                 // Отправляем данные на сервер
-                const response = await fetch('/client/registration', {
+                const response = await fetch('/main/registration', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

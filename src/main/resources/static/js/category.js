@@ -1,27 +1,27 @@
 const urlParams = new URLSearchParams(window.location.search);
-const category = urlParams.get('category'); // Получаем выбранную категорию из URL
-let selectedFilters = []; // Для хранения выбранных фильтров
-let minPrice = null; // Для хранения минимальной цены
-let maxPrice = null; // Для хранения максимальной цены
+const category = urlParams.get('category');
+let selectedFilters = [];
+let minPrice = null;
+let maxPrice = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     if (category) {
-        document.getElementById('category-title').innerText = category; // Устанавливаем заголовок категории
-        fetchProductsByCategory(category); // Загружаем товары выбранной категории
-        fetchAttributesByCategory(category); // Загружаем фильтры для выбранной категории
+        document.getElementById('category-title').innerText = category;
+        fetchProductsByCategory(category);
+        fetchAttributesByCategory(category);
     }
 
     updateFilterTags();
 });
 
-// Функция для загрузки товаров выбранной категории
+// Function to load products of the selected category
 function fetchProductsByCategory(category, page = 1, size = 20, sort = currentSort) {
     fetch(`/main/products-by-category?category=${category}&page=${page - 1}&size=${size}&sort=${sort}`)
         .then(response => response.json())
         .then(data => {
-            if (data.content) { // Убедитесь, что контент существует
-                renderProducts(data.content); // Вызов функции для отображения товаров
-                setupPagination(data.page.totalPages, page); // Пагинация
+            if (data.content) {
+                renderProducts(data.content);
+                setupPagination(data.page.totalPages, page);
             } else {
                 console.error("No content found in response data");
             }
@@ -29,20 +29,19 @@ function fetchProductsByCategory(category, page = 1, size = 20, sort = currentSo
         .catch(error => console.error('Ошибка при загрузке товаров:', error));
 }
 
-// Функция для загрузки атрибутов фильтров по категории
+// Function to load filter attributes by category
 function fetchAttributesByCategory(category) {
     fetch(`/main/get-product-attributes?category=${category}`)
         .then(response => response.json())
-        .then(data => renderFilters(data)) // Рендер фильтров
+        .then(data => renderFilters(data))
         .catch(error => console.error('Ошибка при загрузке атрибутов:', error));
 }
 
-// Функция для отображения доступных фильтров (создает чекбоксы для каждого атрибута)
+// Function to render available filters (creates checkboxes for each attribute)
 function renderFilters(attributes) {
     const filterSidebar = document.querySelector('.filter-sidebar');
-    filterSidebar.innerHTML = ''; // Очищаем перед отрисовкой новых фильтров
+    filterSidebar.innerHTML = '';
 
-    // Добавляем секцию фильтрации по цене
     const priceFilterSection = document.createElement('div');
     priceFilterSection.classList.add('filter-section', 'mb-3', 'p-3', 'border', 'rounded');
     priceFilterSection.innerHTML = `
@@ -69,7 +68,6 @@ function renderFilters(attributes) {
         const minPrice = parseFloat(document.getElementById('min-price').value);
         const maxPrice = parseFloat(document.getElementById('max-price').value);
 
-        // Проверка корректности введенных данных
         if (!isNaN(minPrice) && !isNaN(maxPrice) && minPrice <= maxPrice) {
             applyPriceFilter(category, minPrice, maxPrice, 1, currentSort);
         } else {
@@ -77,7 +75,7 @@ function renderFilters(attributes) {
         }
     });
 
-    // Добавляем фильтры по атрибутам
+    // Add filters for attributes
     for (let [attribute, values] of Object.entries(attributes)) {
         const filterSection = document.createElement('div');
         filterSection.classList.add('filter-section', 'mb-3', 'p-3', 'border', 'rounded');
@@ -90,8 +88,8 @@ function renderFilters(attributes) {
                 <input type="checkbox" class="form-check-input" value="${value}" id="${attribute}-${value}">
                 <label class="form-check-label" for="${attribute}-${value}">${value}</label>
             `;
-            checkbox.querySelector('input').addEventListener('change', function() {
-                toggleFilter(attribute, value); // Используем toggleFilter
+            checkbox.querySelector('input').addEventListener('change', function () {
+                toggleFilter(attribute, value);
             });
             filterSection.appendChild(checkbox);
         });
@@ -99,10 +97,10 @@ function renderFilters(attributes) {
     }
 }
 
-// Функция для применения фильтров по цене
+// Function to apply price filter
 function applyPriceFilter(category, min, max, page = 1, sort = currentSort) {
-    minPrice = min; // Сохраняем минимальную цену
-    maxPrice = max; // Сохраняем максимальную цену
+    minPrice = min;
+    maxPrice = max;
 
     const selectedAttributes = {};
     document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked').forEach(checkbox => {
@@ -113,7 +111,7 @@ function applyPriceFilter(category, min, max, page = 1, sort = currentSort) {
 
     fetch(`/main/search-by-attributes?category=${category}&minPrice=${min}&maxPrice=${max}&sort=${sort}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(selectedAttributes)
     })
         .then(response => response.json())
@@ -124,7 +122,7 @@ function applyPriceFilter(category, min, max, page = 1, sort = currentSort) {
         .catch(error => console.error('Ошибка при фильтрации товаров по цене:', error));
 }
 
-// Функция для отображения тегов фильтров
+// Function to display filter tags
 function updateFilterTags() {
     const filterTagsContainer = document.getElementById('filter-tags-container');
     filterTagsContainer.innerHTML = '';
@@ -140,21 +138,19 @@ function updateFilterTags() {
         });
     }
 
-    // Создаем теги для каждого выбранного фильтра
     selectedFilters.forEach(filter => {
         const tag = document.createElement('span');
         tag.classList.add('filter-tag', 'badge', 'bg-secondary', 'me-1');
         tag.innerHTML = `${filter} <button class="btn-close btn-sm" data-filter="${filter}"></button>`;
         filterTagsContainer.appendChild(tag);
 
-        // Обработчик для удаления тега
         tag.querySelector('button').addEventListener('click', () => {
-            removeFilter(filter); // Удаляем фильтр и обновляем страницу
+            removeFilter(filter);
         });
     });
 }
 
-// Функция для добавления или удаления фильтра
+// Function to add or remove a filter
 function toggleFilter(attribute, value) {
     const filterIndex = selectedFilters.findIndex(filter => filter === value);
     if (filterIndex === -1) {
@@ -166,7 +162,7 @@ function toggleFilter(attribute, value) {
     applyFilters(category);
 }
 
-// Обновляем фильтры при выборе чекбоксов
+// Update filters when checkboxes are selected
 function applyFilters(category, page = 1, size = 20, sort = currentSort) {
     const filters = {};
 
@@ -182,7 +178,6 @@ function applyFilters(category, page = 1, size = 20, sort = currentSort) {
     url.searchParams.append('size', size);
     url.searchParams.append('sort', sort);
 
-    // Добавляем параметры стоимости, если они установлены
     if (minPrice !== null) {
         url.searchParams.append('minPrice', minPrice);
     }
@@ -192,7 +187,7 @@ function applyFilters(category, page = 1, size = 20, sort = currentSort) {
 
     fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(filters)
     })
         .then(response => response.json())
@@ -203,7 +198,7 @@ function applyFilters(category, page = 1, size = 20, sort = currentSort) {
         .catch(error => console.error('Ошибка при фильтрации товаров:', error));
 }
 
-// Функция для удаления фильтра и обновления чекбокса
+// Function to remove a filter and update the checkbox
 function removeFilter(value) {
     selectedFilters = selectedFilters.filter(filter => filter !== value);
 
@@ -217,24 +212,22 @@ function removeFilter(value) {
     applyFilters(category);
 }
 
-// Устанавливаем обработчик на все чекбоксы
+// Set up event handler for all checkboxes
 document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
+    checkbox.addEventListener('change', function () {
         const attribute = this.closest('.filter-section').querySelector('h4').innerText;
-        toggleFilter(attribute, this.value); // Обновляем фильтр при изменении чекбокса
+        toggleFilter(attribute, this.value);
     });
 });
 
-// Функция для сброса всех фильтров
+// Function to reset all filters
 function resetFilters() {
-    // Сбрасываем выбранные фильтры
     selectedFilters = [];
     document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
-        checkbox.checked = false; // Сбрасываем чекбоксы
+        checkbox.checked = false;
     });
-    // Сбрасываем поля стоимости
     document.getElementById('min-price').value = '';
     document.getElementById('max-price').value = '';
-    updateFilterTags(); // Обновляем отображение тегов
-    fetchProductsByCategory(category); // Перезагружаем товары без фильтров
+    updateFilterTags();
+    fetchProductsByCategory(category);
 }

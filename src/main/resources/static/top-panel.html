@@ -1,6 +1,9 @@
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Store Logo</a> <!-- Логотип -->
+        <a class="navbar-brand" href="/">
+            <img src="logo.png" alt="PC Store Logo" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+            PC Store
+        </a>
         <form class="d-flex" role="search">
             <input class="form-control search-bar" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Найти</button>
@@ -21,10 +24,10 @@
                 <button type="button" class="btn-close" id="closeCartBtn"></button>
             </div>
             <div class="modal-body" id="cartItemsContainer">
-                <!-- Здесь будет список товаров в корзине -->
             </div>
             <div class="modal-footer">
-                <span id="authWarning" style="color: red; display: none; margin-left: 10px;">Пожалуйста, авторизируйтесь</span>
+                <span id="authWarning"
+                      style="color: red; display: none; margin-left: 10px;">Пожалуйста, авторизируйтесь</span>
                 <span>Сумма: <span id="totalAmount">0 ₴</span></span>
                 <button class="btn btn-success" id="checkoutBtn">Оформить заказ</button>
             </div>
@@ -32,19 +35,15 @@
     </div>
 </div>
 
-<!-- Модальное окно для оформления заказа -->
 <div class="modal" id="orderModal" style="display: none;">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <!-- Заголовок модального окна -->
             <div class="modal-header">
                 <h5 class="modal-title">Оформление заказа</h5>
                 <button type="button" class="btn-close" id="closeOrderModal"></button>
             </div>
 
-            <!-- Тело модального окна -->
             <div class="modal-body">
-                <!-- Контактные данные -->
                 <h6>Ваши контактные данные</h6>
                 <div class="mb-3">
                     <input type="text" class="form-control" id="clientName" readonly>
@@ -56,18 +55,15 @@
                     <input type="text" class="form-control" id="clientPhone" readonly>
                 </div>
 
-                <!-- Список товаров -->
                 <h6>Заказ</h6>
                 <div id="orderItemsContainer"></div>
 
-                <!-- Поле заметки -->
                 <h6>Заметки</h6>
                 <div class="mb-3">
                     <textarea class="form-control" id="orderNotes" rows="3"></textarea>
                 </div>
             </div>
 
-            <!-- Правая панель "Итого" -->
             <div class="modal-footer">
                 <div class="text-end w-100">
                     <p>Итого: <span id="totalAmountOrder">0 ₴</span></p>
@@ -109,7 +105,6 @@
     </div>
 </div>
 
-<!-- Модальное окно регистрации -->
 <div class="modal" id="registrationModal" style="display: none;">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

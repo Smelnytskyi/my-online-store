@@ -1,7 +1,7 @@
 let cartCount = 0;
 let topPanelLoaded = 0;
 
-// Загружаем верхнюю панель и количество товаров в корзине
+// Loading the top panel and cart item count
 async function loadTopPanel() {
 
     try {
@@ -12,25 +12,24 @@ async function loadTopPanel() {
 
         await loadCartCount();
 
-        // Устанавливаем обработчики событий
         document.getElementById('cartBtn').addEventListener('click', openCart);
         document.getElementById('closeCartBtn').addEventListener('click', () => {
             document.getElementById('cartModal').style.display = 'none';
         });
 
-        // Обработчик для иконки человека
+        // Handler for person icon
         document.getElementById('personBtn').addEventListener('click', openAuthModal);
 
-        // Проверка авторизации
+        // Checking authorization
         const token = localStorage.getItem('token');
         const personIcon = document.querySelector('.person-icon');
         if (token) {
-            personIcon.classList.add('person-icon-auth'); // Добавляем зелёный класс
+            personIcon.classList.add('person-icon-auth');
         } else {
-            personIcon.classList.remove('person-icon-auth'); // Убираем зелёный класс
+            personIcon.classList.remove('person-icon-auth');
         }
 
-        //Устанавливаем обработчик событий для поиска
+        // Setting up the search event handler
         document.querySelector('form[role="search"]').addEventListener('submit', async (event) => {
             event.preventDefault();
             const searchInput = document.querySelector('.search-bar').value.trim();
@@ -39,28 +38,27 @@ async function loadTopPanel() {
             }
         });
 
-        // Обработка закрытия авторизации
+        // Handling the authorization modal close button
         document.getElementById('closeAuthBtn').addEventListener('click', () => {
             document.getElementById('authModal').style.display = 'none';
         });
 
-        // Открытие модального окна при нажатии на кнопку регистрации
+        // Opening the registration modal when clicking the register button
         document.getElementById('registerBtn').addEventListener('click', () => {
             const modal = document.getElementById('registrationModal');
-            modal.style.display = 'flex';  // Показываем модальное окно
+            modal.style.display = 'flex';
         });
 
-        // Закрытие модального окна
+        // Closing the registration modal
         document.getElementById('closeRegisterBtn').addEventListener('click', () => {
             const modal = document.getElementById('registrationModal');
-            modal.style.display = 'none';  // Скрываем модальное окно
+            modal.style.display = 'none';
         });
 
-        // Обработчик отправки формы
+        // Form submission handler
         document.getElementById('registrationForm').addEventListener('submit', async (e) => {
-            e.preventDefault();  // Предотвращаем обычное отправление формы
+            e.preventDefault();
 
-            // Сбор данных из формы
             const formData = new FormData(e.target);
             const data = {
                 firstName: formData.get('firstName'),
@@ -72,7 +70,6 @@ async function loadTopPanel() {
             };
 
             try {
-                // Отправляем данные на сервер
                 const response = await fetch('/main/registration', {
                     method: 'POST',
                     headers: {
@@ -94,11 +91,9 @@ async function loadTopPanel() {
 
                 if (response.ok) {
                     alert('Регистрация прошла успешно!');
-                    // Закрываем модальное окно
                     const modal = document.getElementById('registrationModal');
                     modal.style.display = 'none';
                 } else {
-                    // Получаем ошибки с бэкенда
                     const errors = await response.json();
                     displayValidationErrors(errors, 'validationErrors');
                 }
@@ -108,12 +103,12 @@ async function loadTopPanel() {
             }
         });
 
-        // Обработчик для кнопоки Google авторизации
+        // Handler for Google authorization button
         document.getElementById('googleAuthBtn').addEventListener('click', () => {
             window.location.href = '/oauth2/authorization/google';
         });
 
-        // Обработчик для кнопоки заказа
+        // Handler for checkout button
         document.getElementById('checkoutBtn').addEventListener('click', async () => {
             const token = localStorage.getItem('token');
             const authWarning = document.getElementById('authWarning');
@@ -121,15 +116,13 @@ async function loadTopPanel() {
             if (token) {
 
                 const isUserAllowed = await checkRole(token);
-                // Пользователь авторизован, скрываем предупреждение (если оно было показано ранее)
-                if (isUserAllowed){
+                if (isUserAllowed) {
                     authWarning.style.display = 'none';
                     openOrderModal();
-                }else {
+                } else {
                     authWarning.style.display = 'inline';
                 }
             } else {
-                // Показываем предупреждение о необходимости авторизации
                 authWarning.style.display = 'inline';
             }
         });
@@ -138,7 +131,7 @@ async function loadTopPanel() {
 
         document.getElementById('confirmOrderBtn').addEventListener('click', async () => {
             const token = localStorage.getItem('token');
-            const notes = document.getElementById('orderNotes').value; // Предполагается, что поле для заметок имеет id="notes"
+            const notes = document.getElementById('orderNotes').value;
 
             if (!token) {
                 console.error('Пользователь не авторизован');
@@ -154,9 +147,9 @@ async function loadTopPanel() {
                     body: JSON.stringify(notes)
                 });
 
-                if (response.status === 402) {  // PAYMENT_REQUIRED
+                if (response.status === 402) {
                     alert('Пожалуйста, введите адрес в вашем профиле');
-                } else if (response.status === 400){
+                } else if (response.status === 400) {
                     alert('Количество товара на складе меньше чем в заказе');
                 } else if (response.ok) {
                     alert('Заказ успешно подтвержден');
@@ -176,16 +169,15 @@ async function loadTopPanel() {
     }
 
     topPanelLoaded += 1;
-    console.log(topPanelLoaded);
 }
 
-// Получаем количество товаров в корзине
+// Getting the number of items in the cart
 async function loadCartCount() {
     try {
         const token = localStorage.getItem('token');
 
 
-        const response = await fetchWithAuth('/main/cart/count',{
+        const response = await fetchWithAuth('/main/cart/count', {
             method: 'GET',
         });
         if (!response.ok) throw new Error("Failed to fetch cart count");
@@ -198,21 +190,20 @@ async function loadCartCount() {
     }
 }
 
-// Открытие корзины и получение информации о товарах
+// Opening the cart and fetching item details
 async function openCart() {
     try {
         const token = localStorage.getItem('token');
 
-        const response = await fetchWithAuth('/main/cart', {
-        });
+        const response = await fetchWithAuth('/main/cart', {});
 
-        if (!response.ok) throw new Error("Failed to fetch cart items"); // Проверка на ошибки
+        if (!response.ok) throw new Error("Failed to fetch cart items");
 
         const cartItems = await response.json();
         const detailedItems = await Promise.all(cartItems.map(async (item) => {
             const productResponse = await fetch(`/main/product/${item.productId}`);
             const productData = await productResponse.json();
-            return { ...productData, quantity: item.quantity };
+            return {...productData, quantity: item.quantity};
         }));
         updateCartItems(detailedItems);
         document.getElementById('cartModal').style.display = 'flex';
@@ -221,7 +212,7 @@ async function openCart() {
     }
 }
 
-// Обновляем список товаров в корзине
+// Updating the cart item list
 function updateCartItems(cartItems) {
     const cartItemsContainer = document.getElementById('cartItemsContainer');
     cartItemsContainer.innerHTML = '';
@@ -258,9 +249,9 @@ function updateCartItems(cartItems) {
     document.getElementById('totalAmount').textContent = `${totalAmount.toFixed(2)} ₴`;
 }
 
-// Функция для обновления количества товара
+// Function for updating product quantity
 async function updateQuantity(productId, quantity) {
-    if (quantity < 1) return; // Количество не может быть меньше 1
+    if (quantity < 1) return;
     const token = localStorage.getItem('token');
 
     try {
@@ -269,22 +260,22 @@ async function updateQuantity(productId, quantity) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ productId, quantity })
+            body: JSON.stringify({productId, quantity})
         });
-        await openCart(); // Обновляем корзину после изменения количества
-        await loadCartCount(); // Обновляем количество на иконке
+        await openCart();
+        await loadCartCount();
     } catch (error) {
         console.error("Error updating product quantity:", error);
     }
 }
 
-// Удаление товара из корзины
+// Removing an item from the cart
 async function removeFromCart(productId) {
     const token = localStorage.getItem('token');
 
     try {
         await fetchWithAuth(`/main/cart/remove/${productId}`, {
-            method: 'DELETE' ,
+            method: 'DELETE',
         });
         await openCart();
         await loadCartCount();
@@ -294,9 +285,7 @@ async function removeFromCart(productId) {
 }
 
 async function searchProductByName(name) {
-    // Проверяем, находится ли пользователь на главной странице
     if (!window.location.pathname.endsWith('/index.html')) {
-        // Если нет, перенаправляем его на главную страницу с параметром поиска
         window.location.href = `/index.html?search=${encodeURIComponent(name)}`;
         return;
     }
@@ -310,8 +299,8 @@ async function searchProductByName(name) {
         if (!response.ok) throw new Error("Failed to fetch search results");
 
         const data = await response.json();
-        window.renderProducts(data.content); // Переиспользуйте функцию отрисовки из main.js
-        window.setupPagination(data.page.totalPages, 1); // Также переиспользуйте функцию для пагинации
+        window.renderProducts(data.content);
+        window.setupPagination(data.page.totalPages, 1);
     } catch (error) {
         console.error("Error during search: ", error);
     }
@@ -335,23 +324,21 @@ async function openAuthModal() {
             showError("Срок авторизации истек, пожалуйста авторизируйтесь повторно");
         }
     } else {
-        // Если токена нет, открываем модальное окно авторизации
         document.getElementById('authModal').style.display = 'flex';
     }
 }
 
 async function getUserRole(token) {
     try {
-        const response = await fetchWithAuth('/auth/role', {
-        });
+        const response = await fetchWithAuth('/auth/role', {});
 
         if (!response.ok) throw new Error("Failed to fetch user role");
 
         const data = await response.json();
-        return data.role; // Предполагаем, что роль хранится в поле "role"
+        return data.role;
     } catch (error) {
         console.error("Ошибка при получении роли пользователя:", error);
-        throw error; // Чтобы обработать ошибку выше
+        throw error;
     }
 }
 
@@ -369,21 +356,18 @@ function redirectToProfile(role) {
 }
 
 async function submitLoginForm() {
-    // Останавливаем отправку формы
     event.preventDefault();
 
-    // Получаем введённые значения
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
     try {
-        // Отправляем запрос на сервер
         const response = await fetch('/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({email, password})
         });
 
         if (response.ok) {
@@ -392,13 +376,13 @@ async function submitLoginForm() {
             document.getElementById('authModal').style.display = 'none';
             const redirectUrl = data.redirectUrl;
             if (redirectUrl) {
-                window.location.href = redirectUrl; // Перенаправление на нужную страницу
+                window.location.href = redirectUrl;
             } else {
                 console.error("Redirect URL is missing!");
             }
         } else {
-            const errorMessage = await response.text(); // Получаем текст ошибки
-            showError(errorMessage); // Показываем сообщение об ошибке
+            const errorMessage = await response.text();
+            showError(errorMessage);
         }
     } catch (error) {
         console.error("Ошибка при авторизации:", error);
@@ -407,30 +391,25 @@ async function submitLoginForm() {
 }
 
 function showError(message) {
-    const errorContainer = document.getElementById('errorContainer'); // Элемент для отображения ошибок
+    const errorContainer = document.getElementById('errorContainer');
     errorContainer.textContent = message;
-    errorContainer.style.display = 'block'; // Показываем сообщение об ошибке
+    errorContainer.style.display = 'block';
 }
 
 async function openOrderModal() {
-    // Получение данных профиля пользователя
-    const profileResponse = await fetchWithAuth('/client/profile', {
-    });
+    const profileResponse = await fetchWithAuth('/client/profile', {});
     const profileData = await profileResponse.json();
     document.getElementById('clientName').value = `${profileData.lastName} ${profileData.firstName}`;
     document.getElementById('clientAddress').value = profileData.address;
     document.getElementById('clientPhone').value = profileData.phone;
 
-    // Получение данных корзины
-    const cartResponse = await fetchWithAuth('/main/cart', {
-    });
+    const cartResponse = await fetchWithAuth('/main/cart', {});
     const cartItems = await cartResponse.json();
 
     let totalAmount = 0;
     const orderItemsContainer = document.getElementById('orderItemsContainer');
-    orderItemsContainer.innerHTML = ''; // Очистка предыдущих данных
+    orderItemsContainer.innerHTML = '';
 
-    // Загрузка информации о каждом товаре
     for (const item of cartItems) {
         const productResponse = await fetch(`/main/product/${item.productId}`);
         const productData = await productResponse.json();
@@ -438,7 +417,6 @@ async function openOrderModal() {
         const itemTotal = productData.price * item.quantity;
         totalAmount += itemTotal;
 
-        // Создание элемента для товара
         const orderItem = document.createElement('div');
         orderItem.classList.add('order-item');
         orderItem.innerHTML = `
@@ -452,11 +430,9 @@ async function openOrderModal() {
         orderItemsContainer.appendChild(orderItem);
     }
 
-    // Установка итоговой суммы
     document.getElementById('totalAmountOrder').innerText = `${totalAmount} ₴`;
     document.getElementById('totalPayment').innerText = `${totalAmount} ₴`;
 
-    // Показ модального окна
     document.getElementById('orderModal').style.display = 'flex';
 }
 
@@ -464,31 +440,26 @@ function closeOrderModal() {
     document.getElementById('orderModal').style.display = 'none';
 }
 
-// Обертка для запроса с обработкой 401
+// Wrapper for requests with 401 handling
 async function fetchWithAuth(url, options = {}) {
-    // Получаем токен из localStorage
     const token = localStorage.getItem('token');
 
-    // Добавляем заголовок Authorization, если токен существует
     options.headers = {
         ...options.headers,
-        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        ...(token ? {'Authorization': `Bearer ${token}`} : {})
     };
 
     try {
-        // Выполняем запрос
         const response = await fetch(url, options);
 
-        // Если получаем 401, удаляем токен и открываем окно авторизации
         if (response.status === 401) {
-            localStorage.removeItem('token');  // Удаляем токен
-            openAuthModal();  // Открываем окно авторизации
+            localStorage.removeItem('token');
+            openAuthModal();
         }
-
-        return response;  // Возвращаем response для дальнейшей обработки
+        return response;
     } catch (error) {
         console.error('Ошибка сети или сервера:', error);
-        throw error;  // Пробрасываем ошибку для дополнительной обработки
+        throw error;
     }
 }
 

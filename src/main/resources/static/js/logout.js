@@ -1,6 +1,5 @@
 async function logout() {
     try {
-        // Отправляем запрос на сервер для выхода
         const response = await fetch('/auth/logout', {
             method: 'POST',
             headers: {
@@ -9,14 +8,9 @@ async function logout() {
         });
 
         if (response.ok) {
-            // Удаляем токен из localStorage
             localStorage.removeItem('token');
-
-            // Очистка других данных сессии, если нужно
             sessionStorage.clear();
-
-            // Перенаправление на страницу входа или главную
-            window.location.href = '/'; // Или на главную страницу
+            window.location.href = '/';
         } else {
             console.error('Ошибка выхода');
         }
@@ -25,7 +19,6 @@ async function logout() {
     }
 }
 
-// Добавляем слушатель события на кнопку выхода
 document.addEventListener('DOMContentLoaded', () => {
     const logoutButton = document.getElementById('logoutButton');
     if (logoutButton) {

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профиль работника</title>
+    <link rel="icon" href="favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/profile-employee.css">
@@ -14,19 +15,21 @@
 <div id="top-panel"></div>
 
 <div class="container mt-4 d-flex">
-    <!-- Боковая панель -->
     <aside class="sidebar me-4">
         <h5 class="text-center">Навигация</h5>
         <div class="list-group">
-            <button id="personal-info-tab" class="list-group-item list-group-item-action active" onclick="showTab('personal-info')">Личные данные</button>
-            <button id="orders-tab" class="list-group-item list-group-item-action" onclick="showTab('orders')">Заказы</button>
-            <button id="products-tab" class="list-group-item list-group-item-action" onclick="showTab('products')">Товары</button>
+            <button id="personal-info-tab" class="list-group-item list-group-item-action active"
+                    onclick="showTab('personal-info')">Личные данные
+            </button>
+            <button id="orders-tab" class="list-group-item list-group-item-action" onclick="showTab('orders')">Заказы
+            </button>
+            <button id="products-tab" class="list-group-item list-group-item-action" onclick="showTab('products')">
+                Товары
+            </button>
         </div>
     </aside>
 
-    <!-- Основной контент -->
     <main class="content flex-grow-1">
-        <!-- Личные данные -->
         <section id="personal-info" class="tab-content active mb-4">
             <h2>Личные данные</h2>
             <div class="card p-3 mb-3">
@@ -46,7 +49,6 @@
                 <button class="btn btn-secondary ms-2" id="cancel-edit">Отмена</button>
             </div>
 
-            <!-- Смена пароля -->
             <div class="card p-3 mb-3" id="change-password-form">
                 <h3>Сменить пароль</h3>
                 <input type="password" id="old-password" class="form-control mb-2" placeholder="Старый пароль">
@@ -58,7 +60,6 @@
             <button id="logoutButton" class="btn btn-danger">Выйти</button>
         </section>
 
-        <!-- Заказы -->
         <section id="orders" class="tab-content" style="display: none;">
             <h3>Заказы</h3>
             <div class="mb-3">
@@ -90,18 +91,15 @@
                 </tr>
                 </thead>
                 <tbody id="orders-list">
-                <!-- Заказы будут отображаться здесь -->
                 </tbody>
             </table>
 
             <nav>
                 <ul class="pagination justify-content-center" id="pagination">
-                    <!-- Элементы пагинации будут добавлены здесь -->
                 </ul>
             </nav>
         </section>
 
-        <!-- Товары -->
         <section id="products" class="tab-content" style="display: none;">
             <h3>Товары</h3>
             <div class="mb-3">
@@ -109,7 +107,7 @@
             </div>
             <label for="product-quantity" class="form-label">Поиск по количеству, <= чем:</label>
             <div class="d-flex justify-content-between mb-3">
-                <input type="number" id="product-quantity" placeholder="Поиск по количеству" class="form-control" />
+                <input type="number" id="product-quantity" placeholder="Поиск по количеству" class="form-control"/>
                 <button id="searchButton" class="btn btn-primary">Поиск</button>
             </div>
 
@@ -124,10 +122,8 @@
                 </tr>
                 </thead>
                 <tbody id="products-list">
-                <!-- Здесь будут отображаться товары -->
                 </tbody>
             </table>
-            <!-- Модальное окно для добавления/редактирования товара -->
             <div class="modal" id="productModal" style="display: none;">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -136,12 +132,11 @@
                             <button type="button" class="btn-close" onclick="closeModal()"></button>
                         </div>
                         <div class="modal-body">
-                            <!-- Поля для ввода данных товара -->
                             <form id="productForm">
-                                <input type="hidden" id="productId" />
+                                <input type="hidden" id="productId"/>
                                 <div class="form-group">
                                     <label for="productName">Имя товара</label>
-                                    <input type="text" id="productName" class="form-control" required />
+                                    <input type="text" id="productName" class="form-control" required/>
                                 </div>
                                 <div class="form-group">
                                     <label for="productCategory">Категория товара</label>
@@ -165,25 +160,29 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="productPrice">Цена</label>
-                                    <input type="number" id="productPrice" class="form-control" required />
+                                    <input type="number" id="productPrice" class="form-control" required/>
                                 </div>
                                 <div class="form-group">
                                     <label for="productQuantity">Количество</label>
-                                    <input type="number" id="productQuantity" class="form-control" required />
+                                    <input type="number" id="productQuantity" class="form-control" required/>
                                 </div>
                                 <div class="form-group">
                                     <label for="productImage">Фото товара</label>
-                                    <input type="file" id="productImage" class="form-control" accept="image/jpeg, image/png, image/gif" />
+                                    <input type="file" id="productImage" class="form-control"
+                                           accept="image/jpeg, image/png, image/gif"/>
                                 </div>
                                 <label>Атрибуты</label>
                                 <div class="form-group" id="attributesContainer">
                                     <div class="attribute-row d-flex mb-2">
-                                        <input type="text" class="form-control mr-2" placeholder="Ключ" />
-                                        <input type="text" class="form-control mr-2" placeholder="Значение" />
-                                        <button type="button" class="btn btn-danger removeAttributeButton">Удалить</button>
+                                        <input type="text" class="form-control mr-2" placeholder="Ключ"/>
+                                        <input type="text" class="form-control mr-2" placeholder="Значение"/>
+                                        <button type="button" class="btn btn-danger removeAttributeButton">Удалить
+                                        </button>
                                     </div>
                                 </div>
-                                <button type="button" id="addAttributeButton" class="btn btn-secondary mb-3">Добавить атрибут</button>
+                                <button type="button" id="addAttributeButton" class="btn btn-secondary mb-3">Добавить
+                                    атрибут
+                                </button>
                                 <div id="product-validation-errors" class="text-danger mb-2"></div>
                                 <input type="hidden" id="productIdForUpdate" value="">
                             </form>
@@ -195,11 +194,10 @@
                     </div>
                 </div>
             </div>
-            <!-- Фон модального окна -->
-            <div id="modalBackground" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+            <div id="modalBackground"
+                 style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999;"></div>
             <nav>
                 <ul class="pagination justify-content-center" id="products-pagination">
-                    <!-- Элементы пагинации будут добавлены здесь -->
                 </ul>
             </nav>
         </section>

@@ -1,5 +1,5 @@
-let currentPage = 1; // Текущая страница
-const itemsPerPage = 20; // Количество заказов на странице
+let currentPage = 1;
+const itemsPerPage = 20;
 
 const OrderStatus = {
     PENDING: "Ожидающие",
@@ -16,10 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
     showTab("personal-info");
     fetchProducts();
 
-    // Загрузка и отображение информации работника
     function loadEmployeeProfile() {
-        fetchWithAuth('/client/profile', {
-        })
+        fetchWithAuth('/client/profile', {})
             .then(response => response.json())
             .then(data => {
                 document.getElementById("employee-firstName").textContent = data.firstName;
@@ -46,30 +44,25 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify( updatedData )
+            body: JSON.stringify(updatedData)
         })
             .then(response => {
                 if (response.ok) {
-                    // Если ответ успешен, выполняем действия сразу
                     loadEmployeeProfile();
                     toggleEditSection('edit-info-form');
                     displayValidationErrors([], 'error-messages');
-                    return response.json().catch(() => ({})); // Обрабатываем JSON, даже если он пустой
+                    return response.json().catch(() => ({}));
                 } else {
-                    // Если статус не успешный, парсим ошибочный ответ
                     return response.json().then(result => {
                         if (result) {
-                            // Передаем ошибки в функцию displayValidationErrors
                             displayValidationErrors(result, 'error-messages');
-                        }else {
-                            // Если ошибок нет, просто показываем сообщение об ошибке
+                        } else {
                             displayValidationErrors(["Неизвестная ошибка"], 'error-messages');
                         }
                     });
                 }
             })
             .catch(error => {
-                // Обработка ошибок
                 document.getElementById("error-messages").textContent = error.message;
                 console.error("Ошибка:", error);
             });
@@ -79,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
         toggleEditSection('edit-info-form');
     });
 
-    // Обновление пароля
+    // Password update
     document.getElementById("update-password").addEventListener("click", function () {
         const oldPassword = document.getElementById("old-password").value;
         const newPassword = document.getElementById("new-password").value;
@@ -87,8 +80,9 @@ document.addEventListener("DOMContentLoaded", function () {
         fetchWithAuth('/client/profile/change-password', {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json'},
-            body: JSON.stringify({ oldPassword, newPassword })
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({oldPassword, newPassword})
         })
             .then(response => {
                 if (response.ok) {
@@ -108,38 +102,38 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("personal-info").style.display = isVisible ? "block" : "none";
     }
 
-    // Фильтрация по статусу
+    // Filtering by status
     document.getElementById("order-status").addEventListener("change", function () {
         loadOrders(this.value);
     });
 
-    // Обработчик события для кнопки поиска
+    // Event handler for the search button
     document.getElementById("search-button").addEventListener("click", function () {
         const orderId = document.getElementById("order-search").value;
         if (orderId) {
             searchOrderById(orderId);
         } else {
-            loadOrders(); // Если поле пустое, загружаем все заказы
+            loadOrders();
         }
     });
 
-    // Обработчик события для нажатия Enter
+    // Event handler for pressing Enter
     document.getElementById("order-search").addEventListener("keyup", function (e) {
         if (e.key === "Enter" && this.value) {
             searchOrderById(this.value);
         }
     });
 
-    // Обработчик нажатия на кнопку добавления товара
-    document.getElementById('add-product').addEventListener('click', function() {
+    // Event handler for the add product button
+    document.getElementById('add-product').addEventListener('click', function () {
         document.getElementById('productForm').reset();
         document.getElementById('productId').value = '';
         document.getElementById('attributesContainer').innerHTML = '';
         openModal();
     });
 
-    // Обработчик нажатия на кнопку сохранения товара
-    document.getElementById('saveProductButton').addEventListener('click', async function() {
+    // Event handler for saving the product
+    document.getElementById('saveProductButton').addEventListener('click', async function () {
         const productId = document.getElementById('productId').value;
         const productData = {
             name: document.getElementById('productName').value,
@@ -151,41 +145,38 @@ document.addEventListener("DOMContentLoaded", function () {
             imageUrl: null
         };
 
-        // Валидация: проверка, что категория выбрана
         if (!productData.category) {
             displayValidationErrors(['Пожалуйста, выберите категорию товара.'], 'product-validation-errors');
-            return; // Останавливаем выполнение, если категория не выбрана
+            return;
         }
 
-        // Сбор атрибутов в объект
         const attributeRows = document.getElementById('attributesContainer').getElementsByClassName('attribute-row');
         for (let row of attributeRows) {
-            const key = row.querySelector('input:nth-child(1)').value; // Ключ
-            const value = row.querySelector('input:nth-child(2)').value; // Значение
+            const key = row.querySelector('input:nth-child(1)').value;
+            const value = row.querySelector('input:nth-child(2)').value;
             if (key && value) {
                 productData.attributes[key] = value;
             }
         }
 
-        // Обработка файла изображения
         const imageFile = document.getElementById('productImage').files[0];
         if (!imageFile && !productId) {
             displayValidationErrors(['Пожалуйста, загрузите изображение товара.'], 'product-validation-errors');
-            return; // Останавливаем выполнение, если изображение не выбрано
+            return;
         } else if (!imageFile && productId) {
             saveProduct(productId, productData);
         } else {
             const reader = new FileReader();
             reader.onload = function (e) {
-                productData.imageUrl = e.target.result.split(',')[1]; // Устанавливаем значение imageUrl как Base64
+                productData.imageUrl = e.target.result.split(',')[1];
                 saveProduct(productId, productData);
             };
-            reader.readAsDataURL(imageFile); // Читаем файл как Data URL
+            reader.readAsDataURL(imageFile);
         }
     });
 
-    // Обработчик для редактирования товара
-    document.getElementById('products-list').addEventListener('click', async function(event) {
+    // Event handler for editing the product
+    document.getElementById('products-list').addEventListener('click', async function (event) {
         if (event.target.classList.contains('editButton')) {
             const productId = event.target.dataset.id;
             const response = await fetch(`/main/product/${productId}`);
@@ -198,17 +189,14 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('productPrice').value = product.price;
             document.getElementById('productQuantity').value = product.quantity;
 
-            // Валидация: проверка, что категория выбрана
             if (!product.category) {
                 displayValidationErrors(['Пожалуйста, выберите категорию товара.'], 'product-validation-errors');
-                return; // Останавливаем выполнение, если категория не выбрана
+                return;
             }
 
-            // Удаление существующих атрибутов
             const attributesContainer = document.getElementById('attributesContainer');
-            attributesContainer.innerHTML = ''; // Очищаем контейнер перед добавлением атрибутов
+            attributesContainer.innerHTML = '';
 
-            // Преобразование объекта атрибутов в массив и добавление атрибутов
             if (typeof product.attributes === 'object' && product.attributes !== null) {
                 Object.entries(product.attributes).forEach(([key, value]) => {
                     const attributeRow = document.createElement('div');
@@ -226,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
             openModal();
         }
 
-        // Обработчик для удаления товара
+        // Event handler for deleting the product
         if (event.target.classList.contains('deleteButton')) {
             const productId = event.target.dataset.id;
             if (confirm('Вы уверены, что хотите удалить этот товар?')) {
@@ -238,18 +226,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Обработчик для поиска товаров
-    document.getElementById('searchButton').addEventListener('click', async function() {
+    // Event handler for searching products
+    document.getElementById('searchButton').addEventListener('click', async function () {
         const quantity = parseInt(document.getElementById('product-quantity').value);
-        if (quantity){
+        if (quantity) {
             fetchProducts(1, quantity + 1);
         } else {
             fetchProducts();
         }
     });
 
-    // Функция для добавления новой строки атрибута
-    document.getElementById('addAttributeButton').addEventListener('click', function() {
+    // Function for adding a new attribute row
+    document.getElementById('addAttributeButton').addEventListener('click', function () {
         const attributeRow = document.createElement('div');
         attributeRow.classList.add('attribute-row', 'd-flex', 'mb-2');
         attributeRow.innerHTML = `
@@ -260,8 +248,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('attributesContainer').appendChild(attributeRow);
     });
 
-    // Обработчик для удаления атрибута
-    document.getElementById('attributesContainer').addEventListener('click', function(event) {
+    // Event handler for removing an attribute
+    document.getElementById('attributesContainer').addEventListener('click', function (event) {
         if (event.target.classList.contains('removeAttributeButton')) {
             const attributeRow = event.target.closest('.attribute-row');
             document.getElementById('attributesContainer').removeChild(attributeRow);
@@ -270,7 +258,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// Функция для сохранения или обновления товара
+// Function for saving or updating the product
 async function saveProduct(productId, productData) {
     const response = productId
         ? await fetchWithAuth(`/employee/product/update/${productId}`, {
@@ -301,7 +289,7 @@ async function saveProduct(productId, productData) {
     }
 }
 
-// Отображение заказов
+// Displaying orders
 function displayOrders(orders) {
     const ordersList = document.getElementById("orders-list");
     ordersList.innerHTML = "";
@@ -324,32 +312,29 @@ function displayOrders(orders) {
     });
 }
 
-// Загрузка заказов при загрузке страницы или изменении фильтра
+// Loading orders on page load or status change
 function loadOrders(status = "ALL", page = 1) {
     let url = `/employee/orders?page=${page - 1}&size=${itemsPerPage}`;
     if (status !== "ALL") {
         url = `/employee/orders-by-status?status=${status}&page=${page - 1}&size=${itemsPerPage}`;
     }
 
-    fetchWithAuth(url, )
+    fetchWithAuth(url,)
         .then(response => response.json())
         .then(data => {
-            displayOrders(data.content); // Метод для отображения заказов
+            displayOrders(data.content);
             setupPagination(data.page.totalPages, page, (newPage) => loadOrders(status, newPage), 'pagination');
         })
         .catch(error => console.error("Ошибка загрузки заказов:", error));
 }
 
 function showTab(tabId) {
-    // Скрываем все вкладки
     document.querySelectorAll(".tab-content").forEach(tab => {
         tab.style.display = "none";
     });
 
-    // Отображаем только выбранную вкладку
     document.getElementById(tabId).style.display = "block";
 
-    // Динамическая подсветка вкладок
     document.querySelectorAll(".list-group-item").forEach(button => {
         button.classList.remove("active");
     });
@@ -357,7 +342,7 @@ function showTab(tabId) {
 }
 
 function searchOrderById(orderId) {
-    fetchWithAuth(`/employee/order/get-single/${orderId}`, )
+    fetchWithAuth(`/employee/order/get-single/${orderId}`,)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Ошибка: ${response.status}`);
@@ -366,7 +351,7 @@ function searchOrderById(orderId) {
         })
         .then(order => {
             if (order && order.id) {
-                displayOrders([order]); // Показываем только найденный заказ
+                displayOrders([order]);
             } else {
                 console.error("Заказ не найден");
                 alert("Заказ не найден");
@@ -378,7 +363,7 @@ function searchOrderById(orderId) {
         });
 }
 
-// Удаление заказа
+// Deleting an order
 function deleteOrder(orderId) {
     fetchWithAuth(`/employee/order/delete/${orderId}`, {
         method: 'DELETE'
@@ -391,14 +376,14 @@ function deleteOrder(orderId) {
         .catch(error => console.error("Ошибка удаления заказа:", error));
 }
 
-// Обновление статуса заказа
+// Updating the order status
 function updateOrderStatus(orderId, newStatus) {
     fetchWithAuth(`/employee/order/update/${orderId}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ orderStatus: newStatus })
+        body: JSON.stringify({orderStatus: newStatus})
     })
         .then(response => {
             if (response.ok) {
@@ -410,8 +395,7 @@ function updateOrderStatus(orderId, newStatus) {
 
 async function showOrderDetails(orderId) {
     try {
-        const response = await fetchWithAuth(`/employee/order/get-single/${orderId}`, {
-        });
+        const response = await fetchWithAuth(`/employee/order/get-single/${orderId}`, {});
 
         if (!response.ok) {
             throw new Error("Ошибка загрузки деталей заказа");
@@ -420,14 +404,12 @@ async function showOrderDetails(orderId) {
         const order = await response.json();
         const products = await Promise.all(order.items.map(item => getProductById(item.productId)));
 
-        // Подсчет общей стоимости заказа
         const totalPrice = products.reduce((sum, product, index) => sum + (product.price * order.items[index].quantity), 0);
 
-        // Создание модального окна
         const orderDetailsModal = document.createElement("div");
         orderDetailsModal.className = "modal";
         orderDetailsModal.id = "orderDetailsModal";
-        orderDetailsModal.style.display = "block"; // Показываем модальное окно
+        orderDetailsModal.style.display = "block";
         orderDetailsModal.innerHTML = `
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -459,8 +441,7 @@ async function showOrderDetails(orderId) {
 
         document.body.appendChild(orderDetailsModal);
 
-        // Закрытие модального окна
-        window.closeOrderDetailsModal = function() {
+        window.closeOrderDetailsModal = function () {
             orderDetailsModal.style.display = "none";
             orderDetailsModal.remove();
         };
@@ -473,12 +454,12 @@ async function getProductById(productId) {
     const response = await fetch(`/main/product/${productId}`);
     if (!response.ok) {
         console.error(`Ошибка загрузки продукта с ID ${productId}`);
-        return { name: 'Неизвестный товар' }; // Возвращаем заглушку, если продукт не найден
+        return {name: 'Неизвестный товар'};
     }
     return await response.json();
 }
 
-// Универсальная функция для настройки пагинации
+// Universal function for setting up pagination
 function setupPagination(totalPages, currentPage, loadFunction, paginationElementId) {
     const pagination = document.getElementById(paginationElementId);
     pagination.innerHTML = "";
@@ -495,7 +476,7 @@ function setupPagination(totalPages, currentPage, loadFunction, paginationElemen
             pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
             pageItem.addEventListener('click', (e) => {
                 e.preventDefault();
-                loadFunction(i); // Вызываем переданную функцию загрузки данных с номером страницы
+                loadFunction(i);
             });
 
             pagination.appendChild(pageItem);
@@ -503,8 +484,7 @@ function setupPagination(totalPages, currentPage, loadFunction, paginationElemen
     }
 }
 
-
-// Функция для отображения товаров
+// Function for displaying products
 function displayProducts(products) {
     document.getElementById('products-list').innerHTML = '';
 
@@ -524,19 +504,19 @@ function displayProducts(products) {
     });
 }
 
-// Получение списка товаров (например, при загрузке страницы)
+// Fetching products list (e.g., on page load)
 async function fetchProducts(page = 1, quantity = null) {
     let data;
     try {
-        if (quantity === null){
+        if (quantity === null) {
             const response = await fetch(`/main/products?page=${page - 1}&size=${itemsPerPage}`);
             data = await response.json();
-        }else {
+        } else {
             const response = await fetch(`/employee/products-by-quantity?quantity=${quantity}`);
             data = await response.json();
         }
-        displayProducts(data.content); // Отображаем товары
-        setupPagination(data.page.totalPages, page, fetchProducts, 'products-pagination'); // Настраиваем пагинацию
+        displayProducts(data.content);
+        setupPagination(data.page.totalPages, page, fetchProducts, 'products-pagination');
     } catch (error) {
         console.error("Ошибка загрузки товаров:", error);
     }

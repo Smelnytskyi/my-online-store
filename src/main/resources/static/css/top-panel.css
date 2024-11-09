@@ -11,38 +11,38 @@
     background-color: #333;
 }
 
-.cart-icon{
+.cart-icon {
     font-size: 32px;
 }
 
 .person-icon {
     font-size: 32px;
-    color: white; /* Цвет по умолчанию */
+    color: white;
 }
 
 .person-icon-auth {
-    color: green; /* Зеленый цвет для авторизованного пользователя */
+    color: green;
 }
 
 .search-bar {
     width: 400px;
 }
 
-.cart-count{
+.cart-count {
     color: green;
 }
 
 .modal {
-    display: none; /* Скрываем модальное окно по умолчанию */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+    background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Увеличиваем z-index для отображения над другими элементами */
+    z-index: 1000;
 }
 
 .modal-dialog {
@@ -55,7 +55,8 @@
     max-height: 60vh;
     overflow-y: auto;
 }
-#authModal .modal-dialog{
+
+#authModal .modal-dialog {
     width: 500px;
     max-width: 90%;
 }
@@ -74,7 +75,7 @@
 }
 
 #registerBtn:hover, #googleAuthBtn:hover {
-    background-color: #357ABD; /* Немного темнее при наведении */
+    background-color: #357ABD;
 }
 
 #googleAuthBtn {
@@ -82,7 +83,7 @@
 }
 
 #googleAuthBtn:hover {
-    background-color: #c33b2e; /* Цвет при наведении */
+    background-color: #c33b2e;
 }
 
 #registrationModal #orderModal .modal {
@@ -91,11 +92,11 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);  /* Полупрозрачный фон */
-    display: none;  /* Изначально окно скрыто */
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
     justify-content: center;
     align-items: center;
-    z-index: 1050;  /* Для отображения поверх остального контента */
+    z-index: 1050;
 }
 
 #registrationModal .modal-dialog {

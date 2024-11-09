@@ -9,22 +9,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        // Запрос данных продукта с сервера
         const response = await fetch(`/main/product/${productId}`);
         const product = await response.json();
 
-        // Отображение данных продукта на странице
         document.getElementById('product-title').textContent = product.name;
         document.getElementById('product-id').textContent = `ID: ${product.id}`;
         document.getElementById('product-price').textContent = `Цена: ${product.price} грн`;
         document.getElementById('stock-status').textContent = product.quantity > 0 ? "В наличии" : "Нет в наличии";
         document.getElementById('product-image').src = product.imageUrl;
 
-        // Отображение описания товара
         const descriptionElement = document.getElementById('description-text');
         descriptionElement.textContent = product.description || "Описание товара отсутствует.";
 
-        // Отображение характеристик
         const specsList = document.getElementById('specifications-list');
         if (Object.keys(product.attributes).length === 0) {
             specsList.innerHTML = "<li class='list-group-item'>Характеристики не указаны</li>";
@@ -48,7 +44,7 @@ document.getElementById('buy-button').addEventListener('click', async () => {
     };
 
     const token = localStorage.getItem('token');
-    if (await checkRole(token)){
+    if (await checkRole(token)) {
         try {
             await fetch('/main/cart/add', {
                 method: 'POST',
@@ -62,7 +58,7 @@ document.getElementById('buy-button').addEventListener('click', async () => {
         } catch (error) {
             console.error("Ошибка при добавлении в корзину:", error);
         }
-    }else{
+    } else {
         alert('Администратор и работник не могут добавлять товары в корзину. Пожалуйста, авторизируйтесь под клиентом.');
     }
 });

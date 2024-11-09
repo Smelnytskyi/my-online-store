@@ -1,8 +1,7 @@
-let currentPage = 0; // Текущая страница
-const pageSize = 20; // Количество заказов на странице
+let currentPage = 0;
+const pageSize = 20;
 
-// Загрузка профиля при старте страницы
-window.onload = function() {
+window.onload = function () {
     loadProfile();
     checkPasswordExistence();
 };
@@ -21,7 +20,7 @@ function showOrdersSection() {
     document.getElementById('orders-section').style.display = 'block';
     document.getElementById('orders-button').classList.add('active');
     document.getElementById('profile-button').classList.remove('active');
-    loadOrders(); // Загрузить заказы при открытии секции
+    loadOrders();
 }
 
 function toggleEditSection(sectionId) {
@@ -41,7 +40,6 @@ async function loadProfile() {
         });
         if (response.ok) {
             const data = await response.json();
-            console.log(data.firstName, data.lastName, data.phone, data.address);
             displayProfileData(data);
         } else {
             console.error('Ошибка загрузки профиля');
@@ -52,7 +50,6 @@ async function loadProfile() {
 }
 
 function displayProfileData(data) {
-    console.log(data); // Дополнительная отладка
     document.getElementById('first-name').innerText = data.firstName;
     document.getElementById('last-name').innerText = data.lastName;
     document.getElementById('client-phone').innerText = data.phone;
@@ -81,7 +78,7 @@ async function updateProfile() {
             await loadProfile();
         } else {
             const errorData = await response.json();
-            displayValidationErrors(errorData); // Обработка ошибок валидации
+            displayValidationErrors(errorData);
         }
     } catch (error) {
         console.error('Ошибка:', error);
@@ -125,7 +122,7 @@ async function changePassword() {
         if (response.ok) {
             alert('Пароль изменен');
         } else {
-            document.getElementById('password-error-messages').innerText =  await response.text();
+            document.getElementById('password-error-messages').innerText = await response.text();
         }
     } catch (error) {
         console.error('Ошибка:', error);
@@ -155,9 +152,8 @@ async function setPassword() {
 }
 
 function displayValidationErrors(errors) {
-    // Удаляем предыдущие сообщения об ошибках
     const errorContainer = document.getElementById('error-messages');
-    errorContainer.innerHTML = ''; // Очищаем контейнер
+    errorContainer.innerHTML = '';
 
     for (const field in errors) {
         const message = errors[field];
@@ -176,8 +172,8 @@ async function loadOrders(page = 0) {
 
         if (response.ok) {
             const data = await response.json();
-            await displayOrders(data.content); // Отобразить заказы
-            setupPagination(data.page.totalPages); // Настроить пагинацию
+            await displayOrders(data.content);
+            setupPagination(data.page.totalPages);
         } else {
             console.error('Ошибка загрузки заказов');
         }
@@ -188,7 +184,7 @@ async function loadOrders(page = 0) {
 
 async function displayOrders(orders) {
     const ordersList = document.getElementById('orders-list');
-    ordersList.innerHTML = ''; // Очищаем предыдущий список
+    ordersList.innerHTML = '';
 
     for (const order of orders) {
         const products = await Promise.all(order.items.map(item => getProductById(item.productId)));
@@ -229,37 +225,43 @@ async function getProductById(productId) {
     const response = await fetch(`/main/product/${productId}`);
     if (!response.ok) {
         console.error(`Ошибка загрузки продукта с ID ${productId}`);
-        return { name: 'Неизвестный товар' }; // Возвращаем заглушку, если продукт не найден
+        return {name: 'Неизвестный товар'};
     }
     return await response.json();
 }
 
-// Функция для форматирования даты
 function formatDate(date) {
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
-    return new Date(date).toLocaleString('ru-RU', options); // Форматирование даты в русском формате
+    const options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    };
+    return new Date(date).toLocaleString('ru-RU', options);
 }
 
 function setupPagination(totalPages) {
     const paginationContainer = document.getElementById('pagination');
-    paginationContainer.innerHTML = ''; // Очищаем контейнер
+    paginationContainer.innerHTML = '';
 
     if (totalPages > 1) {
         for (let i = 0; i < totalPages; i++) {
             const pageButton = document.createElement('button');
-            pageButton.className = `btn btn-outline-primary mx-1 ${i === currentPage ? 'active' : ''}`; // Добавляем класс активной кнопке
+            pageButton.className = `btn btn-outline-primary mx-1 ${i === currentPage ? 'active' : ''}`;
             pageButton.innerText = i + 1;
             pageButton.onclick = () => {
                 currentPage = i;
                 loadOrders(i);
-                setupPagination(totalPages); // Обновляем пагинацию для новой активной страницы
+                setupPagination(totalPages);
             };
 
             paginationContainer.appendChild(pageButton);
         }
-        paginationContainer.style.display = 'flex'; // Показываем контейнер
+        paginationContainer.style.display = 'flex';
     } else {
-        paginationContainer.style.display = 'none'; // Скрываем пагинацию, если только одна страница
+        paginationContainer.style.display = 'none';
     }
 }
 
@@ -272,7 +274,7 @@ async function cancelOrder(orderId) {
 
         if (response.ok) {
             alert('Заказ отменён');
-            await loadOrders(currentPage); // Перезагружаем заказы
+            await loadOrders(currentPage);
         } else {
             console.error('Ошибка отмены заказа');
         }

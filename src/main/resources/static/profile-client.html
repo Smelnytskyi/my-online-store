@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профиль</title>
+    <link rel="icon" href="favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/profile-client.css">
@@ -14,17 +15,18 @@
 <div id="top-panel"></div>
 
 <div class="container mt-4 d-flex">
-    <!-- Левая панель -->
     <aside class="sidebar">
         <div class="list-group">
-            <button id="profile-button" class="list-group-item list-group-item-action active" onclick="showProfileSection()">Личные данные</button>
-            <button id="orders-button" class="list-group-item list-group-item-action" onclick="showOrdersSection()">Мои заказы</button>
+            <button id="profile-button" class="list-group-item list-group-item-action active"
+                    onclick="showProfileSection()">Личные данные
+            </button>
+            <button id="orders-button" class="list-group-item list-group-item-action" onclick="showOrdersSection()">Мои
+                заказы
+            </button>
         </div>
     </aside>
 
-    <!-- Основной контент -->
     <main class="content">
-        <!-- Секция профиля -->
         <section id="profile-section" class="profile-section mb-4">
             <h2>Личные данные</h2>
             <div class="card p-3 mb-3">
@@ -32,7 +34,9 @@
                 <p><strong>Фамилия:</strong> <span id="last-name"></span></p>
                 <p><strong>Имя:</strong> <span id="first-name"></span></p>
                 <p><strong>Адрес:</strong> <span id="client-address"></span></p>
-                <button class="btn btn-outline-primary mt-2" onclick="toggleEditSection('personal-info')">Редактировать</button>
+                <button class="btn btn-outline-primary mt-2" onclick="toggleEditSection('personal-info')">
+                    Редактировать
+                </button>
             </div>
 
             <div class="edit-section card p-3 mb-3" id="personal-info" style="display: none;">
@@ -48,21 +52,22 @@
             <div id="change-password-section" class="card p-3 mb-3" style="display: none;">
                 <h3>Сменить пароль</h3>
                 <input type="password" id="old-password" class="form-control mb-2" placeholder="Старый пароль" required>
-                <input type="password" id="change-new-password" class="form-control mb-2" placeholder="Новый пароль" required>
+                <input type="password" id="change-new-password" class="form-control mb-2" placeholder="Новый пароль"
+                       required>
                 <div id="password-error-messages" class="text-danger mb-2"></div>
                 <button class="btn btn-warning" onclick="changePassword()">Изменить пароль</button>
             </div>
 
             <div id="set-password-section" class="card p-3 mb-3" style="display: none;">
                 <h3>Сменить пароль</h3>
-                <input type="password" id="set-new-password" class="form-control mb-2" placeholder="Новый пароль" required>
+                <input type="password" id="set-new-password" class="form-control mb-2" placeholder="Новый пароль"
+                       required>
                 <button class="btn btn-warning" onclick="setPassword()">Изменить пароль</button>
             </div>
 
             <button id="logoutButton" class="btn btn-danger">Выйти</button>
         </section>
 
-        <!-- Секция заказов -->
         <section id="orders-section" class="mb-4 orders-section" style="display: none;">
             <h2>Мои заказы</h2>
             <div id="orders-list" class="list-group"></div>

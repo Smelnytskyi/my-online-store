@@ -1,17 +1,14 @@
 let currentSort = 'name,asc';
 
-// Получаем токен из URL
+// Get token from URL
 const token = getUrlParameter('token');
 if (token) {
-    // Сохраняем токен в localStorage
     localStorage.setItem('token', token);
-    // Очищаем URL от токена после сохранения, чтобы он не оставался в адресной строке
     window.history.replaceState({}, document.title, "/index.html");
     window.location.href = `profile-client.html`;
 }
 
 async function fetchProducts(page = 1, size = 20, sort = currentSort) {
-    console.log(`Fetching products - Page: ${page}, Size: ${size}, Sort: ${sort}`);
     try {
         const response = await fetch(`/main/products?page=${page - 1}&size=${size}&sort=${sort}`);
         if (!response.ok) throw new Error("Failed to fetch products");
@@ -95,27 +92,25 @@ document.addEventListener('DOMContentLoaded', async () => {
             searchBar.value = searchQuery;
             searchProductByName(searchQuery);
         }
-    }else {
-        // Вызываем fetchProducts только если нет параметра category
+    } else {
         const category = urlParams.get('category');
         if (!category) {
-            fetchProducts(); // Загружаем все товары
+            fetchProducts();
         }
     }
 
-    //Сортировка в зависимости от страницы
     const currentPage = document.body.getAttribute('data-page');
-    if(currentPage === 'category'){
-        document.getElementById('sortSelect').addEventListener('change', function() {
+    if (currentPage === 'category') {
+        document.getElementById('sortSelect').addEventListener('change', function () {
             currentSort = this.value;
             if (selectedFilters.length > 0) {
-                applyFilters(category, 1, 20, currentSort); // Применение сортировки к фильтрованным товарам
+                applyFilters(category, 1, 20, currentSort);
             } else {
-                fetchProductsByCategory(category, 1, 20, currentSort); // Сортировка всех товаров категории
+                fetchProductsByCategory(category, 1, 20, currentSort);
             }
         });
-    }else if(currentPage === 'main'){
-        document.getElementById('sortSelect').addEventListener('change', function() {
+    } else if (currentPage === 'main') {
+        document.getElementById('sortSelect').addEventListener('change', function () {
             currentSort = this.value;
             fetchProducts(1, 20, currentSort);
         });
@@ -133,7 +128,7 @@ document.addEventListener('click', (event) => {
 async function addToCart(productId) {
     try {
         const token = localStorage.getItem('token');
-        if (await checkRole(token)){
+        if (await checkRole(token)) {
             const response = await fetch('/main/cart/add', {
                 method: 'POST',
                 headers: {
@@ -145,9 +140,8 @@ async function addToCart(productId) {
 
             if (!response.ok) throw new Error("Failed to add product to cart");
             const data = await response.json().catch(() => ({}));
-            console.log(`Товар с ID ${productId} добавлен в корзину`, data);
             await loadCartCount();
-        }else {
+        } else {
             alert('Администратор и работник не могут добавлять товары в корзину. Пожалуйста, авторизируйтесь под клиентом.');
         }
     } catch (error) {
@@ -172,14 +166,14 @@ scrollToTopBtn.addEventListener("click", () => {
 });
 
 document.querySelectorAll('.categories-container .list-group-item').forEach(item => {
-    item.addEventListener('click', function(event) {
+    item.addEventListener('click', function (event) {
         event.preventDefault();
         const category = this.getAttribute('data-category');
         window.location.href = `category.html?category=${category}`;
     });
 });
 
-// Функция для извлечения параметров из URL
+// Function to extract URL parameters
 function getUrlParameter(name) {
     name = name.replace(/[\[\]]/g, '\\$&');
     const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');

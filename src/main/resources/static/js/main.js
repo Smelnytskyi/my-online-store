@@ -1,5 +1,15 @@
 let currentSort = 'name,asc';
 
+// Получаем токен из URL
+const token = getUrlParameter('token');
+if (token) {
+    // Сохраняем токен в localStorage
+    localStorage.setItem('token', token);
+    // Очищаем URL от токена после сохранения, чтобы он не оставался в адресной строке
+    window.history.replaceState({}, document.title, "/index.html");
+    window.location.href = `profile-client.html`;
+}
+
 async function fetchProducts(page = 1, size = 20, sort = currentSort) {
     console.log(`Fetching products - Page: ${page}, Size: ${size}, Sort: ${sort}`);
     try {
@@ -169,3 +179,12 @@ document.querySelectorAll('.categories-container .list-group-item').forEach(item
     });
 });
 
+// Функция для извлечения параметров из URL
+function getUrlParameter(name) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+    const results = regex.exec(window.location.href);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}

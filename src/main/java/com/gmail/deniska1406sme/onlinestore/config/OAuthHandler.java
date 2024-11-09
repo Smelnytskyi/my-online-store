@@ -42,10 +42,6 @@ public class OAuthHandler implements AuthenticationSuccessHandler {
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
 
-        if (!(authentication instanceof OAuth2AuthenticationToken)) {
-            throw new IllegalArgumentException("Unsupported authentication type");
-        }
-
         System.out.println("йоу я начал выполнятся");
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
         OAuth2User user = token.getPrincipal();
@@ -53,27 +49,25 @@ public class OAuthHandler implements AuthenticationSuccessHandler {
         Map<String, Object> attributes = user.getAttributes();
         String email = (String) attributes.get("email");
 
-        if (email == null) {
-            throw new IllegalArgumentException("Email attribute is missing");
-        }
-
         ClientDTO existingClient = clientService.getClientByEmail(email);
         String tokenJwt;
 
         Long tempClientId = (Long) request.getSession().getAttribute("tempClientId");
+        System.out.println(tempClientId);
         request.getSession().removeAttribute("tempClientId");
         ClientDTO tempClientDTO = (tempClientId != null) ? clientService.getClientById(tempClientId) : null;
 
         if (existingClient == null){
             ClientDTO newClientDTO = oAuth2ClientService.createNewClientFromGoogleData(user, tempClientDTO);
             tokenJwt = jwtTokenProvider.createToken(email, UserRole.CLIENT.name(), clientService.getClientByEmail(email).getId());
+            System.out.println(tokenJwt);
         } else {
             transferTempCartToClient(existingClient, tempClientId);
             tokenJwt = jwtTokenProvider.createToken(email, UserRole.CLIENT.name(), existingClient.getId());
         }
 
         response.addHeader("Authorization", "Bearer " + tokenJwt);
-        response.sendRedirect("/profile-client.html");
+        response.sendRedirect("/index.html?token=" + tokenJwt);
     }
 
     private void transferTempCartToClient(ClientDTO clientDTO, Long tempClientId) {

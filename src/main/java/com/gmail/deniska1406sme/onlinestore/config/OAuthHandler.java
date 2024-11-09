@@ -41,11 +41,21 @@ public class OAuthHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
+
+        if (!(authentication instanceof OAuth2AuthenticationToken)) {
+            throw new IllegalArgumentException("Unsupported authentication type");
+        }
+
+        System.out.println("йоу я начал выполнятся");
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
         OAuth2User user = token.getPrincipal();
 
         Map<String, Object> attributes = user.getAttributes();
         String email = (String) attributes.get("email");
+
+        if (email == null) {
+            throw new IllegalArgumentException("Email attribute is missing");
+        }
 
         ClientDTO existingClient = clientService.getClientByEmail(email);
         String tokenJwt;

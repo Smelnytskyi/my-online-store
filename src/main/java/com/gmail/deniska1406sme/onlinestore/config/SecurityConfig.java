@@ -60,34 +60,17 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .oauth2Login(oauth2Login ->
                         oauth2Login
-                                .clientRegistrationRepository(clientRegistrationRepository()) // Укажите репозиторий для клиента
-                                .successHandler(oAuthHandler) // Ваш обработчик успешной авторизации
+                                .successHandler(oAuthHandler)
+                                .failureUrl("/login?error=true")  // Указать URL для перенаправления при ошибке
                 )
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(customAuthEntryPoint)
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling.authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"message\": \"Authentication required\"}");
+                        })
                 );
 
         return http.build();
-    }
-
-    @Bean
-    public ClientRegistrationRepository clientRegistrationRepository() {
-        return new InMemoryClientRegistrationRepository(this.googleClientRegistration());
-    }
-
-    @Bean
-    public ClientRegistration googleClientRegistration() {
-        return ClientRegistration.withRegistrationId("google")
-                .clientId(clientId)
-                .clientSecret(clientSecret)
-                .redirectUri("http://localhost:8080/login/oauth2/code/google")
-                .scope("openid", "profile", "email")
-                .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
-                .tokenUri("https://oauth2.googleapis.com/token")
-                .userInfoUri("https://openidconnect.googleapis.com/v1/userinfo")
-                .userNameAttributeName("sub")
-                .clientName("Google")
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .build();
     }
 }

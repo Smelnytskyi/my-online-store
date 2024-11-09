@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Function to load products of the selected category
-function fetchProductsByCategory(category, page = 1, size = 20, sort = currentSort) {
+function fetchProductsByCategory(category, page = 1, size = 24, sort = currentSort) {
     fetch(`/main/products-by-category?category=${category}&page=${page - 1}&size=${size}&sort=${sort}`)
         .then(response => response.json())
         .then(data => {
@@ -163,7 +163,7 @@ function toggleFilter(attribute, value) {
 }
 
 // Update filters when checkboxes are selected
-function applyFilters(category, page = 1, size = 20, sort = currentSort) {
+function applyFilters(category, page = 1, size = 24, sort = currentSort) {
     const filters = {};
 
     document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked').forEach(checkbox => {

@@ -8,7 +8,7 @@ if (token) {
     window.location.href = `profile-client.html`;
 }
 
-async function fetchProducts(page = 1, size = 20, sort = currentSort) {
+async function fetchProducts(page = 1, size = 24, sort = currentSort) {
     try {
         const response = await fetch(`/main/products?page=${page - 1}&size=${size}&sort=${sort}`);
         if (!response.ok) throw new Error("Failed to fetch products");
@@ -35,7 +35,7 @@ function renderProducts(products) {
     paginationContainer.style.display = 'flex';
     products.forEach(product => {
         const productCard = `
-            <div class="col-md-4 col-lg-3 mb-4">
+            <div class="col-md-2 col-lg-2 mb-4">
                 <div class="card">
                     <img src="${product.imageUrl}" class="card-img-top" alt="${product.name}">
                     <div class="card-body">

@@ -29,7 +29,7 @@ public class ImageServiceImpl implements ImageService {
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("image", base64Image);
-        body.add("key", imgbbConfig.getApiKey());
+        body.add("key", imgbbConfig.getAltApiKey());
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
         ResponseEntity<Map> response = restTemplate.exchange(imgbbConfig.getApiUrl(), HttpMethod.POST, requestEntity, Map.class);

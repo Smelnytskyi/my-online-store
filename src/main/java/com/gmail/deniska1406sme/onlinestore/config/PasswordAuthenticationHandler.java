@@ -52,7 +52,6 @@ public class PasswordAuthenticationHandler {
             redirectUrl = "/profile-employee.html";
         }
 
-        // Перенаправление на соответствующую страницу профиля
         try {
             session.setAttribute("redirectUrl", redirectUrl);
         } catch (Exception e) {

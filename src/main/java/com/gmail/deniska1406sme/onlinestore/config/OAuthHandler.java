@@ -42,7 +42,6 @@ public class OAuthHandler implements AuthenticationSuccessHandler {
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
 
-        System.out.println("йоу я начал выполнятся");
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
         OAuth2User user = token.getPrincipal();
 
@@ -53,14 +52,12 @@ public class OAuthHandler implements AuthenticationSuccessHandler {
         String tokenJwt;
 
         Long tempClientId = (Long) request.getSession().getAttribute("tempClientId");
-        System.out.println(tempClientId);
         request.getSession().removeAttribute("tempClientId");
         ClientDTO tempClientDTO = (tempClientId != null) ? clientService.getClientById(tempClientId) : null;
 
         if (existingClient == null){
             ClientDTO newClientDTO = oAuth2ClientService.createNewClientFromGoogleData(user, tempClientDTO);
             tokenJwt = jwtTokenProvider.createToken(email, UserRole.CLIENT.name(), clientService.getClientByEmail(email).getId());
-            System.out.println(tokenJwt);
         } else {
             transferTempCartToClient(existingClient, tempClientId);
             tokenJwt = jwtTokenProvider.createToken(email, UserRole.CLIENT.name(), existingClient.getId());

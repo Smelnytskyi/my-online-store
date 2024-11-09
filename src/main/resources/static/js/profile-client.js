@@ -36,11 +36,8 @@ function toggleOrderDetails(orderId) {
 
 async function loadProfile() {
     try {
-        const response = await fetch('/client/profile', {
+        const response = await fetchWithAuth('/client/profile', {
             method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
         });
         if (response.ok) {
             const data = await response.json();
@@ -71,10 +68,9 @@ async function updateProfile() {
     };
 
     try {
-        const response = await fetch('/client/profile/update', {
+        const response = await fetchWithAuth('/client/profile/update', {
             method: 'PATCH',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(updatedData)
@@ -94,11 +90,8 @@ async function updateProfile() {
 
 async function checkPasswordExistence() {
     try {
-        const response = await fetch('/client/profile/has-password', {
+        const response = await fetchWithAuth('/client/profile/has-password', {
             method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
         });
 
         if (response.ok) {
@@ -121,10 +114,9 @@ async function changePassword() {
     document.getElementById('password-error-messages').innerText = '';
 
     try {
-        const response = await fetch('/client/profile/change-password', {
+        const response = await fetchWithAuth('/client/profile/change-password', {
             method: 'PATCH',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(requestBody)
@@ -144,10 +136,9 @@ async function setPassword() {
     const rawPassword = document.getElementById('set-new-password').value;
 
     try {
-        const response = await fetch('/client/profile/set-password', {
+        const response = await fetchWithAuth('/client/profile/set-password', {
             method: 'PATCH',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(rawPassword)
@@ -179,11 +170,8 @@ function displayValidationErrors(errors) {
 
 async function loadOrders(page = 0) {
     try {
-        const response = await fetch(`/client/orders?page=${page}&size=${pageSize}`, {
+        const response = await fetchWithAuth(`/client/orders?page=${page}&size=${pageSize}`, {
             method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
         });
 
         if (response.ok) {
@@ -278,11 +266,8 @@ function setupPagination(totalPages) {
 
 async function cancelOrder(orderId) {
     try {
-        const response = await fetch(`/client/order/cancel-order/${orderId}`, {
+        const response = await fetchWithAuth(`/client/order/cancel-order/${orderId}`, {
             method: 'PATCH',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
         });
 
         if (response.ok) {

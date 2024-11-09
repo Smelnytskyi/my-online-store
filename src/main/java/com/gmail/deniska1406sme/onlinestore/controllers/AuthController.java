@@ -18,7 +18,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +29,6 @@ public class AuthController {
     private final PasswordAuthenticationService passwordAuthenticationService;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordAuthenticationHandler passwordAuthenticationHandler;
-    private final OAuth2ClientService oAuth2ClientService;
 
     @Value("${google.client-id}")
     private String clientId;
@@ -43,12 +41,10 @@ public class AuthController {
 
     @Autowired
     public AuthController(PasswordAuthenticationService passwordAuthenticationService, JwtTokenProvider jwtTokenProvider,
-                          PasswordAuthenticationHandler passwordAuthenticationHandler,
-                          OAuth2ClientService oAuth2ClientService) {
+                          PasswordAuthenticationHandler passwordAuthenticationHandler) {
         this.passwordAuthenticationService = passwordAuthenticationService;
         this.jwtTokenProvider = jwtTokenProvider;
         this.passwordAuthenticationHandler = passwordAuthenticationHandler;
-        this.oAuth2ClientService = oAuth2ClientService;
     }
 
     @PostMapping("/login")

@@ -45,7 +45,7 @@ public class ClientServiceImpl implements ClientService {
         if (clientDTO.getPhone() != null) {
             client.setPhone(clientDTO.getPhone());
         }
-        if (clientDTO.getAddress() != null) {//TODO: change duplicate
+        if (clientDTO.getAddress() != null) {
             client.setAddress(clientDTO.getAddress());
         }
         clientRepository.save(client);

@@ -3,6 +3,7 @@ package com.gmail.deniska1406sme.onlinestore.config;
 import com.gmail.deniska1406sme.onlinestore.exceptions.AuthenticationException;
 import com.gmail.deniska1406sme.onlinestore.exceptions.UserNotFoundException;
 import com.gmail.deniska1406sme.onlinestore.exceptions.ValidationException;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,6 +29,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<List<String>> handleValidationException(ValidationException e) {
         return ResponseEntity.badRequest().body(e.getValidationErrors());
     }
-
-
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<String> handleExpiredJwtException(ExpiredJwtException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("JWT token has expired. Please log in again.");
+    }
 }

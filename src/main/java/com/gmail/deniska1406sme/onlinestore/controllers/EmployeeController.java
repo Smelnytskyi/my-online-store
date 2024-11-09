@@ -5,7 +5,6 @@ import com.gmail.deniska1406sme.onlinestore.dto.OrderDTO;
 import com.gmail.deniska1406sme.onlinestore.dto.ProductDTO;
 import com.gmail.deniska1406sme.onlinestore.exceptions.OrderNotFoundException;
 import com.gmail.deniska1406sme.onlinestore.model.OrderStatus;
-import com.gmail.deniska1406sme.onlinestore.services.ClientService;
 import com.gmail.deniska1406sme.onlinestore.services.OrderService;
 import com.gmail.deniska1406sme.onlinestore.services.ProductService;
 import com.gmail.deniska1406sme.onlinestore.validation.OnCreate;
@@ -37,7 +36,7 @@ public class EmployeeController {
     @GetMapping("/orders")
     public ResponseEntity<Page<OrderDTO>> getOrders(Pageable pageable) {
         Page<OrderDTO> orders = orderService.getOrders(pageable);
-        for(OrderDTO order: orders){
+        for (OrderDTO order : orders) {
             ClientDTO clientDTO = orderService.getClient(order.getId());
             order.setClientFirstName(clientDTO.getFirstName());
             order.setClientLastName(clientDTO.getLastName());

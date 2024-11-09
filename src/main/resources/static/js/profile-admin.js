@@ -25,11 +25,8 @@ function showEmployeesSection() {
 // Функция загрузки сотрудников с сервера
 async function loadEmployees(page = 0) {
     try {
-        const response = await fetch(`/admin/employees?page=${page}&size=20`, {
+        const response = await fetchWithAuth(`/admin/employees?page=${page}&size=20`, {
             method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
         });
 
         if (response.ok) {
@@ -88,10 +85,9 @@ async function addEmployee() {
     };
 
     try {
-        const response = await fetch('/admin/employee/add', {
+        const response = await fetchWithAuth('/admin/employee/add', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(newEmployee)
@@ -143,10 +139,9 @@ async function updateEmployee(employeeId) {
     };
 
     try {
-        const response = await fetch(`/admin/employee/update/${employeeId}`, {
+        const response = await fetchWithAuth(`/admin/employee/update/${employeeId}`, {
             method: 'PATCH',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(updatedEmployee)
@@ -169,11 +164,8 @@ async function updateEmployee(employeeId) {
 async function deleteEmployee(employeeId) {
     if (confirm('Вы уверены, что хотите удалить этого сотрудника?')) {
         try {
-            const response = await fetch(`/admin/user/delete/${employeeId}`, {
+            const response = await fetchWithAuth(`/admin/user/delete/${employeeId}`, {
                 method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
             });
 
             if (response.ok) {
@@ -211,10 +203,9 @@ async function deleteSelectedEmployees() {
     if (!confirmation) return;
 
     try {
-        const response = await fetch('/admin/users/delete', {
+        const response = await fetchWithAuth('/admin/users/delete', {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(selectedEmployees)

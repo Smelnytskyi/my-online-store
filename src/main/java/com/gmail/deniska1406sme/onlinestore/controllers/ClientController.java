@@ -8,7 +8,6 @@ import com.gmail.deniska1406sme.onlinestore.services.ClientService;
 import com.gmail.deniska1406sme.onlinestore.services.EmployeeService;
 import com.gmail.deniska1406sme.onlinestore.services.OrderService;
 import com.gmail.deniska1406sme.onlinestore.services.PasswordAuthenticationService;
-import com.gmail.deniska1406sme.onlinestore.validation.OnCreate;
 import com.gmail.deniska1406sme.onlinestore.validation.OnUpdate;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,11 +85,11 @@ public class ClientController {
                                                      @RequestBody @Validated(OnUpdate.class) ClientDTO clientDTO,
                                                      BindingResult bindingResult) {
         String email = jwtTokenProvider.getLogin(token);
-        if(jwtTokenProvider.getRole(token) == UserRole.CLIENT) {
+        if (jwtTokenProvider.getRole(token) == UserRole.CLIENT) {
             Long id = clientService.getClientByEmail(email).getId();
             clientService.updateClient(clientDTO, id);
-        }else if(jwtTokenProvider.getRole(token) == UserRole.EMPLOYEE) {
-            EmployeeDTO employeeDTO = new EmployeeDTO(clientDTO.getFirstName(),clientDTO.getLastName(),clientDTO.getPhone());
+        } else if (jwtTokenProvider.getRole(token) == UserRole.EMPLOYEE) {
+            EmployeeDTO employeeDTO = new EmployeeDTO(clientDTO.getFirstName(), clientDTO.getLastName(), clientDTO.getPhone());
             Long id = employeeService.getEmployeeByEmail(email).getId();
             employeeService.updateEmployee(employeeDTO, id);
         }
@@ -103,7 +102,7 @@ public class ClientController {
         String email = jwtTokenProvider.getLogin(token);
         Long id = clientService.getClientByEmail(email).getId();
         Page<OrderDTO> orders = orderService.getOrdersByClient(id, pageable);
-        for(OrderDTO order: orders){
+        for (OrderDTO order : orders) {
             order.setClientFirstName(clientService.getClientByEmail(email).getFirstName());
             order.setClientLastName(clientService.getClientByEmail(email).getLastName());
         }

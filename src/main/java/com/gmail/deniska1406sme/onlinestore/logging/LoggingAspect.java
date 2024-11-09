@@ -21,7 +21,8 @@ public class LoggingAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
-    @Before("execution(* com.gmail.deniska1406sme.onlinestore..*(..)) && !execution(* com.gmail.deniska1406sme.onlinestore.config..*(..))")
+    @Before("execution(* com.gmail.deniska1406sme.onlinestore..*(..)) && " +
+            "!execution(* com.gmail.deniska1406sme.onlinestore.config..*(..))")
     public void logBefore(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         Object[] filteredArgs = new Object[args.length];
@@ -31,15 +32,17 @@ public class LoggingAspect {
         logger.info("Method call: {} with arguments: {}", joinPoint.getSignature().getName(), Arrays.toString(filteredArgs));
     }
 
-    @AfterReturning(pointcut = "execution(* com.gmail.deniska1406sme.onlinestore..*(..)) && !execution(* com.gmail.deniska1406sme.onlinestore.config..*(..))", returning = "result")
+    @AfterReturning(pointcut = "execution(* com.gmail.deniska1406sme.onlinestore..*(..)) && " +
+            "!execution(* com.gmail.deniska1406sme.onlinestore.config..*(..))", returning = "result")
     public void logAfter(JoinPoint joinPoint, Object result) {
         Object filteredResult = checkSensitiveData(result);
         logger.info("Method {} completed successfully, with result: {}", joinPoint.getSignature().getName(), filteredResult);
     }
 
-    @AfterThrowing(pointcut = "execution(* com.gmail.deniska1406sme.onlinestore..*(..)) && !execution(* com.gmail.deniska1406sme.onlinestore.config..*(..))", throwing = "exception")
+    @AfterThrowing(pointcut = "execution(* com.gmail.deniska1406sme.onlinestore..*(..)) && " +
+            "!execution(* com.gmail.deniska1406sme.onlinestore.config..*(..))", throwing = "exception")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable exception) {
-        logger.error("Method {} threw an exception: {}", joinPoint.getSignature().getName(), exception.getMessage());//, exception) for extended stack trace
+        logger.error("Method {} threw an exception: {}", joinPoint.getSignature().getName(), exception.getMessage());//, exception); for extended stack trace
     }
 
     private Object checkSensitiveData(Object arg) {

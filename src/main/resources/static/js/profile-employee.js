@@ -18,10 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Загрузка и отображение информации работника
     function loadEmployeeProfile() {
-        fetch('/client/profile', {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
+        fetchWithAuth('/client/profile', {
         })
             .then(response => response.json())
             .then(data => {
@@ -44,11 +41,10 @@ document.addEventListener("DOMContentLoaded", function () {
             phone: document.getElementById("input-phone").value || null
         };
 
-        fetch('/client/profile/update', {
+        fetchWithAuth('/client/profile/update', {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify( updatedData )
         })
@@ -88,12 +84,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const oldPassword = document.getElementById("old-password").value;
         const newPassword = document.getElementById("new-password").value;
 
-        fetch('/client/profile/change-password', {
+        fetchWithAuth('/client/profile/change-password', {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            },
+                'Content-Type': 'application/json'},
             body: JSON.stringify({ oldPassword, newPassword })
         })
             .then(response => {
@@ -175,12 +169,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Обработка файла изображения
         const imageFile = document.getElementById('productImage').files[0];
-        if (!imageFile) {
+        if (!imageFile && !productId) {
             displayValidationErrors(['Пожалуйста, загрузите изображение товара.'], 'product-validation-errors');
             return; // Останавливаем выполнение, если изображение не выбрано
+        } else if (!imageFile && productId) {
+            saveProduct(productId, productData);
         } else {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 productData.imageUrl = e.target.result.split(',')[1]; // Устанавливаем значение imageUrl как Base64
                 saveProduct(productId, productData);
             };
@@ -234,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (event.target.classList.contains('deleteButton')) {
             const productId = event.target.dataset.id;
             if (confirm('Вы уверены, что хотите удалить этот товар?')) {
-                await fetch(`/employee/product/delete/${productId}`, {
+                await fetchWithAuth(`/employee/product/delete/${productId}`, {
                     method: 'DELETE'
                 });
                 fetchProducts();
@@ -277,14 +273,14 @@ document.addEventListener("DOMContentLoaded", function () {
 // Функция для сохранения или обновления товара
 async function saveProduct(productId, productData) {
     const response = productId
-        ? await fetch(`/employee/product/update/${productId}`, {
+        ? await fetchWithAuth(`/employee/product/update/${productId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(productData),
         })
-        : await fetch('/employee/product/add', {
+        : await fetchWithAuth('/employee/product/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -335,11 +331,7 @@ function loadOrders(status = "ALL", page = 1) {
         url = `/employee/orders-by-status?status=${status}&page=${page - 1}&size=${itemsPerPage}`;
     }
 
-    fetch(url, {
-        headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
-        }
-    })
+    fetchWithAuth(url, )
         .then(response => response.json())
         .then(data => {
             displayOrders(data.content); // Метод для отображения заказов
@@ -365,11 +357,7 @@ function showTab(tabId) {
 }
 
 function searchOrderById(orderId) {
-    fetch(`/employee/order/get-single/${orderId}`, {
-        headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
-        }
-    })
+    fetchWithAuth(`/employee/order/get-single/${orderId}`, )
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Ошибка: ${response.status}`);
@@ -392,11 +380,8 @@ function searchOrderById(orderId) {
 
 // Удаление заказа
 function deleteOrder(orderId) {
-    fetch(`/employee/order/delete/${orderId}`, {
-        method: 'DELETE',
-        headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
-        }
+    fetchWithAuth(`/employee/order/delete/${orderId}`, {
+        method: 'DELETE'
     })
         .then(response => {
             if (response.ok) {
@@ -408,11 +393,10 @@ function deleteOrder(orderId) {
 
 // Обновление статуса заказа
 function updateOrderStatus(orderId, newStatus) {
-    fetch(`/employee/order/update/${orderId}`, {
+    fetchWithAuth(`/employee/order/update/${orderId}`, {
         method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({ orderStatus: newStatus })
     })
@@ -426,10 +410,7 @@ function updateOrderStatus(orderId, newStatus) {
 
 async function showOrderDetails(orderId) {
     try {
-        const response = await fetch(`/employee/order/get-single/${orderId}`, {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
+        const response = await fetchWithAuth(`/employee/order/get-single/${orderId}`, {
         });
 
         if (!response.ok) {

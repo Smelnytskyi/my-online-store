@@ -146,10 +146,9 @@ async function loadTopPanel() {
             }
 
             try {
-                const response = await fetch('main/order/create', {
+                const response = await fetchWithAuth('main/order/create', {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(notes)
@@ -186,11 +185,8 @@ async function loadCartCount() {
         const token = localStorage.getItem('token');
 
 
-        const response = await fetch('/main/cart/count',{
+        const response = await fetchWithAuth('/main/cart/count',{
             method: 'GET',
-            headers: {
-                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-            },
         });
         if (!response.ok) throw new Error("Failed to fetch cart count");
 
@@ -207,11 +203,7 @@ async function openCart() {
     try {
         const token = localStorage.getItem('token');
 
-        const response = await fetch('/main/cart', {
-            headers: {
-                // Если токен существует, добавляем его в заголовок Authorization
-                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-            }
+        const response = await fetchWithAuth('/main/cart', {
         });
 
         if (!response.ok) throw new Error("Failed to fetch cart items"); // Проверка на ошибки
@@ -272,11 +264,10 @@ async function updateQuantity(productId, quantity) {
     const token = localStorage.getItem('token');
 
     try {
-        await fetch('/main/cart/update', {
+        await fetchWithAuth('/main/cart/update', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
             },
             body: JSON.stringify({ productId, quantity })
         });
@@ -292,11 +283,8 @@ async function removeFromCart(productId) {
     const token = localStorage.getItem('token');
 
     try {
-        await fetch(`/main/cart/remove/${productId}`, {
+        await fetchWithAuth(`/main/cart/remove/${productId}`, {
             method: 'DELETE' ,
-            headers: {
-                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-            }
         });
         await openCart();
         await loadCartCount();
@@ -344,7 +332,7 @@ async function openAuthModal() {
             redirectToProfile(role);
         } catch (error) {
             console.error("Ошибка получения роли пользователя:", error);
-            showError("Ошибка при определении профиля");
+            showError("Срок авторизации истек, пожалуйста авторизируйтесь повторно");
         }
     } else {
         // Если токена нет, открываем модальное окно авторизации
@@ -354,10 +342,7 @@ async function openAuthModal() {
 
 async function getUserRole(token) {
     try {
-        const response = await fetch('/auth/role', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+        const response = await fetchWithAuth('/auth/role', {
         });
 
         if (!response.ok) throw new Error("Failed to fetch user role");
@@ -429,10 +414,7 @@ function showError(message) {
 
 async function openOrderModal() {
     // Получение данных профиля пользователя
-    const profileResponse = await fetch('/client/profile', {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+    const profileResponse = await fetchWithAuth('/client/profile', {
     });
     const profileData = await profileResponse.json();
     document.getElementById('clientName').value = `${profileData.lastName} ${profileData.firstName}`;
@@ -440,10 +422,7 @@ async function openOrderModal() {
     document.getElementById('clientPhone').value = profileData.phone;
 
     // Получение данных корзины
-    const cartResponse = await fetch('/main/cart', {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+    const cartResponse = await fetchWithAuth('/main/cart', {
     });
     const cartItems = await cartResponse.json();
 
@@ -483,6 +462,34 @@ async function openOrderModal() {
 
 function closeOrderModal() {
     document.getElementById('orderModal').style.display = 'none';
+}
+
+// Обертка для запроса с обработкой 401
+async function fetchWithAuth(url, options = {}) {
+    // Получаем токен из localStorage
+    const token = localStorage.getItem('token');
+
+    // Добавляем заголовок Authorization, если токен существует
+    options.headers = {
+        ...options.headers,
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+    };
+
+    try {
+        // Выполняем запрос
+        const response = await fetch(url, options);
+
+        // Если получаем 401, удаляем токен и открываем окно авторизации
+        if (response.status === 401) {
+            localStorage.removeItem('token');  // Удаляем токен
+            openAuthModal();  // Открываем окно авторизации
+        }
+
+        return response;  // Возвращаем response для дальнейшей обработки
+    } catch (error) {
+        console.error('Ошибка сети или сервера:', error);
+        throw error;  // Пробрасываем ошибку для дополнительной обработки
+    }
 }
 
 loadTopPanel();

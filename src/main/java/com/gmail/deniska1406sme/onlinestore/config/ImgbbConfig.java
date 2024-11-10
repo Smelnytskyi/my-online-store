@@ -6,18 +6,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ImgbbConfig {
 
-    @Value("${imgbb.api.key}")
-    private String apiKey;
-
     @Value("${imgbb.alt.api.key}")
     private String altApiKey;
 
     @Value("${imgbb.api.url}")
     private String apiUrl;
-
-    public String getApiKey() {
-        return apiKey;
-    }
 
     public String getAltApiKey() {
         return altApiKey;

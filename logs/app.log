@@ -1,0 +1,211 @@
+2024-11-10 02:21:49 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:21:49 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:21:49 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:21:49 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:21:49 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:21:49 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:21:49 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:21:49 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:21:49 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:21:49 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:21:49 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:21:49 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:21:49 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:21:49 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:21:49 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:21:49 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:23:20 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method call: getRole with arguments: [*****]
+2024-11-10 02:23:20 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method getRole completed successfully, with result: <200 OK OK,{role=EMPLOYEE},[]>
+2024-11-10 02:23:20 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method call: getProfile with arguments: [*****]
+2024-11-10 02:23:20 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getOrders with arguments: [Page request [number: 0, size 20, sort: UNSORTED]]
+2024-11-10 02:23:20 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getOrders with arguments: [Page request [number: 0, size 20, sort: UNSORTED]]
+2024-11-10 02:23:20 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: findAll with arguments: [Page request [number: 0, size 20, sort: UNSORTED]]
+2024-11-10 02:23:20 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method call: getEmployeeByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:23:20 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:23:20 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: Employee{id=1firstName='Denys', lastName='Smel', phone='380094'}
+2024-11-10 02:23:20 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method getEmployeeByEmail completed successfully, with result: EmployeeDTO{firstName='Denys', lastName='Smel', phone='380094'}
+2024-11-10 02:23:20 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method getProfile completed successfully, with result: <200 OK OK,EmployeeDTO{firstName='Denys', lastName='Smel', phone='380094'},[]>
+2024-11-10 02:23:20 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method findAll completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.model.Order instances
+2024-11-10 02:23:20 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getOrders completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.OrderDTO instances
+2024-11-10 02:23:20 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClient with arguments: [1]
+2024-11-10 02:23:20 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: findOrderById with arguments: [1]
+2024-11-10 02:23:20 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method findOrderById completed successfully, with result: Order{id=1, client=Client{id=3, firstName='Denys', lastName='Smel', phone='12548', address='null'}, orderDate=2024-11-10T00:36:05.504313, orderStatus=SHIPPED, deliveryAddress='my street 22', notes='i dont need instruction', orderItemsCount=1}
+2024-11-10 02:23:20 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getClient completed successfully, with result: ClientDTO{firstName='Denys', lastName='Smel', phone='12548', address='null', cartDTO=null}
+2024-11-10 02:23:20 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClient with arguments: [2]
+2024-11-10 02:23:20 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: findOrderById with arguments: [2]
+2024-11-10 02:23:20 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method findOrderById completed successfully, with result: Order{id=2, client=Client{id=4, firstName='Denys', lastName='Smel', phone='32432525', address='Main st.15'}, orderDate=2024-11-10T00:36:05.527828, orderStatus=CONFIRMED, deliveryAddress='my street 25', notes='i dont need instruction', orderItemsCount=1}
+2024-11-10 02:23:20 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getClient completed successfully, with result: ClientDTO{firstName='Denys', lastName='Smel', phone='32432525', address='Main st.15', cartDTO=CartDTO{items=[], totalPrice=0.0}}
+2024-11-10 02:23:20 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getOrders completed successfully, with result: <200 OK OK,Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.OrderDTO instances,[]>
+2024-11-10 02:23:20 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:23:20 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:23:20 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:23:20 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:23:20 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:23:20 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:23:20 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:23:20 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:23:21 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCart with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:23:21 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:23:21 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:23:21 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:23:21 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:23:21 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:23:21 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:23:21 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method getCart completed successfully, with result: <200 OK OK,[],[]>
+2024-11-10 02:23:30 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getProduct with arguments: [117]
+2024-11-10 02:23:30 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getProductById with arguments: [117]
+2024-11-10 02:23:30 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: findById with arguments: [117]
+2024-11-10 02:23:30 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method findById completed successfully, with result: Optional[Product{id=117, name='ADATA XPG Gammix S70 1TB', category=SSD, description='SSD с NVMe интерфейсом, который обеспечит вам отличную производительность в играх и приложениях.', price=4299.0, quantity=100, imageUrl='https://i.ibb.co/jTmy43m/0f5792707d91.jpg', deleteImageUrl='https://ibb.co/47z8N4z/19cfd963efec6faf4a85242d04af1b82', attributes={Страна-производитель товара=Тайвань, Время наработки на отказ=1.7 миллиона часов, Скорость чтения=До 7400 МБ/с, Устойчивость к ударным нагрузкам=1500G, Скорость записи=До 6400 МБ/с, Форм-фактор=M.2, Энергопотребление=6 Вт, Тип накопителя=Внутренний, Интерфейс подключения=PCI Express 4.0 x4, Компания=ADATA, Объем памяти=1 ГБ}}]
+2024-11-10 02:23:30 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getProductById completed successfully, with result: ProductDTO{id=117, name='ADATA XPG Gammix S70 1TB', category=SSD, description='SSD с NVMe интерфейсом, который обеспечит вам отличную производительность в играх и приложениях.', price=4299.0, imageUrl='https://i.ibb.co/jTmy43m/0f5792707d91.jpg', deleteImageUrl='https://ibb.co/47z8N4z/19cfd963efec6faf4a85242d04af1b82', quantity=100, attributes={Страна-производитель товара=Тайвань, Время наработки на отказ=1.7 миллиона часов, Скорость чтения=До 7400 МБ/с, Устойчивость к ударным нагрузкам=1500G, Скорость записи=До 6400 МБ/с, Форм-фактор=M.2, Энергопотребление=6 Вт, Тип накопителя=Внутренний, Интерфейс подключения=PCI Express 4.0 x4, Компания=ADATA, Объем памяти=1 ГБ}}
+2024-11-10 02:23:30 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getProduct completed successfully, with result: <200 OK OK,ProductDTO{id=117, name='ADATA XPG Gammix S70 1TB', category=SSD, description='SSD с NVMe интерфейсом, который обеспечит вам отличную производительность в играх и приложениях.', price=4299.0, imageUrl='https://i.ibb.co/jTmy43m/0f5792707d91.jpg', deleteImageUrl='https://ibb.co/47z8N4z/19cfd963efec6faf4a85242d04af1b82', quantity=100, attributes={Страна-производитель товара=Тайвань, Время наработки на отказ=1.7 миллиона часов, Скорость чтения=До 7400 МБ/с, Устойчивость к ударным нагрузкам=1500G, Скорость записи=До 6400 МБ/с, Форм-фактор=M.2, Энергопотребление=6 Вт, Тип накопителя=Внутренний, Интерфейс подключения=PCI Express 4.0 x4, Компания=ADATA, Объем памяти=1 ГБ}},[]>
+2024-11-10 02:24:04 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:24:04 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:04 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:04 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:24:04 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:24:04 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:24:04 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:24:04 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:24:04 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:24:04 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:04 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:04 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:24:04 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:24:04 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:24:04 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:24:04 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:24:28 [http-nio-8080-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method call: getProductsByCategory with arguments: [HDD, name,asc, Page request [number: 0, size 20, sort: name: ASC]]
+2024-11-10 02:24:28 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method call: getProductAttributes with arguments: [HDD]
+2024-11-10 02:24:28 [http-nio-8080-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method call: getProductsByCategory with arguments: [HDD, Page request [number: 0, size 20, sort: name: ASC]]
+2024-11-10 02:24:28 [http-nio-8080-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method call: findProductsByCategory with arguments: [HDD, Page request [number: 0, size 20, sort: name: ASC]]
+2024-11-10 02:24:28 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method call: getProductsByCategory with arguments: [HDD, Page request [number: 0, size 2147483647, sort: UNSORTED]]
+2024-11-10 02:24:28 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method call: findProductsByCategory with arguments: [HDD, Page request [number: 0, size 2147483647, sort: UNSORTED]]
+2024-11-10 02:24:28 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method findProductsByCategory completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.model.Product instances
+2024-11-10 02:24:28 [http-nio-8080-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method findProductsByCategory completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.model.Product instances
+2024-11-10 02:24:28 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method getProductsByCategory completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances
+2024-11-10 02:24:28 [http-nio-8080-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method getProductsByCategory completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances
+2024-11-10 02:24:28 [http-nio-8080-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method getProductsByCategory completed successfully, with result: <200 OK OK,Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances,[]>
+2024-11-10 02:24:28 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method getProductAttributes completed successfully, with result: <200 OK OK,{Страна-производитель товара=[США, Китай, Япония], Среднее время ожидания=[5.0 мс, 4.2 мс, 4.16 мс], Максимальная потребляемая мощность=[7 Вт, 5 Вт, 8 Вт, 6 Вт, 4.3 Вт, 9 Вт], Форм-фактор=[3.5], Объем буфера=[256 МБ, 64 МБ, 128 МБ], Скорость передачи данных=[220 МБ/c, 210 МБ/с, 150 МБ/с, 190 МБ/с, 200 МБ/с, 220 МБ/с], Интерфейс подключения=[SATAIII], Тип жесткого диска=[Внутренний], Скорость вращения шпинделя=[5400 об/мин, 5900 об/мин, 7200 об/мин], Объем памяти=[5 ГБ, 6 ГБ, 4 ГБ, 3 ГБ, 10 ГБ, 2 ГБ, 8 ГБ], Компания=[Seagate , Western Digital, HGST, Toshiba, Hitachi, Seagate]},[]>
+2024-11-10 02:24:28 [http-nio-8080-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:24:28 [http-nio-8080-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:28 [http-nio-8080-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:28 [http-nio-8080-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:24:28 [http-nio-8080-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:24:28 [http-nio-8080-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:24:28 [http-nio-8080-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:24:28 [http-nio-8080-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:24:28 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:24:28 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:28 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:28 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:24:28 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:24:28 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:24:28 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:24:28 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:24:43 [http-nio-8080-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method call: searchByAttributes with arguments: [HDD, 0.0, 1.7976931348623157E308, {Страна-производитель товара=[Япония]}, Page request [number: 0, size 20, sort: name: ASC]]
+2024-11-10 02:24:43 [http-nio-8080-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method call: searchProductByAttributes with arguments: [HDD, {Страна-производитель товара=[Япония]}, 0.0, 1.7976931348623157E308, Page request [number: 0, size 20, sort: name: ASC]]
+2024-11-10 02:24:43 [http-nio-8080-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method call: findAll with arguments: [com.gmail.deniska1406sme.onlinestore.specification.ProductSpecification$$Lambda$2061/0x000001d208c0e810@33115386, Page request [number: 0, size 20, sort: name: ASC]]
+2024-11-10 02:24:43 [http-nio-8080-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method findAll completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.model.Product instances
+2024-11-10 02:24:43 [http-nio-8080-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method searchProductByAttributes completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances
+2024-11-10 02:24:43 [http-nio-8080-exec-4] INFO  c.g.d.o.logging.LoggingAspect - Method searchByAttributes completed successfully, with result: <200 OK OK,Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances,[]>
+2024-11-10 02:24:43 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:24:43 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:43 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:43 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:24:43 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:24:43 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:24:43 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:24:43 [http-nio-8080-exec-7] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:24:47 [http-nio-8080-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method call: searchByAttributes with arguments: [HDD, 0.0, 1.7976931348623157E308, {}, Page request [number: 0, size 20, sort: name: ASC]]
+2024-11-10 02:24:47 [http-nio-8080-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method call: searchProductByAttributes with arguments: [HDD, {}, 0.0, 1.7976931348623157E308, Page request [number: 0, size 20, sort: name: ASC]]
+2024-11-10 02:24:47 [http-nio-8080-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method call: findAll with arguments: [com.gmail.deniska1406sme.onlinestore.specification.ProductSpecification$$Lambda$2061/0x000001d208c0e810@2e99c032, Page request [number: 0, size 20, sort: name: ASC]]
+2024-11-10 02:24:47 [http-nio-8080-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method findAll completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.model.Product instances
+2024-11-10 02:24:47 [http-nio-8080-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method searchProductByAttributes completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances
+2024-11-10 02:24:47 [http-nio-8080-exec-6] INFO  c.g.d.o.logging.LoggingAspect - Method searchByAttributes completed successfully, with result: <200 OK OK,Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances,[]>
+2024-11-10 02:24:47 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:24:47 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:47 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:47 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:24:47 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:24:47 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:24:47 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:24:47 [http-nio-8080-exec-9] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:24:48 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method call: searchByAttributes with arguments: [HDD, 0.0, 1.7976931348623157E308, {Страна-производитель товара=[Япония]}, Page request [number: 0, size 20, sort: name: ASC]]
+2024-11-10 02:24:48 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method call: searchProductByAttributes with arguments: [HDD, {Страна-производитель товара=[Япония]}, 0.0, 1.7976931348623157E308, Page request [number: 0, size 20, sort: name: ASC]]
+2024-11-10 02:24:48 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method call: findAll with arguments: [com.gmail.deniska1406sme.onlinestore.specification.ProductSpecification$$Lambda$2061/0x000001d208c0e810@5a4748f4, Page request [number: 0, size 20, sort: name: ASC]]
+2024-11-10 02:24:48 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method findAll completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.model.Product instances
+2024-11-10 02:24:48 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method searchProductByAttributes completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances
+2024-11-10 02:24:48 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method searchByAttributes completed successfully, with result: <200 OK OK,Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances,[]>
+2024-11-10 02:24:48 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:24:48 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:48 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:48 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:24:48 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:24:48 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:24:48 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:24:48 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:24:49 [http-nio-8080-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method call: searchByAttributes with arguments: [HDD, 0.0, 1.7976931348623157E308, {}, Page request [number: 0, size 20, sort: name: ASC]]
+2024-11-10 02:24:49 [http-nio-8080-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method call: searchProductByAttributes with arguments: [HDD, {}, 0.0, 1.7976931348623157E308, Page request [number: 0, size 20, sort: name: ASC]]
+2024-11-10 02:24:49 [http-nio-8080-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method call: findAll with arguments: [com.gmail.deniska1406sme.onlinestore.specification.ProductSpecification$$Lambda$2061/0x000001d208c0e810@6c449580, Page request [number: 0, size 20, sort: name: ASC]]
+2024-11-10 02:24:49 [http-nio-8080-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method findAll completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.model.Product instances
+2024-11-10 02:24:49 [http-nio-8080-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method searchProductByAttributes completed successfully, with result: Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances
+2024-11-10 02:24:49 [http-nio-8080-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method searchByAttributes completed successfully, with result: <200 OK OK,Page 1 of 1 containing com.gmail.deniska1406sme.onlinestore.dto.ProductDTO instances,[]>
+2024-11-10 02:24:49 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:24:49 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:49 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:49 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:24:49 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:24:49 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:24:49 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:24:49 [http-nio-8080-exec-8] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:24:58 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:24:58 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:58 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:58 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:24:58 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:24:58 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:24:58 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:24:58 [http-nio-8080-exec-3] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:24:58 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:24:58 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:58 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:24:58 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:24:58 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:24:58 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:24:58 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:24:58 [http-nio-8080-exec-2] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:25:23 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:25:23 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:25:23 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:25:23 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:25:23 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:25:23 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:25:23 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:25:23 [http-nio-8080-exec-1] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:25:23 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:25:23 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:25:23 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:25:23 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:25:23 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:25:23 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:25:23 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:25:23 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:25:25 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:25:25 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:25:25 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:25:25 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:25:25 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:25:25 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:25:25 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:25:25 [http-nio-8080-exec-5] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:25:25 [http-nio-8080-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartCount with arguments: [*****, org.apache.catalina.session.StandardSessionFacade@69bec707]
+2024-11-10 02:25:25 [http-nio-8080-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method call: getClientByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:25:25 [http-nio-8080-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method call: findByEmail with arguments: [emp1@gmail.com]
+2024-11-10 02:25:25 [http-nio-8080-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method findByEmail completed successfully, with result: null
+2024-11-10 02:25:25 [http-nio-8080-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method getClientByEmail completed successfully, with result: null
+2024-11-10 02:25:25 [http-nio-8080-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method call: getCartItems with arguments: [null]
+2024-11-10 02:25:25 [http-nio-8080-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method getCartItems completed successfully, with result: []
+2024-11-10 02:25:25 [http-nio-8080-exec-10] INFO  c.g.d.o.logging.LoggingAspect - Method getCartCount completed successfully, with result: <200 OK OK,{count=0},[]>
+2024-11-10 02:25:51 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-10 02:25:51 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-11-10 02:25:51 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

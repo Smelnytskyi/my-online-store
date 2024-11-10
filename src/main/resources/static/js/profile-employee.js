@@ -512,7 +512,7 @@ async function fetchProducts(page = 1, quantity = null) {
             const response = await fetch(`/main/products?page=${page - 1}&size=${itemsPerPage}`);
             data = await response.json();
         } else {
-            const response = await fetch(`/employee/products-by-quantity?quantity=${quantity}`);
+            const response = await fetch(`/employee/products-by-quantity?quantity=${quantity}&page=${page - 1}&size=${itemsPerPage}`);
             data = await response.json();
         }
         displayProducts(data.content);

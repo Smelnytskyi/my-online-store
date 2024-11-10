@@ -178,7 +178,7 @@ public class MainController {
     @GetMapping("/get-product-attributes")
     public ResponseEntity<Map<String, Set<String>>> getProductAttributes(@RequestParam String category) {
         Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
-        Map<String, Set<String>> attributes = new HashMap<>();
+        Map<String, Set<String>> attributes = new TreeMap<>();
         List<ProductDTO> productDTOS = productService.getProductsByCategory(ProductCategory.valueOf(category.toUpperCase()), pageable).getContent();
 
         for (ProductDTO productDTO : productDTOS) {
@@ -188,7 +188,7 @@ public class MainController {
                 String attributeName = entry.getKey();
                 String attributeValue = entry.getValue();
 
-                attributes.computeIfAbsent(attributeName, k -> new HashSet<>()).add(attributeValue);
+                attributes.computeIfAbsent(attributeName, k -> new TreeSet<>()).add(attributeValue);
             }
         }
         return ResponseEntity.ok(attributes);

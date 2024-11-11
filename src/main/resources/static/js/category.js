@@ -21,7 +21,7 @@ function fetchProductsByCategory(category, page = 1, size = 24, sort = currentSo
         .then(data => {
             if (data.content) {
                 renderProducts(data.content);
-                setupPagination(data.page.totalPages, page);
+                setupPagination(data.page.totalPages, page, category);
             } else {
                 console.error("No content found in response data");
             }
@@ -50,14 +50,14 @@ function renderFilters(attributes) {
             <label for="min-price" class="form-label">Минимальная цена:</label>
             <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-cash"></i></span>
-                <input type="number" id="min-price" placeholder="0" class="form-control" />
+                <input type="text" id="min-price" placeholder="0" class="form-control" />
             </div>
         </div>
         <div class="mb-3">
             <label for="max-price" class="form-label">Максимальная цена:</label>
             <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-cash"></i></span>
-                <input type="number" id="max-price" placeholder="10000" class="form-control" />
+                <input type="text" id="max-price" placeholder="100000" class="form-control" />
             </div>
         </div>
         <button id="apply-price-filters" class="btn btn-primary w-100">Применить</button>
@@ -65,13 +65,18 @@ function renderFilters(attributes) {
     filterSidebar.appendChild(priceFilterSection);
 
     document.getElementById('apply-price-filters').addEventListener('click', () => {
-        const minPrice = parseFloat(document.getElementById('min-price').value);
-        const maxPrice = parseFloat(document.getElementById('max-price').value);
+        const minPriceInput = document.getElementById('min-price').value;
+        const maxPriceInput = document.getElementById('max-price').value;
 
-        if (!isNaN(minPrice) && !isNaN(maxPrice) && minPrice <= maxPrice) {
-            applyPriceFilter(category, minPrice, maxPrice, 1, currentSort);
+        const minPrice = minPriceInput ? parseFloat(minPriceInput) : 0;
+        const maxPrice = maxPriceInput ? parseFloat(maxPriceInput) : 100000;
+
+        if (minPrice < 0 || maxPrice < 0) {
+            alert('Пожалуйста, введите положительные значения цен.');
+        } else if (minPrice > maxPrice) {
+            alert('Минимальная цена не может быть больше максимальной.');
         } else {
-            alert('Пожалуйста, введите корректные значения цен.');
+            applyPriceFilter(category, minPrice, maxPrice, 1, currentSort);
         }
     });
 
@@ -117,7 +122,7 @@ function applyPriceFilter(category, min, max, page = 1, sort = currentSort) {
         .then(response => response.json())
         .then(data => {
             renderProducts(data.content);
-            setupPagination(data.page.totalPages, page);
+            setupPagination(data.page.totalPages, page, category);
         })
         .catch(error => console.error('Ошибка при фильтрации товаров по цене:', error));
 }
@@ -193,7 +198,7 @@ function applyFilters(category, page = 1, size = 24, sort = currentSort) {
         .then(response => response.json())
         .then(data => {
             renderProducts(data.content);
-            setupPagination(data.page.totalPages, page);
+            setupPagination(data.page.totalPages, page, category);
         })
         .catch(error => console.error('Ошибка при фильтрации товаров:', error));
 }

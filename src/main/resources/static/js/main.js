@@ -53,7 +53,7 @@ function renderProducts(products) {
     loadCartCount();
 }
 
-function setupPagination(totalPages, currentPage) {
+function setupPagination(totalPages, currentPage, category = null) {
     const paginationContainer = document.querySelector('.pagination');
     paginationContainer.innerHTML = '';
 
@@ -75,7 +75,11 @@ function setupPagination(totalPages, currentPage) {
 
         pageItem.addEventListener('click', (e) => {
             e.preventDefault();
-            fetchProducts(i);
+            if (category) {
+                fetchProductsByCategory(category, i, 24);
+            } else {
+                fetchProducts(i);
+            }
         });
 
         paginationContainer.appendChild(pageItem);
@@ -104,15 +108,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('sortSelect').addEventListener('change', function () {
             currentSort = this.value;
             if (selectedFilters.length > 0) {
-                applyFilters(category, 1, 20, currentSort);
+                applyFilters(category, 1, 24, currentSort);
             } else {
-                fetchProductsByCategory(category, 1, 20, currentSort);
+                fetchProductsByCategory(category, 1, 24, currentSort);
             }
         });
     } else if (currentPage === 'main') {
         document.getElementById('sortSelect').addEventListener('change', function () {
             currentSort = this.value;
-            fetchProducts(1, 20, currentSort);
+            fetchProducts(1, 24, currentSort);
         });
     }
 });

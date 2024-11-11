@@ -148,7 +148,7 @@ async function loadTopPanel() {
                 });
 
                 if (response.status === 402) {
-                    alert('Пожалуйста, введите адрес в вашем профиле');
+                    alert('Пожалуйста, введите адрес и/или номер телефона в вашем профиле');
                 } else if (response.status === 400) {
                     alert('Количество товара на складе меньше чем в заказе');
                 } else if (response.ok) {

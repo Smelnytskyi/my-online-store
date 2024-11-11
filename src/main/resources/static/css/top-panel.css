@@ -115,6 +115,11 @@
     max-width: 800px;
 }
 
+#orderModal .modal-body {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
 #orderItemsContainer .order-item {
     display: flex;
     justify-content: space-between;

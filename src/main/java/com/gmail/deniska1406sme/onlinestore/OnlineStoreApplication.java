@@ -59,49 +59,49 @@ public class OnlineStoreApplication {
             //}
 
 
-            //Employee employee1 = new Employee("emp1@gmail.com", "pass", "", "Denys", "Smel", "380094");
-            //employeeRepository.save(employee1);
-            //Employee employee2 = new Employee("emp2@gmail.com", "pass", "", "Denys2", "Smel2", "3800942");
-            //employeeRepository.save(employee2);
-
-           // passwordAuthenticationService.savePassword("emp1@gmail.com", "password");
-
-            //Client client1 = new Client("client1@gmail.com", UserRole.CLIENT, "Denys", "Smel", "12548");
-            //clientRepository.save(client1);
-
-            //Client testMail = new Client("denys.smelnytskyi@nure.ua", null, null,
-             //       "Denys", "Smel", "Main st.15", "32432525");
-            //clientRepository.save(testMail);
-
-            //Set<CartItemDTO> cartItemDTOS = new HashSet<>();
-            //CartItemDTO cartItemDTO = new CartItemDTO(1L, 3);
-            //cartItemDTOS.add(cartItemDTO);
-
-            //Order order1 = new Order(client1, LocalDateTime.now(), OrderStatus.SHIPPED, "my street 22", "i dont need instruction",
-            //        cartItemDTOS);
-            //orderRepository.save(order1);
-
-            //Order order2 = new Order(testMail, LocalDateTime.now(), OrderStatus.CONFIRMED, "my street 25", "i dont need instruction",
-             //       cartItemDTOS);
-            //orderRepository.save(order2);
-
-            //Cart newCart = new Cart();
-            //newCart.setItems(new HashSet<>());
-            //newCart.setTotalPrice(0.0);
-            //Set<Order> orders = new HashSet<>();
-            //testMail.setCart(newCart);
-            //testMail.setOrders(orders);
-            //newCart.setClient(testMail);
-            //for (Order order : orders) {
-            //    order.setClient(testMail);
-            //}
-            //clientRepository.save(testMail);
-
-            //passwordAuthenticationService.savePassword("denys.smelnytskyi@nure.ua", "password");
-
-            //Admin admin = new Admin("admin@gmail.com", UserRole.ADMIN);
-            //adminRepository.save(admin);
-            //passwordAuthenticationService.savePassword("admin@gmail.com", "password");
+//            Employee employee1 = new Employee("emp1@gmail.com", "pass", "", "Denys", "Smel", "380094");
+//            employeeRepository.save(employee1);
+//            Employee employee2 = new Employee("emp2@gmail.com", "pass", "", "Denys2", "Smel2", "3800942");
+//            employeeRepository.save(employee2);
+//
+//            passwordAuthenticationService.savePassword("emp1@gmail.com", "password");
+//
+//            Client client1 = new Client("client1@gmail.com", UserRole.CLIENT, "Denys", "Smel", "12548");
+//            clientRepository.save(client1);
+//
+//            Client testMail = new Client("denys.smelnytskyi@nure.ua", null, null,
+//                    "Denys", "Smel", "Main st.15", "32432525");
+//            clientRepository.save(testMail);
+//
+//            Set<CartItemDTO> cartItemDTOS = new HashSet<>();
+//            CartItemDTO cartItemDTO = new CartItemDTO(1L, 3);
+//            cartItemDTOS.add(cartItemDTO);
+//
+//            Order order1 = new Order(client1, LocalDateTime.now(), OrderStatus.SHIPPED, "my street 22", "i dont need instruction",
+//                    cartItemDTOS);
+//            orderRepository.save(order1);
+//
+//            Order order2 = new Order(testMail, LocalDateTime.now(), OrderStatus.CONFIRMED, "my street 25", "i dont need instruction",
+//                    cartItemDTOS);
+//            orderRepository.save(order2);
+//
+//            Cart newCart = new Cart();
+//            newCart.setItems(new HashSet<>());
+//            newCart.setTotalPrice(0.0);
+//            Set<Order> orders = new HashSet<>();
+//            testMail.setCart(newCart);
+//            testMail.setOrders(orders);
+//            newCart.setClient(testMail);
+//            for (Order order : orders) {
+//                order.setClient(testMail);
+//            }
+//            clientRepository.save(testMail);
+//
+//            passwordAuthenticationService.savePassword("denys.smelnytskyi@nure.ua", "password");
+//
+//            Admin admin = new Admin("admin@gmail.com", UserRole.ADMIN);
+//            adminRepository.save(admin);
+//            passwordAuthenticationService.savePassword("admin@gmail.com", "password");
         };
     }
 

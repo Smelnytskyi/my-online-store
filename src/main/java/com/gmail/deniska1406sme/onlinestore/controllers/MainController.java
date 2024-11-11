@@ -144,8 +144,10 @@ public class MainController {
         String email = jwtTokenProvider.getLogin(token);
         ClientDTO clientDTO = clientService.getClientByEmail(email);
 
-        String deliveryAddress = clientDTO.getAddress();
-        if (deliveryAddress == null || deliveryAddress.isEmpty()) {
+        if (clientDTO.getAddress() == null || clientDTO.getAddress().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).build();
+        }
+        if (clientDTO.getPhone() == null || clientDTO.getPhone().isEmpty()) {
             return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).build();
         }
         try {
@@ -156,7 +158,7 @@ public class MainController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        OrderDTO order = orderService.addOrder(deliveryAddress, notes, clientDTO, clientDTO.getCartDTO().getItems());
+        OrderDTO order = orderService.addOrder(clientDTO.getAddress(), notes, clientDTO, clientDTO.getCartDTO().getItems());
         sendOrderConfirmationEmail(clientDTO, email);
         cartService.removeAllProductsFromCart(clientDTO);
 
@@ -191,6 +193,8 @@ public class MainController {
                 attributes.computeIfAbsent(attributeName, k -> new TreeSet<>()).add(attributeValue);
             }
         }
+
+        attributes.entrySet().removeIf(entry -> entry.getValue().size() <= 1);
         return ResponseEntity.ok(attributes);
     }
 
